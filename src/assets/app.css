@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Icons+Outlined");
+body {
+  @apply flex flex-col min-h-screen;
+}
+
+#app {
+  @apply flex flex-col min-h-screen;
+}
+
+#app .home {
+  @apply flex-grow flex flex-col;
+}
