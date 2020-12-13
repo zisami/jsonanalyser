@@ -25,11 +25,22 @@
           v-bind:size="inputPaneSize.active"
           class="flex flex-col flex-grow"
         >
-          <div class=" bg-yellow-600 flex flex-col flex-grow">
-            <div class="bg-black opacity-10 flex flex-row justify-end select-none">
+          <div class=" flex flex-col flex-grow">
+            <div class="bg-gray-900 opacity-30 flex flex-row justify-end select-none border-opacity-20 border-gray-100 border-b-2">
               <ToogleSplitPane paneName="input" />
             </div>
-            <div id="inputEditorPlace"></div>
+            <div
+              id="inputEditorPlace"
+              class="flex flex-col flex-grow"
+            >
+              <v-jsoneditor
+                v-model="inputEditor.json"
+                :options="inputEditor.options"
+                :plus="true"
+                @error="onError"
+                class="flex-grow"
+              />
+            </div>
           </div>
         </pane>
         <pane
@@ -59,13 +70,23 @@ import { mapGetters } from 'vuex'
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 import ToogleSplitPane from "./ToogleSplitPane";
+import VJsoneditor from 'v-jsoneditor'
+
 
 export default {
   name: "UiSplitter",
   data: function () {
     return {
-      //inputSize: {orig:50, last:50, active:50},
-      outputSize: "50%",
+      inputEditor:{
+        options:{
+          mode: 'view',
+          sortObjectKeys: true,
+          navigationBar: false,
+          name: "issueData",
+        },
+        json:{string: 'string', number: 123456, boolean: true, empty: '', array: ['a','b',1,true], object:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]}}
+      }
+      
     };
   },computed: {
     ...mapGetters([
@@ -80,9 +101,12 @@ export default {
   methods: {
     saveEditorsSize(){
       console.log('?!!??');
-    } 
+    } ,
+    onError() {
+            console.log('error')
+        }
   },
-  components: { Splitpanes, Pane, ToogleSplitPane },
+  components: { Splitpanes, Pane, ToogleSplitPane, VJsoneditor},
 };
 </script>
 

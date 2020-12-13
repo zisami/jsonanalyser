@@ -5,11 +5,9 @@ import router from './router'
 import store from './store'
 
 //Style Imports
-import './assets/tailwind.css'
-import './assets/splitpanes.css'
-import './assets/app.scss'
-
-//Globale Componenten importieren
+import './assets/css/tailwind.css'
+import './assets/css/splitpanes.css'
+import './assets/css/app.scss'
 
 
 Vue.config.productionTip = false
@@ -24,7 +22,11 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-//Globale Componenten initalisieren
 
+
+//Globale Componenten importieren
+
+
+//Globale Componenten initalisieren
 
 
