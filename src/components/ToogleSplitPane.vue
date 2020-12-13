@@ -1,41 +1,49 @@
 <template>
 
-  <button class="btn icon flex flex-row jusitfy-end">
+  <button class="btn icon flex flex-row jusitfy-end text-gray-50 select-none">
     <span
       class="material-icons"
-      v-on:click="toogleEvent"
-      v-show="isOpen"
+      v-on:click="toggle"
+      v-show="!isOpen"
     >arrow_left</span>
     <span
       class="material-icons"
-      v-on:click="toogleEvent"
-      v-show="!isOpen"
+      v-on:click="toggle"
+      v-show="isOpen"
     >arrow_right</span>
   </button>
 
 </template>
 
 <script lang="js">
-import {EventBus} from '../main'
+
   export default  {
     name: 'ToogleSplitPane',
-    props: ['paneName'],
+    props: ['paneName', 'invertIcon'],
     mounted () {
-
+ 
     },
     data () {
       return {
-        isOpen: true
       }
     },
     methods: {
-      toogleEvent(){
-        EventBus.$emit('tooglePain' , this.$props.paneName);
+      toggle(){
+        //EventBus.$emit('tooglePain' , this.$props.paneName);
+        this.$store.dispatch('toggleEditorPane', { paneName: this.$props.paneName, nowSize: this.$parent.style.width });
         this.isOpen = !this.isOpen;
       }
     },
     computed: {
-
+    isOpen: {
+      get() {const width = this.$parent.style.width;
+      let result = width > 0 ? true : false
+      result = this.$props.invertIcon ? !result : result
+      return result;},
+      set(value){
+return value;
+      }
+      }
     }
 }
 
@@ -43,5 +51,4 @@ import {EventBus} from '../main'
 </script>
 
 <style scoped lang="scss">
-
 </style>
