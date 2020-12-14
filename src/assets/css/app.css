@@ -102,6 +102,10 @@ div.jsoneditor .jsoneditor-menu .jsoneditor-frame input[type="text"] {
   @apply bg-transparent border-0;
 }
 
+div.jsoneditor .jsoneditor-menu .jsoneditor-search button {
+  opacity: 0.5;
+}
+
 div.jsoneditor > .jsoneditor-modes > button,
 div.jsoneditor .jsoneditor-menu > button {
   opacity: .5;

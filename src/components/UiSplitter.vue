@@ -49,16 +49,23 @@
           class="flex flex-col flex-grow"
           v-bind:size="outputPaneSize.active"
         >
-          <div class=" bg-green-600 flex flex-col flex-grow">
-            <div class="bg-black opacity-10 flex justify-items-end select-none">
-              <ToogleSplitPane
-                paneName="output"
-                invertIcon="true"
+          <div class=" flex flex-col flex-grow">
+            <div class="bg-gray-900 opacity-30 flex flex-row  select-none border-opacity-20 border-gray-100 border-b-2">
+              <ToogleSplitPane paneName="output" invertIcon="true"/>
+            </div>
+            <div
+              id="outputEditorPlace"
+              class="flex flex-col flex-grow"
+            >
+              <v-jsoneditor
+                v-model="outputEditor.json"
+                :options="outputEditor.options"
+                :plus="true"
+                @error="onError"
+                class="flex-grow"
               />
             </div>
-            <div id="outputEditorPlace"></div>
           </div>
-
         </pane>
       </splitpanes>
     </pane>
@@ -79,6 +86,48 @@ export default {
     return {
       inputEditor:{
         options:{
+        mode: 'view',
+        sortObjectKeys: true,
+        navigationBar: false,
+        name: "issueData",
+        onError: function (err) {
+            alert(err.toString())
+        },
+        onEvent: function (node, event) {
+            //console.log(event.type);
+
+            if (event.type === 'click') {
+                if (Date.now() - this.lastClick < 250) {
+                    console.log("Duble click", { node });
+                    //let path = prettyPrintPath(node.path)
+                    // let resultName = `data${typeof path === 'number' ? '.' : ''}${path}`;
+                    // let query = `return data${typeof path === 'number' ? '.' : ''}${path}`;
+                    
+                }
+                this.lastClick = Date.now();
+
+            }
+            // function prettyPrintPath(path) {
+            //     let str = ''
+            //     for (let i = 0; i < path.length; i++) {
+            //         const element = path[i]
+            //         if (typeof element === 'number') {
+            //             str += '[' + element + ']'
+            //         } else {
+            //             if (str.length > 0) str += '.'
+            //             str += element
+            //         }
+            //     }
+            //     return str
+            // }
+
+        }
+
+    },
+        json:{string: 'string', number: 123456, boolean: true, empty: '', array: ['a','b',1,true], object:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]}}
+      },
+      outputEditor:{
+        options:{
           mode: 'view',
           sortObjectKeys: true,
           navigationBar: false,
@@ -86,7 +135,6 @@ export default {
         },
         json:{string: 'string', number: 123456, boolean: true, empty: '', array: ['a','b',1,true], object:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]}}
       }
-      
     };
   },computed: {
     ...mapGetters([

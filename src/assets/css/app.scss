@@ -79,6 +79,9 @@ div.jsoneditor {
                 @apply bg-transparent border-0;
             }
         }
+        .jsoneditor-search button{
+            opacity: 0.5;
+        }
     }
     
     & > .jsoneditor-modes > button, 
