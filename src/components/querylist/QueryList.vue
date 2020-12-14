@@ -27,7 +27,8 @@ import  QueryItem  from "./QueryItem";
     },computed: {
 
     ...mapGetters('FilterQuerys',[
-          'allQuerys'
+          'allQuerys',
+          'selected'
         ])
     },
     methods: {
