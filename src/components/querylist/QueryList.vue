@@ -1,7 +1,8 @@
 <template lang="html">
 
   <section class="query-list">
-    <h1 >{{test}}</h1>
+    <h1 >{{allQuerys}}</h1>
+    {{this.$store.FilterQuerys}}
     <query-item />
   </section>
 
@@ -24,8 +25,9 @@ import  QueryItem  from "./QueryItem";
 
       }
     },computed: {
+
     ...mapGetters('FilterQuerys',[
-          'test'
+          'allQuerys'
         ])
     },
     methods: {

@@ -4,8 +4,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 
-import FilterQuerys from './filterquery.store';
-import SplitPanes from './splitpane.store';
+import FilterQuerys from './namespaces/filterquery.store';
+import SplitPanes from './namespaces/splitpane.store';
 
 
 export default new Vuex.Store({

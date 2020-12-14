@@ -1,11 +1,11 @@
 export default  {
     namespaced: true,
     state: {
-        test: '???'
+        allQuerys:{}
     },
 
     getters: {
-        test: (state) => { return state }
+        allQuerys: (_state) => { return _state.allQuerys }
     },
 
     mutations: {
