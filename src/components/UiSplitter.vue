@@ -23,22 +23,22 @@
           min-size="0"
           max-size="100"
           v-bind:size="inputPaneSize.active"
-          class="flex flex-col flex-grow"
+          class="flex flex-col flex-grow overflow-hidden"
         >
-          <div class=" flex flex-col flex-grow">
+          <div class=" flex flex-col flex-grow overflow-hidden">
             <div class="bg-gray-900 opacity-30 flex flex-row justify-end select-none border-opacity-20 border-gray-100 border-b-2">
               <ToogleSplitPane paneName="input" />
             </div>
             <div
               id="inputEditorPlace"
-              class="flex flex-col flex-grow"
+              class="flex flex-col flex-grow overflow-y-hidden"
             >
               <v-jsoneditor
                 v-model="inputEditor.json"
                 :options="inputEditor.options"
                 :plus="true"
                 @error="onError"
-                class="flex-grow"
+                class="flex-grow overflow-hidden"
               />
             </div>
           </div>
@@ -46,23 +46,23 @@
         <pane
           min-size="0"
           max-size="100"
-          class="flex flex-col flex-grow"
+          class="flex flex-col flex-grow overflow-hidden"
           v-bind:size="outputPaneSize.active"
         >
-          <div class=" flex flex-col flex-grow">
+          <div class=" flex flex-col flex-grow overflow-hidden">
             <div class="bg-gray-900 opacity-30 flex flex-row  select-none border-opacity-20 border-gray-100 border-b-2">
               <ToogleSplitPane paneName="output" invertIcon="true"/>
             </div>
             <div
               id="outputEditorPlace"
-              class="flex flex-col flex-grow"
+              class="flex flex-col flex-grow  overflow-hidden"
             >
               <v-jsoneditor
                 v-model="outputEditor.json"
                 :options="outputEditor.options"
                 :plus="true"
                 @error="onError"
-                class="flex-grow"
+                class="flex-grow overflow-hidden"
               />
             </div>
           </div>
@@ -124,7 +124,7 @@ export default {
         }
 
     },
-        json:{string: 'string', number: 123456, boolean: true, empty: '', array: ['a','b',1,true], object:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]}}
+        json:{string: 'string', number: 123456, boolean: true, empty: '', array: ['a','b',1,true], object:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]},object2:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]}, __wasanderes:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]}}
       },
       outputEditor:{
         options:{
@@ -133,7 +133,7 @@ export default {
           navigationBar: false,
           name: "issueData",
         },
-        json:{string: 'string', number: 123456, boolean: true, empty: '', array: ['a','b',1,true], object:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]}}
+        json:{string: 'string', number: 123456, boolean: true, empty: '', array: ['a','b',1,true], object:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]},object2:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]}, __wasanderes:{string: 'string', number: 123456, boolean: false, empty: '', array: ['a','b',1,true]}}
       }
     };
   },computed: {
