@@ -7,6 +7,7 @@
   >
     <pane v-bind:size="filterPaneSize.active">
       <span>filter{{this.$store.test}}</span>
+      <query-list></query-list>
     </pane>
     <pane
       min-size="25"
@@ -73,11 +74,17 @@
 </template>
 
 <script lang="js">
+//External COmponents
 import { mapGetters } from 'vuex'
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
-import ToogleSplitPane from "./ToogleSplitPane";
 import VJsoneditor from 'v-jsoneditor'
+
+//Internal Components
+import ToogleSplitPane from "./ToogleSplitPane";
+import QueryList from "./querylist/QueryList";
+
+
 
 
 export default {
@@ -154,7 +161,7 @@ export default {
             console.log('error')
         }
   },
-  components: { Splitpanes, Pane, ToogleSplitPane, VJsoneditor},
+  components: { Splitpanes, Pane, ToogleSplitPane, VJsoneditor, QueryList},
 };
 </script>
 
