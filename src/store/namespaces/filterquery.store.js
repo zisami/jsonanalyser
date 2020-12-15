@@ -3,7 +3,8 @@
 import { v4 as UUID4 } from 'uuid';
 import { version as uuidVersion } from 'uuid';
 import { validate as uuidValidate } from 'uuid';
-import Input from '../../assets/js/inputJson'
+
+
 function uuidValidateV4(uuid) {
     return uuidValidate(uuid) && uuidVersion(uuid) === 4;
 }
@@ -20,12 +21,13 @@ export default {
 
     mutations: {
         /**
-         * Erstellt ein neues Default Query Objekt und befüllt es
-         * mit optional übergebenen Werten
+         * Erstellt ein neues Default Query Objekt, 
+         * befüllt es mit optional übergebenen Werten
+         * fügt es der Queryliste Hinzu und gibt das Objekt zurück
          * @param {Object} _state 
          * @param {object} _payload //optonales Query Objekt
          */
-        addQuery(_state, _payload) {
+        add(_state, _payload) {
             let newQuery = {
                 id: typeof _payload.id !== 'undefined' && uuidValidateV4(_payload.id) ? _payload.id : UUID4(),
                 resultKey: typeof _payload.resultKey !== 'undefined' ? _payload.resultKey : '\u{1F4BD}',
@@ -33,16 +35,31 @@ export default {
                 type: typeof _payload.type !== 'undefined' ? _payload.type : 'query',
             }
             _state.allQuerys[newQuery.id] = newQuery;
+            return _state.allQuerys[newQuery.id];
         },
-        result(_state, _id) {
-            
-            if (_id) {
-                const queryToEcecute = _state.allQuerys[_id];
+        // remove(_state, _payload){
+
+        // }
+
+
+    },
+
+    actions: {
+        add(_context, _payload) {
+            if (!_payload) {
+                _payload = {};
+            }
+            _context.commit('add', _payload)
+         },
+        result(_state, _payload) {
+
+            if (_payload.id) {
+                const queryToEcecute = _state.allQuerys[_payload.id];
                 console.log('result()', queryToEcecute.query)
                 //Ausfühbare Query mit Errorhandling erstellen
                 const execute = new Function('data', `try{${queryToEcecute.query}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
                 //Query ausführen
-                let result = execute(Input.lastJsonData)
+                let result = execute(_payload.inputData)
                 if (typeof result !== 'undefined') {
 
                     if (result['error']) {
@@ -56,10 +73,5 @@ export default {
                 return result;
             }
         }
-
-    },
-
-    actions: {
-
     }
 }

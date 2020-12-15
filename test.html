@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <template>
+        <splitpanes class="default-theme flex-grow " horizontal :push-other-panes="false" style="height: 400px">
+            <pane v-bind:size="filterPaneSize.active">
+                <query-list></query-list>
+            </pane>
+            <pane min-size="25" max-size="90" size:="75" class="flex-grow" v-bind:size="editorsPaneSize.active">
+                <splitpanes :push-other-panes="false" v-on:resized="saveEditorsSize">
+                    <pane min-size="0" max-size="100" v-bind:size="inputPaneSize.active"
+                        class="flex flex-col flex-grow overflow-hidden">
+                        <div class=" flex flex-col flex-grow overflow-hidden">
+                            <div
+                                class="bg-gray-900 opacity-30 flex flex-row justify-end select-none border-opacity-20 border-gray-100 border-b-2">
+                                <ToogleSplitPane paneName="input" />
+                            </div>
+                            <div id="inputEditorPlace" class="flex flex-col flex-grow overflow-y-hidden">
+                                <v-jsoneditor v-model="lastJsonData" :options="inputEditor.options" :plus="true"
+                                    @error="onError" class="flex-grow overflow-hidden" />
+                            </div>
+                        </div>
+                    </pane>
+                    <pane min-size="0" max-size="100" class="flex flex-col flex-grow overflow-hidden"
+                        v-bind:size="outputPaneSize.active">
+                        <div class=" flex flex-col flex-grow overflow-hidden">
+                            <div
+                                class="bg-gray-900 opacity-30 flex flex-row  select-none border-opacity-20 border-gray-100 border-b-2">
+                                <ToogleSplitPane paneName="output" invertIcon="true" />
+                            </div>
+                            <div id="outputEditorPlace" class="flex flex-col flex-grow  overflow-hidden">
+                                <v-jsoneditor v-model="outputEditor.json" :options="outputEditor.options" :plus="true"
+                                    @error="onError" class="flex-grow overflow-hidden" />
+                            </div>
+                        </div>
+                    </pane>
+                </splitpanes>
+            </pane>
+        </splitpanes>
+    </template>
+</body>
+
+</html>
