@@ -17,7 +17,7 @@ export default function memorySizeOf(obj) {
                     var objClass = Object.prototype.toString.call(obj).slice(8, -1);
                     if (objClass === 'Object' || objClass === 'Array') {
                         for (var key in obj) {
-                            if (!obj.hasOwnProperty(key)) continue;
+                            if (!Object.prototype.hasOwnProperty.call(obj,key)) continue;
                             sizeOf(obj[key]);
                         }
                     } else bytes += obj.toString().length * 2;
@@ -25,14 +25,14 @@ export default function memorySizeOf(obj) {
             }
         }
         return bytes;
-    };
+    }
 
     function formatByteSize(bytes) {
         if (bytes < 1024) return bytes + " bytes";
         else if (bytes < 1048576) return (bytes / 1024).toFixed(3) + " KiB";
         else if (bytes < 1073741824) return (bytes / 1048576).toFixed(3) + " MiB";
         else return (bytes / 1073741824).toFixed(3) + " GiB";
-    };
+    }
 
-    return formatByteSize(sizeOf(obj));
-};
+    return formatByteSize(sizeOf(obj))
+}

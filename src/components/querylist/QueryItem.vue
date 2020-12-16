@@ -1,5 +1,7 @@
 <template>
-  <section class="query-item"></section>
+  <div>
+    <div class="resultKey">{{resultKey}}</div>
+  </div>
 </template> 
 
 <script>

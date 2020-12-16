@@ -1,3 +1,8 @@
+//Globale Componenten importieren
+import memorySizeOf from './assets/js/memorysize';
+
+
+
 //Vue Standard Imports
 import Vue from 'vue'
 import App from './App.vue'
@@ -8,6 +13,8 @@ import store from './store'
 import './assets/css/tailwind.css'
 import './assets/css/splitpanes.css'
 import './assets/css/app.scss'
+
+
 
 
 Vue.config.productionTip = false
@@ -22,9 +29,9 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
+Vue.use(memorySizeOf)
 
 
-//Globale Componenten importieren
 
 
 //Globale Componenten initalisieren

@@ -3,6 +3,12 @@
 import { v4 as UUID4 } from 'uuid';
 import { version as uuidVersion } from 'uuid';
 import { validate as uuidValidate } from 'uuid';
+import Vue from 'vue';
+import _ from 'lodash';
+import memorySizeOf from '../../assets/js/memorysize';
+window.memorySizeOf = memorySizeOf;
+console.log('Window.memorySizeOf ', window.memorySizeOf)
+
 
 
 function uuidValidateV4(uuid) {
@@ -12,11 +18,41 @@ export default {
     namespaced: true,
     state: {
         allQuerys: {},
+        inputData: {},
+        outputData: {}
     },
 
     getters: {
-        allQuerys: (_state) => { return _state.allQuerys },
-        selected: (_state) => { return _state.allQuerys.filter((query => { return query.selected })); },
+        allQuerys: (_state) => { return _.map(_state.allQuerys, (q) => { return q }) },
+        //selected: (_state) => { return _state.allQuerys.filter((query => { return query.selected })); },
+        selected: (_state) => { return _.filter(_state.allQuerys, 'selected'); },
+        result: (_state) => (_payload) => {
+            if (_payload.id) {
+                console.log('_state.inputData', _state.inputData);
+                const queryToEcecute = _state.allQuerys[_payload.id];
+                console.log('queryToEcecute.query',queryToEcecute.queryString);
+                //Ausfühbare Query mit Errorhandling erstellen
+                const execute = new Function('data', `try{console.log('data',data);${queryToEcecute.queryString}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
+                //Query ausführen
+                console.log('window.inputData',window.inputData)
+                console.log('execute',execute);
+                let result = execute(window.inputData)
+                console.log('this.result', result)
+                if (typeof result !== 'undefined') {
+
+                    if (result['error']) {
+                        result = '\u{1F41E} ' + result.error.message || '';
+                    }
+                } else {
+                    //undefined Ergebnisse mit emoji kennzeichnen
+                    result = '\u{1F630} undefined'
+                }
+                console.log('this.result', result)
+                console.log('resulttype?', typeof result);
+                return result;
+            }
+        },
+        inputData: (_state) => { return _state.inputData; },
     },
 
     mutations: {
@@ -25,17 +61,23 @@ export default {
          * befüllt es mit optional übergebenen Werten
          * fügt es der Queryliste Hinzu und gibt das Objekt zurück
          * @param {Object} _state 
-         * @param {object} _payload //optonales Query Objekt
+         * @param {object} _payload //optonales Query Objek
          */
         add(_state, _payload) {
+
             let newQuery = {
                 id: typeof _payload.id !== 'undefined' && uuidValidateV4(_payload.id) ? _payload.id : UUID4(),
                 resultKey: typeof _payload.resultKey !== 'undefined' ? _payload.resultKey : '\u{1F4BD}',
-                query: typeof _payload.query !== 'undefined' ? _payload.query : `let result = memorySizeOf(data)\nreturn result;`,
+                queryString: typeof _payload.query !== 'undefined' ? _payload.query : `let result = memorySizeOf(data)\nreturn result;`,
                 type: typeof _payload.type !== 'undefined' ? _payload.type : 'query',
             }
-            _state.allQuerys[newQuery.id] = newQuery;
+            Vue.set(_state.allQuerys, newQuery.id, newQuery)
             return _state.allQuerys[newQuery.id];
+        },
+
+        setInputData(_state, _payload) {
+            console.log('setInputData', _payload);
+            _state.inputData = _payload
         },
         // remove(_state, _payload){
 
@@ -50,27 +92,11 @@ export default {
                 _payload = {};
             }
             _context.commit('add', _payload)
-         },
-        result(_state, _payload) {
+        },
 
-            if (_payload.id) {
-                const queryToEcecute = _state.allQuerys[_payload.id];
-                console.log('result()', queryToEcecute.query)
-                //Ausfühbare Query mit Errorhandling erstellen
-                const execute = new Function('data', `try{${queryToEcecute.query}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
-                //Query ausführen
-                let result = execute(_payload.inputData)
-                if (typeof result !== 'undefined') {
-
-                    if (result['error']) {
-                        result = '\u{1F41E} ' + result.error.message || '';
-                    }
-                } else {
-                    //undefined Ergebnisse mit emoji kennzeichnen
-                    result = '\u{1F630} undefined'
-                }
-                console.log('this.result', result)
-                return result;
+        setInputData(_context, _payload) {
+            if (_payload) {
+                _context.commit('setInputData', _payload)
             }
         }
     }

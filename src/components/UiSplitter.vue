@@ -13,7 +13,7 @@
                             <ToogleSplitPane paneName="input" />
                         </div>
                         <div id="inputEditorPlace" class="flex flex-col flex-grow overflow-y-hidden">
-                            <v-jsoneditor v-model="lastJsonData" :options="inputEditor.options" :plus="true"
+                            <v-jsoneditor v-model="inputData" :options="inputEditor.options" :plus="true"
                                 @error="onError" class="flex-grow overflow-hidden" />
                         </div>
                     </div>
@@ -38,7 +38,8 @@
 
 <script>
 //External COmponents
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 import VJsoneditor from "v-jsoneditor";
@@ -46,7 +47,6 @@ import VJsoneditor from "v-jsoneditor";
 //Internal Components
 import ToogleSplitPane from "./ToogleSplitPane";
 import QueryList from "./querylist/QueryList";
-import Input from "../assets/js/inputJson";
 
 export default {
     name: "UiSplitter",
@@ -109,22 +109,21 @@ export default {
             "filterPaneSize",
             "editorsPaneSize",
         ]),
+        ...mapGetters("FilterQuerys", ["inputData"]),
     },
-    watch: {
-        lastJsonData: () => {
-            return Input.lastJsonData;
-        },
-    },
+    watch: {},
     created() {
         this.loadPlaceholderJson();
     },
     methods: {
+        ...mapActions("FilterQuerys", ["add", "setInputData"]),
         loadPlaceholderJson() {
             console.log("Getting Test Json");
             fetch("https://jsonplaceholder.typicode.com/todos/")
                 .then((response) => response.json())
                 .then((json) => {
-                    this.lastJsonData = json;
+                    this.setInputData(json);
+                    window.inputData = json;
                     return json;
                 })
                 .then((json) => {
