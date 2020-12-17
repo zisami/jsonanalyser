@@ -7,7 +7,6 @@ import Vue from 'vue';
 import _ from 'lodash';
 import memorySizeOf from '../../assets/js/memorysize';
 window.memorySizeOf = memorySizeOf;
-console.log('Window.memorySizeOf ', window.memorySizeOf)
 
 
 
@@ -23,19 +22,17 @@ export default {
     getters: {
         allQuerys: (_state) => { return _.map(_state.allQuerys, (q) => { return q }) },
         //selected: (_state) => { return _state.allQuerys.filter((query => { return query.selected })); },
-        selected: (_state) => { return _.filter(_state.allQuerys, 'selected'); },
+        selected: (_state) => {
+            const selected = _.filter(_state.allQuerys, 'selected')
+            return selected.length > 0 ? selected[0] : '';
+        },
         result: (_state) => (_payload) => {
             if (_payload.id) {
-                console.log('_state.inputData', _state.inputData);
                 const queryToEcecute = _state.allQuerys[_payload.id];
-                console.log('queryToEcecute.query', queryToEcecute.queryString);
                 //Ausfühbare Query mit Errorhandling erstellen
-                const execute = new Function('data', `try{console.log('data',data);${queryToEcecute.queryString}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
+                const execute = new Function('data', `try{${queryToEcecute.queryString}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
                 //Query ausführen
-                console.log('window.inputData', window.inputData)
-                console.log('execute', execute);
                 let result = execute(window.inputData)
-                console.log('this.result', result)
                 if (typeof result !== 'undefined') {
 
                     if (result['error']) {
@@ -45,12 +42,9 @@ export default {
                     //undefined Ergebnisse mit emoji kennzeichnen
                     result = '\u{1F630} undefined'
                 }
-                console.log('this.result', result)
-                console.log('resulttype?', typeof result);
                 return result;
             }
         },
-        inputData: (_state) => { return _state.inputData; },
     },
 
     mutations: {
@@ -93,8 +87,8 @@ export default {
         },
 
         select(_state, _payload) {
-            Vue.set(_state.allQuerys[_payload.id], 'selected', true)
-            console.log(_state.allQuerys[_payload.id]);
+            // Vue.set(_state.allQuerys[_payload.id], 'selected', true)
+            _state.allQuerys[_payload.id] = { ..._state.allQuerys[_payload.id], 'selected': true }
         },
     },
 
@@ -111,20 +105,37 @@ export default {
             }
             _context.commit('remove', _payload)
         },
-        unselect(_context){
-            _context.commit('unselect') 
+        removeSelected(_context) {
+            const selected = _context.getters.selected
+            if (selected) {
+                _context.commit('remove', selected)
+            }
+
+        },
+        unselect(_context) {
+            _context.commit('unselect')
         },
         select(_context, _payload) {
             if (!_payload) {
                 _payload = {};
             }
-            _context.commit('unselect') 
+            _context.commit('unselect')
             _context.commit('select', _payload)
         },
         setInputData(_context, _payload) {
             if (_payload) {
                 _context.commit('setInputData', _payload)
             }
-        }
+        },
+        listResults(_context) {
+            const listResults = {};
+            for (const query in _context.state.allQuerys) {
+                if (Object.hasOwnProperty.call(_context.state.allQuerys, query)) {
+                    const element = _context.state.allQuerys[query];
+                    listResults[element.resultKey] = _context.getters.result(element)
+                }
+            }
+            return listResults;
+        },
     }
 }

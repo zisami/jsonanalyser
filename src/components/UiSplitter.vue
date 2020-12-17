@@ -49,7 +49,7 @@ import ToogleSplitPane from "./ToogleSplitPane";
 import QueryList from "./querylist/QueryList";
 
 export default {
-    name: "UiSplitter",
+    name: "UiSplitter" ,
     data: function () {
         return {
             lastJsonData: {},
@@ -120,18 +120,17 @@ export default {
         this.loadPlaceholderJson();
     },
     methods: {
-        ...mapActions("FilterQuerys", ["add", "setInputData"]),
+        ...mapActions("FilterQuerys", ["add", "setInputData", 'listResults']),
         loadPlaceholderJson() {
-            console.log("Getting Test Json"); 
             fetch("https://jsonplaceholder.typicode.com/todos/")
                 .then((response) => response.json())
                 .then((json) => {
                     window.inputData = json;
                     return json;
                 })
-                .then((json) => {
-                    console.log("API result:", json);
-                });
+                // .then((json) => {
+                //     console.log("API result:", json);
+                // });
         },
         saveEditorsSize() {
             console.log("?!!??");

@@ -23,7 +23,7 @@ export default {
                 {
                     orig: 50,
                     last: 50,
-                    active: 20
+                    active: 50
                 }
             },
             editors: {
@@ -31,7 +31,7 @@ export default {
                 {
                     orig: 50,
                     last: 50,
-                    active: 80
+                    active: 50
                 },
 
             },
