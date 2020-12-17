@@ -24,16 +24,16 @@ export default {
         allQuerys: (_state) => { return _.map(_state.allQuerys, (q) => { return q }) },
         getQueryList: (_state) => (_list) =>{ return _.map(_state[_list], (q) => { return q }) },
         //selected: (_state) => { return _state.allQuerys.filter((query => { return query.selected })); },
-        selected: (_state) => {
-            const selected = _.filter(_state.allQuerys, 'selected')
+        selected: (_state) => (_list) => {
+            const selected = _.filter(_state[_list], 'selected')
             return selected.length > 0 ? selected[0] : '';
         },
         result: (_state) => (_payload) => {
-            console.log('_payload',_payload);
+           // console.log('_payload',_payload);
             if (_payload?.query?.id) {
-                const list =  _state[_payload.list]
-                console.log(_payload.query.id);
-                console.log(list[_payload.query.id]);
+               // const list =  _state[_payload.list]
+               // console.log(_payload.query.id);
+               // console.log(list[_payload.query.id]);
 
 
                 const queryToEcecute = _state[_payload.list][_payload.query.id];
@@ -71,7 +71,7 @@ export default {
                 queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
                 type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
             }
-            console.log('_state[_payload.list]',_state[_payload.list]);
+            //console.log('_state[_payload.list]',_state[_payload.list]);
             _state[_payload.list] = {..._state[_payload.list], [newQuery.id]:newQuery };
         },
 
@@ -80,23 +80,24 @@ export default {
         },
 
         remove(_state, _payload) {
-            if (_payload && _payload.id) {
-                Vue.delete(_state.allQuerys, _payload.id)
+            console.log(_payload);
+            if (_payload?.query?.id) {
+                Vue.delete(_state[_payload.list], _payload.query.id)
             }
         },
 
         /**
          * Deselektiert alle Elemente
          */
-        unselect(_state) {
-            for (const item in _state.allQuerys) {
-                _state.allQuerys[item].selected = false;
+        unselect(_state, _payload) {
+            for (const item in  _state[_payload.list]) {
+                _state[_payload.list][item].selected = false;
             }
         },
 
         select(_state, _payload) {
-            // Vue.set(_state.allQuerys[_payload.id], 'selected', true)
-            _state.allQuerys[_payload.id] = { ..._state.allQuerys[_payload.id], 'selected': true }
+            console.log(_payload);
+            _state[_payload.list][_payload.query.id] = { ... _state[_payload.list][_payload.query.id], 'selected': true }
         },
     },
 
@@ -113,21 +114,22 @@ export default {
             }
             _context.commit('remove', _payload)
         },
-        removeSelected(_context) {
-            const selected = _context.getters.selected
+        removeSelected(_context, _list) {
+            console.log(_list);
+            const selected = _context.getters.selected(_list.list)
             if (selected) {
-                _context.commit('remove', selected)
+                _context.commit('remove', {query:selected, list:_list.list})
             }
 
         },
-        unselect(_context) {
-            _context.commit('unselect')
+        unselect(_context, _payload) {
+            _context.commit('unselect', _payload)
         },
         select(_context, _payload) {
             if (!_payload) {
                 _payload = {};
             }
-            _context.commit('unselect')
+            _context.commit('unselect', _payload)
             _context.commit('select', _payload)
         },
         setInputData(_context, _payload) {

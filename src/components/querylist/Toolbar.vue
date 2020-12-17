@@ -9,12 +9,12 @@
         </div>
         <div
             class="buttons-selected hidden"
-            :class="{ 'display-buttons-selected': selected.id }"
+            :class="{ 'display-buttons-selected': selected(listName).id }"
         >
             <button @click="editSelected()" class="btn">
                 <span class="material-icons"> settings </span>
             </button>
-            <button @click="removeSelected()" class="btn">
+            <button @click="removeSelected({list:listName})" class="btn">
                 <span class="material-icons"> delete </span>
             </button>
         </div>

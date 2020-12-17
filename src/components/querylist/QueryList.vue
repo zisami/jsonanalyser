@@ -10,8 +10,8 @@
                 v-for="(item, index) in getQueryList(listName)"
                 v-bind:key="index"
                 class="flex mb-1 border-b border-gray-700 space-x-4"
-                :class="{ selected: selected.id === item.id }"
-                v-on:dblclick="select(item)"
+                :class="{ selected: selected(listName).id === item.id }"
+                v-on:dblclick="select({query:item,list:listName})"
             >
                 <div class="key">{{ item.id }}</div>
                 <div class="key">{{ item.resultKey }}</div>
