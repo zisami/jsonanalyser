@@ -1,9 +1,9 @@
 <template>
     <section
         class="query-list-tool-bar bg-yellow-500 flex py-1 px-2 my-2 overflow-hidden"
-    >
+    > {{listName}}
         <div class="buttons-allways flex mr-4">
-            <button @click="add()" class="btn">
+            <button @click="add({query:{},list:listName})" class="btn">
                 <span class="material-icons"> note_add </span>
             </button>
         </div>
@@ -36,7 +36,7 @@ import { mapActions } from "vuex";
 
 export default {
     name: "query-list-tool-bar",
-    props: [],
+    props: ['listName'],
     mounted() {},
     data() {
         return {};

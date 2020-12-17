@@ -17,18 +17,26 @@ export default {
     namespaced: true,
     state: {
         allQuerys: {},
+        liveQuerys:{},
     },
 
     getters: {
         allQuerys: (_state) => { return _.map(_state.allQuerys, (q) => { return q }) },
+        getQueryList: (_state) => (_list) =>{ return _.map(_state[_list], (q) => { return q }) },
         //selected: (_state) => { return _state.allQuerys.filter((query => { return query.selected })); },
         selected: (_state) => {
             const selected = _.filter(_state.allQuerys, 'selected')
             return selected.length > 0 ? selected[0] : '';
         },
         result: (_state) => (_payload) => {
-            if (_payload.id) {
-                const queryToEcecute = _state.allQuerys[_payload.id];
+            console.log('_payload',_payload);
+            if (_payload?.query?.id) {
+                const list =  _state[_payload.list]
+                console.log(_payload.query.id);
+                console.log(list[_payload.query.id]);
+
+
+                const queryToEcecute = _state[_payload.list][_payload.query.id];
                 //Ausfühbare Query mit Errorhandling erstellen
                 const execute = new Function('data', `try{${queryToEcecute.queryString}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
                 //Query ausführen
@@ -51,20 +59,20 @@ export default {
         /**
          * Erstellt ein neues Default Query Objekt, 
          * befüllt es mit optional übergebenen Werten
-         * fügt es der Queryliste Hinzu und gibt das Objekt zurück
+         * fügt es der Queryliste Hinzu
          * @param {Object} _state 
          * @param {object} _payload //optonales Query Objek
          */
         add(_state, _payload) {
 
             let newQuery = {
-                id: typeof _payload.id !== 'undefined' && uuidValidateV4(_payload.id) ? _payload.id : UUID4(),
-                resultKey: typeof _payload.resultKey !== 'undefined' ? _payload.resultKey : '\u{1F4BD}',
-                queryString: typeof _payload.query !== 'undefined' ? _payload.query : `let result = memorySizeOf(data)\nreturn result;`,
-                type: typeof _payload.type !== 'undefined' ? _payload.type : 'query',
+                id: typeof _payload.query.id !== 'undefined' && uuidValidateV4(_payload.query.id) ? _payload.query.id : UUID4(),
+                resultKey: typeof _payload.query.resultKey !== 'undefined' ? _payload.query.resultKey : '\u{1F4BD}',
+                queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
+                type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
             }
-            Vue.set(_state.allQuerys, newQuery.id, newQuery)
-            return _state.allQuerys[newQuery.id];
+            console.log('_state[_payload.list]',_state[_payload.list]);
+            _state[_payload.list] = {..._state[_payload.list], [newQuery.id]:newQuery };
         },
 
         setInputData(_state, _payload) {
@@ -95,7 +103,7 @@ export default {
     actions: {
         add(_context, _payload) {
             if (!_payload) {
-                _payload = {};
+                _payload = {query:{},list:'liveQuerys'};
             }
             _context.commit('add', _payload)
         },
