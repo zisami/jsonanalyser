@@ -1,5 +1,5 @@
 //Globale Componenten importieren
-import memorySizeOf from './assets/js/memorysize';
+
 
 
 
@@ -29,7 +29,6 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-Vue.use(memorySizeOf)
 
 
 

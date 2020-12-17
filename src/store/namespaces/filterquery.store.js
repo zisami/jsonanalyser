@@ -18,8 +18,6 @@ export default {
     namespaced: true,
     state: {
         allQuerys: {},
-        inputData: {},
-        outputData: {}
     },
 
     getters: {
@@ -30,12 +28,12 @@ export default {
             if (_payload.id) {
                 console.log('_state.inputData', _state.inputData);
                 const queryToEcecute = _state.allQuerys[_payload.id];
-                console.log('queryToEcecute.query',queryToEcecute.queryString);
+                console.log('queryToEcecute.query', queryToEcecute.queryString);
                 //Ausfühbare Query mit Errorhandling erstellen
                 const execute = new Function('data', `try{console.log('data',data);${queryToEcecute.queryString}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
                 //Query ausführen
-                console.log('window.inputData',window.inputData)
-                console.log('execute',execute);
+                console.log('window.inputData', window.inputData)
+                console.log('execute', execute);
                 let result = execute(window.inputData)
                 console.log('this.result', result)
                 if (typeof result !== 'undefined') {
@@ -76,14 +74,28 @@ export default {
         },
 
         setInputData(_state, _payload) {
-            console.log('setInputData', _payload);
             _state.inputData = _payload
         },
-        // remove(_state, _payload){
 
-        // }
+        remove(_state, _payload) {
+            if (_payload && _payload.id) {
+                Vue.delete(_state.allQuerys, _payload.id)
+            }
+        },
 
+        /**
+         * Deselektiert alle Elemente
+         */
+        unselect(_state) {
+            for (const item in _state.allQuerys) {
+                _state.allQuerys[item].selected = false;
+            }
+        },
 
+        select(_state, _payload) {
+            Vue.set(_state.allQuerys[_payload.id], 'selected', true)
+            console.log(_state.allQuerys[_payload.id]);
+        },
     },
 
     actions: {
@@ -93,7 +105,22 @@ export default {
             }
             _context.commit('add', _payload)
         },
-
+        remove(_context, _payload) {
+            if (!_payload) {
+                _payload = {};
+            }
+            _context.commit('remove', _payload)
+        },
+        unselect(_context){
+            _context.commit('unselect') 
+        },
+        select(_context, _payload) {
+            if (!_payload) {
+                _payload = {};
+            }
+            _context.commit('unselect') 
+            _context.commit('select', _payload)
+        },
         setInputData(_context, _payload) {
             if (_payload) {
                 _context.commit('setInputData', _payload)

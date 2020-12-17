@@ -9,18 +9,13 @@
 </template>
 <script>
 
-import Input from './assets/js/inputJson'
 
 export default {
-    data ( ) {
-      return {
-
-      }
+    data() {
+        return {};
     },
-     created: function () {
-    Input.loadPlaceholderJson();
-  }
-}
+    created: function () {},
+};
 </script>
 <style lang="scss">
 body {

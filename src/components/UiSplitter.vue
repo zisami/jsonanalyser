@@ -1,6 +1,6 @@
 <template>
     <splitpanes class="default-theme flex-grow " horizontal :push-other-panes="false" style="height: 400px">
-        <pane v-bind:size="filterPaneSize.active">
+        <pane v-bind:size="filterPaneSize.active" class="flex flex-col">
             <query-list></query-list>
         </pane>
         <pane min-size="25" max-size="90" size:="75" class="flex-grow" v-bind:size="editorsPaneSize.active">
@@ -110,26 +110,28 @@ export default {
             "editorsPaneSize",
         ]),
         ...mapGetters("FilterQuerys", ["inputData"]),
+        inputData: () => {
+            return window.inputData;
+        }
     },
-    watch: {},
+    watch: {
+    },
     created() {
         this.loadPlaceholderJson();
     },
     methods: {
         ...mapActions("FilterQuerys", ["add", "setInputData"]),
         loadPlaceholderJson() {
-            console.log("Getting Test Json");
+            console.log("Getting Test Json"); 
             fetch("https://jsonplaceholder.typicode.com/todos/")
                 .then((response) => response.json())
                 .then((json) => {
-                    this.setInputData(json);
                     window.inputData = json;
                     return json;
                 })
                 .then((json) => {
-                    console.log("result:", json);
+                    console.log("API result:", json);
                 });
-            console.log(this.lastJsonData);
         },
         saveEditorsSize() {
             console.log("?!!??");
