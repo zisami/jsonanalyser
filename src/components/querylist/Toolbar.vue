@@ -1,7 +1,7 @@
 <template>
     <section
-        class="query-list-tool-bar bg-yellow-500 flex py-1 px-2 my-2 overflow-hidden"
-    >{{config.listKey}}
+        class="query-list-tool-bar border-opacity-20 border-gray-100 border-b flex py-1 px-2 mb-2 overflow-hidden select-none"
+    >
         <div class="buttons-allways flex mr-4">
             <button
                 @click="add({ query: {}, list: config.listKey })"
