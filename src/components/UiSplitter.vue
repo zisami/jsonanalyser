@@ -1,8 +1,8 @@
 <template>
     <splitpanes class="default-theme flex-grow " horizontal :push-other-panes="false" style="height: 400px">
         <pane v-bind:size="filterPaneSize.active" class="flex flex-col">
-            <query-list list-name='allQuerys'></query-list>
-            <query-list list-name='liveQuerys'></query-list>
+            <query-list v-bind:config="{listTitle: 'Alle meine Filter Querys', listKey: 'allQuerys'}"></query-list>
+            <query-list v-bind:config="{listTitle: 'Live Filter Querys', listKey: 'liveQuerys'}"></query-list>
         </pane>
         <pane min-size="25" max-size="90" size:="75" class="flex-grow" v-bind:size="editorsPaneSize.active">
             <splitpanes :push-other-panes="false" v-on:resized="saveEditorsSize">

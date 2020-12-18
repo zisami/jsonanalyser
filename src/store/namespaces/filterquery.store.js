@@ -17,23 +17,23 @@ export default {
     namespaced: true,
     state: {
         allQuerys: {},
-        liveQuerys:{},
+        liveQuerys: {},
     },
 
     getters: {
         allQuerys: (_state) => { return _.map(_state.allQuerys, (q) => { return q }) },
-        getQueryList: (_state) => (_list) =>{ return _.map(_state[_list], (q) => { return q }) },
+        getQueryList: (_state) => (_list) => { console.log(_list); return _.map(_state[_list], (q) => { return q }) },
         //selected: (_state) => { return _state.allQuerys.filter((query => { return query.selected })); },
         selected: (_state) => (_list) => {
             const selected = _.filter(_state[_list], 'selected')
             return selected.length > 0 ? selected[0] : '';
         },
         result: (_state) => (_payload) => {
-           // console.log('_payload',_payload);
+            // console.log('_payload',_payload);
             if (_payload?.query?.id) {
-               // const list =  _state[_payload.list]
-               // console.log(_payload.query.id);
-               // console.log(list[_payload.query.id]);
+                // const list =  _state[_payload.list]
+                // console.log(_payload.query.id);
+                // console.log(list[_payload.query.id]);
 
 
                 const queryToEcecute = _state[_payload.list][_payload.query.id];
@@ -71,8 +71,8 @@ export default {
                 queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
                 type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
             }
-            //console.log('_state[_payload.list]',_state[_payload.list]);
-            _state[_payload.list] = {..._state[_payload.list], [newQuery.id]:newQuery };
+            console.log('_state[_payload.list]',_payload);
+            _state[_payload.list] = { ..._state[_payload.list], [newQuery.id]: newQuery };
         },
 
         setInputData(_state, _payload) {
@@ -90,21 +90,21 @@ export default {
          * Deselektiert alle Elemente
          */
         unselect(_state, _payload) {
-            for (const item in  _state[_payload.list]) {
+            for (const item in _state[_payload.list]) {
                 _state[_payload.list][item].selected = false;
             }
         },
 
         select(_state, _payload) {
             console.log(_payload);
-            _state[_payload.list][_payload.query.id] = { ... _state[_payload.list][_payload.query.id], 'selected': true }
+            _state[_payload.list][_payload.query.id] = { ..._state[_payload.list][_payload.query.id], 'selected': true }
         },
     },
 
     actions: {
         add(_context, _payload) {
             if (!_payload) {
-                _payload = {query:{},list:'liveQuerys'};
+                _payload = { query: {}, list: 'liveQuerys' };
             }
             _context.commit('add', _payload)
         },
@@ -118,7 +118,7 @@ export default {
             console.log(_list);
             const selected = _context.getters.selected(_list.list)
             if (selected) {
-                _context.commit('remove', {query:selected, list:_list.list})
+                _context.commit('remove', { query: selected, list: _list.list })
             }
 
         },

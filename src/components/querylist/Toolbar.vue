@@ -1,20 +1,26 @@
 <template>
     <section
         class="query-list-tool-bar bg-yellow-500 flex py-1 px-2 my-2 overflow-hidden"
-    > {{listName}}
+    >{{config.listKey}}
         <div class="buttons-allways flex mr-4">
-            <button @click="add({query:{},list:listName})" class="btn">
+            <button
+                @click="add({ query: {}, list: config.listKey })"
+                class="btn"
+            >
                 <span class="material-icons"> note_add </span>
             </button>
         </div>
         <div
             class="buttons-selected hidden"
-            :class="{ 'display-buttons-selected': selected(listName).id }"
+            :class="{ 'display-buttons-selected': selected(config.listKey).id }"
         >
             <button @click="editSelected()" class="btn">
                 <span class="material-icons"> settings </span>
             </button>
-            <button @click="removeSelected({list:listName})" class="btn">
+            <button
+                @click="removeSelected({ list: config.listKey })"
+                class="btn"
+            >
                 <span class="material-icons"> delete </span>
             </button>
         </div>
@@ -36,7 +42,7 @@ import { mapActions } from "vuex";
 
 export default {
     name: "query-list-tool-bar",
-    props: ['listName'],
+    props: ["config"],
     mounted() {},
     data() {
         return {};
