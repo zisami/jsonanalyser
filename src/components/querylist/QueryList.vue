@@ -1,5 +1,5 @@
 <template>
-    <section class="query-list flex flex-col px-2 overflow-hidden">
+    <section class="query-list flex flex-col px-2 overflow-hidden mb-2">
         <div
             class="flex select-none bg-gray-900 bg-opacity-30 content-center flex-row border-opacity-20 border-gray-100 border-b-2 px-2 py-1 cursor-pointer"
             v-on:click="toggleList()"
@@ -12,19 +12,19 @@
                 <span class="material-icons" v-show="!open"> expand_more </span>
             </div>
         </div>
+        <ToolBar v-bind="$props" v-show="open" > </ToolBar>
         <div
-            class="list-container border-opacity-10 border-gray-100 border overflow-hidden h-full last:m-4"
+            class="list-container border-opacity-10 overflow-hidden h-full"
             v-show="open"
         >
-            <ToolBar v-bind="$props"> </ToolBar>
             <div
-                class="flex flex-col  overflow-y-scroll select-none h-full"
+                class="flex flex-col flex-grow overflow-y-scroll select-none h-full"
                 v-on:click="clickOutside($event)"
             >
                 <div
                     v-for="(item, index) in getQueryList(config.listKey)"
                     v-bind:key="index"
-                    class="query-item flex px-2 border-b m-0 w-full border-gray-700"
+                    class="query-item flex px-2 border-b w-full border-gray-700"
                     :class="{
                         selected: selected(config.listKey).id === item.id,
                     }"
@@ -65,7 +65,7 @@ export default {
             "selected",
             "result",
             "inputData",
-        ]),
+        ])
     },
     methods: {
         toggleList() {
@@ -86,16 +86,20 @@ export default {
             "select",
             "setInputData",
         ]),
+        
     },
 
     components: { ToolBar },
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang='postcss'>
 .query-list {
-    .selected {
-        @apply bg-white bg-opacity-10;
-    }
+}
+.selected {
+    @apply bg-white bg-opacity-10;
+}
+.query-item:last-child{
+    @apply mb-2;
 }
 </style>

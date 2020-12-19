@@ -17,7 +17,7 @@ export default {
     created: function () {},
 };
 </script>
-<style lang="scss">
+<style lang="postcss">
 body {
     @apply bg-gray-800;
 }

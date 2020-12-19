@@ -1,6 +1,6 @@
 <template>
     <section
-        class="query-list-tool-bar border-opacity-20 border-gray-100 border-b flex py-1 px-2 overflow-hidden select-none"
+        class="query-list-tool-bar border-opacity-20 border-gray-100 border-b flex py-1 px-2 select-none"
     >
         <div class="buttons-allways flex content-center mr-4">
             <button
@@ -15,7 +15,7 @@
             :class="{ 'display-buttons-selected': selected(config.listKey).id }"
         >
             <button @click="editSelected()" class="btn">
-                <span class="material-icons"> settings </span>
+                <span class="material-icons icon"> settings </span>
             </button>
             <button
                 @click="removeSelected({ list: config.listKey })"
@@ -71,16 +71,16 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang='postcss'>
 .query-list-tool-bar {
-    .display-buttons-selected {
-        display: flex;
-    }
-    .btn {
-        @apply opacity-50 m-0;
-    }
-    .btn > .material-icons {
-        @apply  text-xl;
-    }
+}
+.display-buttons-selected {
+    display: flex;
+}
+.btn {
+    @apply opacity-50 m-0;
+}
+.btn > .material-icons {
+    @apply text-xl;
 }
 </style>

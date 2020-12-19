@@ -125,23 +125,23 @@ export default {
         inputData: () => {
             return window.inputData;
         },
+        ...mapGetters("JsonData", ["inputData", "outputData"]),
     },
     watch: {},
     created() {
         this.loadPlaceholderJson();
+        console.log(this.inputData);
     },
     methods: {
         ...mapActions("FilterQuerys", ["add", "setInputData", "listResults"]),
+        ...mapActions("JsonData", ["setInputData", "setOutputData"]),
         loadPlaceholderJson() {
             fetch("https://jsonplaceholder.typicode.com/todos/")
                 .then((response) => response.json())
                 .then((json) => {
-                    window.inputData = json;
-                    return json;
+                    this.setInputData(json);
+                    console.log(this.inputData);
                 });
-            // .then((json) => {
-            //     console.log("API result:", json);
-            // });
         },
         saveEditorsSize() {
             console.log("?!!??");
@@ -155,5 +155,5 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style scoped lang="postcss">
 </style>

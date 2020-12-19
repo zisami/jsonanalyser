@@ -28,7 +28,7 @@ export default {
             const selected = _.filter(_state[_list], 'selected')
             return selected.length > 0 ? selected[0] : '';
         },
-        result: (_state) => (_payload) => {
+        result: (_state, _getters, _rootState) => (_payload) => {
             // console.log('_payload',_payload);
             if (_payload?.query?.id) {
                 // const list =  _state[_payload.list]
@@ -40,7 +40,7 @@ export default {
                 //Ausfühbare Query mit Errorhandling erstellen
                 const execute = new Function('data', `try{${queryToEcecute.queryString}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
                 //Query ausführen
-                let result = execute(window.inputData)
+                let result = execute(_rootState.JsonData.inputData)
                 if (typeof result !== 'undefined') {
 
                     if (result['error']) {

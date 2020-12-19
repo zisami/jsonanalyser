@@ -14,30 +14,18 @@ body {
 }
 .btn {
     @apply flex m-1 p-1 w-6 h-6 transform transition duration-500 rounded text-xl font-bold text-white   content-center items-center self-center justify-center leading-none;
-}
-.btn:hover {
-    @apply bg-gray-700 scale-125;
-}
-.btn:active {
-    @apply ring-0 border-0;
-}
-.btn:focus {
-    @apply ring-0;
-}
-.btn svg {
-    @apply w-4 h-4;
+
+    &:hover {
+        @apply bg-gray-700;
+    }
+    &:active {
+        @apply ring-0 border-0;
+    }
+    &:focus {
+        @apply ring-0;
+    }
 }
 
-.btn-icon svg {
-    @apply w-4 h-4;
-}
-.queryLine {
-    @apply flex flex-col  m-1  text-gray-800  rounded border-0;
-    display: b;
-}
-[x-cloak] {
-    display: none;
-}
 div.jsoneditor {
     @apply border-0;
     .jsoneditor-field {
@@ -77,23 +65,17 @@ div.jsoneditor {
                 @apply bg-transparent border-0;
             }
         }
-        .jsoneditor-search button{
-            opacity: 0.5; 
+        .jsoneditor-search button {
+            opacity: 0.5;
         }
     }
-    
-    & > .jsoneditor-modes > button, 
-    .jsoneditor-menu > button{
-        opacity: .5;
+
+    & > .jsoneditor-modes > button,
+    .jsoneditor-menu > button {
+        opacity: 0.5;
     }
 }
 
-#my-Query-Editor-Place {
-    background-color: transparent;
-}
-#my-Query-Editor-Place .ace_gutter {
-    background-color: rgba(255, 255, 255, 0.05);
-}
 .material-icons {
     font-family: "Material Icons";
     font-weight: normal;
