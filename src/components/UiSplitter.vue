@@ -27,7 +27,7 @@
                             <ToogleSplitPane paneName="output" invertIcon="true" />
                         </div>
                         <div id="outputEditorPlace" class="flex flex-col flex-grow  overflow-hidden">
-                            <v-jsoneditor v-model="outputEditor.json" :options="outputEditor.options" :plus="true"
+                            <v-jsoneditor v-model="outputData" :options="outputEditor.options" :plus="true"
                                 @error="onError" class="flex-grow overflow-hidden" />
                         </div>
                     </div>
@@ -121,7 +121,7 @@ export default {
             "filterPaneSize",
             "editorsPaneSize",
         ]),
-        ...mapGetters("FilterQuerys", ["inputData"]),
+        ...mapGetters("FilterQuerys", ["inputData","outputData"]),
         inputData: () => {
             return window.inputData;
         },

@@ -71,7 +71,8 @@ export default {
                 queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
                 type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
             }
-            console.log('_state[_payload.list]',_payload);
+            console.log('_state[_payload.list]', _payload);
+
             _state[_payload.list] = { ..._state[_payload.list], [newQuery.id]: newQuery };
         },
 
@@ -107,6 +108,7 @@ export default {
                 _payload = { query: {}, list: 'liveQuerys' };
             }
             _context.commit('add', _payload)
+            _context.dispatch('listResults')
         },
         remove(_context, _payload) {
             if (!_payload) {
@@ -138,14 +140,16 @@ export default {
             }
         },
         listResults(_context) {
+            const list = _context.rootState.FilterQuerys.liveQuerys;
             const listResults = {};
-            for (const query in _context.state.allQuerys) {
-                if (Object.hasOwnProperty.call(_context.state.allQuerys, query)) {
-                    const element = _context.state.allQuerys[query];
-                    listResults[element.resultKey] = _context.getters.result(element)
+            for (const query in list) {
+                if (Object.hasOwnProperty.call(list, query)) {
+                    const element = list[query];
+                        listResults[element.resultKey] = _context.getters.result({ query: element, list: 'liveQuerys' })
                 }
             }
-            return listResults;
+            _context.dispatch('JsonData/setOutputData', listResults, { root: true })
+            //_context.rootState.JsonData.outputData = {...listResults};
         },
     }
 }

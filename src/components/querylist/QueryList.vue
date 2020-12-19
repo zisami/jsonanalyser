@@ -70,10 +70,8 @@ export default {
     methods: {
         toggleList() {
             this.config.open = !this.config.open;
-            console.log(this.config.open);
         },
         clickOutside(_event) {
-            console.log(_event);
             const isOutside = !_event.target.closest(".query-item");
             if (isOutside) {
                 this.unselect({ list: this.config.listKey });

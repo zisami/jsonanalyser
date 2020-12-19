@@ -24,6 +24,7 @@ export default {
         },
         setOutputData(_context, _payload) {
             if (_payload) {
+                console.log(_payload);
                 _context.commit('setOutputData', _payload)
             }
         }
