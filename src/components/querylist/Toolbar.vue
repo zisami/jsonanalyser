@@ -1,8 +1,8 @@
 <template>
     <section
-        class="query-list-tool-bar border-opacity-20 border-gray-100 border-b flex py-1 px-2 mb-2 overflow-hidden select-none"
+        class="query-list-tool-bar border-opacity-20 border-gray-100 border-b flex py-1 px-2 overflow-hidden select-none"
     >
-        <div class="buttons-allways flex mr-4">
+        <div class="buttons-allways flex content-center mr-4">
             <button
                 @click="add({ query: {}, list: config.listKey })"
                 class="btn"
@@ -75,6 +75,12 @@ export default {
 .query-list-tool-bar {
     .display-buttons-selected {
         display: flex;
+    }
+    .btn {
+        @apply opacity-50 m-0;
+    }
+    .btn > .material-icons {
+        @apply  text-xl;
     }
 }
 </style>

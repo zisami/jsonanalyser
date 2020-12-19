@@ -4,10 +4,16 @@ module.exports = {
   purge: { content: ['./public/**/*.html', './src/**/*.vue'] },
   presets: [],
   darkMode: false, // or 'media' or 'class'
+  variants: {
+    extend: {
+      margin: ['last'],
+    }
+  },
   theme: {
     extend: {
       maxHeight: {
         '0': '0',
+        '1v': '1vh',
         '10v': '10vh',
         '20v': '20vh',
         '30v': '30vh',

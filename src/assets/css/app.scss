@@ -13,7 +13,7 @@ body {
     @apply flex m-1 p-1 w-6 h-6 text-xl font-bold text-gray-50 border-gray-500  border-2 rounded-full content-center items-center self-center justify-center leading-none;
 }
 .btn {
-    @apply flex m-1 p-1 w-6 h-6 transform transition duration-500 rounded text-xl font-bold text-gray-50  content-center items-center self-center justify-center leading-none;
+    @apply flex m-1 p-1 w-6 h-6 transform transition duration-500 rounded text-xl font-bold text-white   content-center items-center self-center justify-center leading-none;
 }
 .btn:hover {
     @apply bg-gray-700 scale-125;
@@ -27,9 +27,7 @@ body {
 .btn svg {
     @apply w-4 h-4;
 }
-.btn-icon {
-    @apply flex m-1 w-6 h-6 p-1;
-}
+
 .btn-icon svg {
     @apply w-4 h-4;
 }

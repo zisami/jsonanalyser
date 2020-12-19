@@ -1,8 +1,9 @@
 <template>
-    <section
-        class="query-list flex flex-col px-2 overflow-hidden"
-    >
-        <div class="flex select-none bg-gray-900 bg-opacity-30 content-center flex-row  border-opacity-20 border-gray-100 border-b-2  px-2 py-1 cursor-pointer" v-on:click="toggleList()">
+    <section class="query-list flex flex-col px-2 overflow-hidden">
+        <div
+            class="flex select-none bg-gray-900 bg-opacity-30 content-center flex-row border-opacity-20 border-gray-100 border-b-2 px-2 py-1 cursor-pointer"
+            v-on:click="toggleList()"
+        >
             <div class="title">
                 {{ config.listTitle }}
             </div>
@@ -11,16 +12,19 @@
                 <span class="material-icons" v-show="!open"> expand_more </span>
             </div>
         </div>
-        <div class="list-container border-opacity-10 border-gray-100  border" v-show="open">
+        <div
+            class="list-container border-opacity-10 border-gray-100 border overflow-hidden h-full last:m-4"
+            v-show="open"
+        >
             <ToolBar v-bind="$props"> </ToolBar>
             <div
-                class="flex flex-col flex-grow overflow-y-scroll   select-none"
+                class="flex flex-col  overflow-y-scroll select-none h-full"
                 v-on:click="clickOutside($event)"
             >
                 <div
                     v-for="(item, index) in getQueryList(config.listKey)"
                     v-bind:key="index"
-                    class="query-item flex  px-2 border-b border-gray-700 space-x-4"
+                    class="query-item flex px-2 border-b m-0 w-full border-gray-700"
                     :class="{
                         selected: selected(config.listKey).id === item.id,
                     }"
