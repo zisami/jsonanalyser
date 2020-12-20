@@ -20,6 +20,7 @@ export default {
 <style lang="postcss">
 body {
     @apply bg-gray-800;
+    position: relative;
 }
 #app {
     @apply text-gray-300;

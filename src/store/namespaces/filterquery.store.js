@@ -145,7 +145,7 @@ export default {
             for (const query in list) {
                 if (Object.hasOwnProperty.call(list, query)) {
                     const element = list[query];
-                        listResults[element.resultKey] = _context.getters.result({ query: element, list: 'liveQuerys' })
+                    listResults[element.resultKey] = _context.getters.result({ query: element, list: 'liveQuerys' })
                 }
             }
             _context.dispatch('JsonData/setOutputData', listResults, { root: true })
