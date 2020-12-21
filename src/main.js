@@ -1,5 +1,5 @@
 //Globale Componenten importieren
-
+//import './assets/js/ace/ace'
 
 
 
@@ -30,9 +30,5 @@ new Vue({
 }).$mount('#app')
 
 
-
-
-
-//Globale Componenten initalisieren
 
 

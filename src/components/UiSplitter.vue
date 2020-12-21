@@ -82,6 +82,9 @@ export default {
                     sortObjectKeys: true,
                     navigationBar: false,
                     name: "issueData",
+                    onError: function (err) {
+                        alert(err.toString());
+                    },
                 },
                 json: {
                     string: "string",
@@ -121,7 +124,7 @@ export default {
             "filterPaneSize",
             "editorsPaneSize",
         ]),
-        ...mapGetters("FilterQuerys", ["inputData","outputData"]),
+        ...mapGetters("FilterQuerys", ["inputData", "outputData"]),
         inputData: () => {
             return window.inputData;
         },

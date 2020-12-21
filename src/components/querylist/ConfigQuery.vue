@@ -1,14 +1,16 @@
 <template>
     <div
+        v-show="queryToEdit"
         class="inset-0 absolute bg-indigo-700 bg-opacity-90 flex justify-center items-center z-10"
     >
-        <div class="bg-gray-800 max-h-80v">
+        <div class="bg-gray-800 rounded-xl">
             <div class="w-full p-4 flex-none rounded-t-xl font-bold">
                 Filter Query Bearbeiten
             </div>
             <div class="flex-grow p-8 flex flex-col">
                 <div class="flex flex-wrap my-4 items-center">
                     <input
+                        v-model="queryToEdit.resultKey"
                         type="text"
                         class="bg-transparent text-gray-400 border-b border-gray-300"
                     />
@@ -42,7 +44,10 @@
                     <div
                         id="my-Query-Editor-Place"
                         class="w-full h-96 max-h-20v z-auto border border-gray-600"
-                    ></div>
+                    >
+                        
+                        
+                    </div>
                     <!-- #################### RUN QUERY #################### -->
                     <button class="btn-icon bg-red-700 text-white"></button>
                 </div>
@@ -55,7 +60,6 @@
                             v-model="outputData"
                             :options="outputEditor.options"
                             :plus="true"
-                            @error="onError"
                             class="flex-grow overflow-hidden"
                         />
                     </div>
@@ -69,6 +73,7 @@
                     <span class="mx-1">Query Speichern</span>
                 </button>
                 <button
+                    v-on:click="clearQueryToEdit()"
                     class="flex items-center flex-grow-0 py-2 px-4 capitalize tracking-wide bg-gray-600 text-white font-medium rounded focus:outline-none"
                 >
                     <span class="mx-1">Abbrechen</span>
@@ -81,9 +86,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-//import QueryItem from './QueryItem';
 import { mapActions } from "vuex";
-import VJsoneditor from "v-jsoneditor";
+import VJsoneditor from "v-jsoneditor"; 
+
+
 
 export default {
     name: "query-list-config",
@@ -91,6 +97,7 @@ export default {
     mounted() {},
     data() {
         return {
+            test: " Hallo ",
             outputEditor: {
                 options: {
                     mode: "view",
@@ -107,6 +114,7 @@ export default {
             "selected",
             "result",
             "inputData",
+            "queryToEdit",
         ]),
         ...mapGetters("JsonData", ["inputData", "outputData"]),
     },
@@ -119,13 +127,21 @@ export default {
             "select",
             "setInputData",
             "listResults",
+            "clearQueryToEdit",
         ]),
+
         ...mapActions("JsonData", ["setInputData", "setOutputData"]),
+
+        onChange(newValue) {
+            console.log("change", newValue);
+        },
     },
 
     components: {
         "v-jsoneditor": VJsoneditor,
+
     },
+    $el: "root",
 };
 </script>
 

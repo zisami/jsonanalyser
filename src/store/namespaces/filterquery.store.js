@@ -18,6 +18,7 @@ export default {
     state: {
         allQuerys: {},
         liveQuerys: {},
+        queryToEdit: "",
     },
 
     getters: {
@@ -53,6 +54,13 @@ export default {
                 return result;
             }
         },
+        queryToEdit: (_state) => {
+            if (!_state.queryToEdit) {
+                return false;
+            } else {
+                return _state.queryToEdit;
+            }
+        }
     },
 
     mutations: {
@@ -64,20 +72,32 @@ export default {
          * @param {object} _payload //optonales Query Objek
          */
         add(_state, _payload) {
-
+            if (!_payload.list) {
+                //Live Querys als Default Liste
+                _payload.list = "liveQuerys"
+            }
+            //Neue Query anlegen/vervollständigen
             let newQuery = {
                 id: typeof _payload.query.id !== 'undefined' && uuidValidateV4(_payload.query.id) ? _payload.query.id : UUID4(),
                 resultKey: typeof _payload.query.resultKey !== 'undefined' ? _payload.query.resultKey : '\u{1F4BD}',
                 queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
                 type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
+                edit: typeof _payload.query.edit !== 'undefined' ? _payload.query.edit : true,
             }
-            console.log('_state[_payload.list]', _payload);
+            
+            if (newQuery.edit) {
+                //Entweder bearbeiten
+                _state.queryToEdit = newQuery
+            } else {
+                //oder in Liste speichern.
+                _state[_payload.list] = { ..._state[_payload.list], [newQuery.id]: newQuery };
+            }
+            
 
-            _state[_payload.list] = { ..._state[_payload.list], [newQuery.id]: newQuery };
         },
 
-        setInputData(_state, _payload) {
-            _state.inputData = _payload
+        clearQueryToEdit(_state) {
+            _state.queryToEdit = ''
         },
 
         remove(_state, _payload) {
@@ -134,10 +154,8 @@ export default {
             _context.commit('unselect', _payload)
             _context.commit('select', _payload)
         },
-        setInputData(_context, _payload) {
-            if (_payload) {
-                _context.commit('setInputData', _payload)
-            }
+        clearQueryToEdit(_context) {
+                _context.commit('clearQueryToEdit')
         },
         listResults(_context) {
             const list = _context.rootState.FilterQuerys.liveQuerys;
