@@ -20,7 +20,7 @@
                 </div>
                 <div class="flex flex-wrap my-4 items-center">
                     <div class="mr-4 w-48">Query</div>
-                    <div class="text-s text-gray-300 w-full my-2">
+                    <div class="text-xs text-gray-300 w-full my-2">
                         Schreibe deine Funktion wie du willst, du musst nur
                         einen Wert zurück geben. <br />
                         Du kannst
@@ -154,7 +154,7 @@ export default {
             return highlight(code, languages.js); //returns html
         },
         onCodeChange(_code) {
-            console.log(_code);
+            _code;//Compiler austrixen
             this.outputEditor.outputData = this.result({
                 query: this.queryToEdit,
             });

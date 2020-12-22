@@ -29,8 +29,8 @@
                         selected: selected(config.listKey).id === item.id,
                     }"
                     v-on:click="select({ query: item, list: config.listKey })"
+                    v-on:dblclick="editSelected({ list: config.listKey })"
                 >
-                    <div class="key">{{ item.id }}</div>
                     <div class="key">{{ item.resultKey }}</div>
                     <div class="">=</div>
                     <div class="result">
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-console.log();
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import ToolBar from "./Toolbar";
@@ -82,7 +81,7 @@ export default {
             "remove",
             "unselect",
             "select",
-            "setInputData",
+            "editSelected"
         ]),
         
     },

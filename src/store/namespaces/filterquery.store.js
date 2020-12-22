@@ -23,7 +23,7 @@ export default {
 
     getters: {
         allQuerys: (_state) => { return _.map(_state.allQuerys, (q) => { return q }) },
-        getQueryList: (_state) => (_list) => { console.log(_list); return _.map(_state[_list], (q) => { return q }) },
+        getQueryList: (_state) => (_list) => {return _.map(_state[_list], (q) => { return q }) },
         //selected: (_state) => { return _state.allQuerys.filter((query => { return query.selected })); },
         selected: (_state) => (_list) => {
             const selected = _.filter(_state[_list], 'selected')
@@ -38,7 +38,7 @@ export default {
                 } else {
                     queryToEcecute = _payload.query;
                 }
-                
+
                 //Ausfühbare Query mit Errorhandling erstellen
                 const execute = new Function('data', `try{${queryToEcecute.queryString}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
                 //Query ausführen
@@ -85,7 +85,7 @@ export default {
                 type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
                 edit: typeof _payload.query.edit !== 'undefined' ? _payload.query.edit : true,
             }
-            
+
             if (newQuery.edit) {
                 //Entweder bearbeiten
                 _state.queryToEdit = newQuery
@@ -93,7 +93,7 @@ export default {
                 //oder in Liste speichern.
                 _state[_payload.list] = { ..._state[_payload.list], [newQuery.id]: newQuery };
             }
-            
+
 
         },
 
@@ -104,7 +104,6 @@ export default {
             _state.queryToEdit = _query
         },
         remove(_state, _payload) {
-            console.log(_payload);
             if (_payload?.query?.id) {
                 Vue.delete(_state[_payload.list], _payload.query.id)
             }
@@ -120,7 +119,6 @@ export default {
         },
 
         select(_state, _payload) {
-            console.log(_payload);
             _state[_payload.list][_payload.query.id] = { ..._state[_payload.list][_payload.query.id], 'selected': true }
         },
 
@@ -141,7 +139,6 @@ export default {
             _context.commit('remove', _payload)
         },
         removeSelected(_context, _list) {
-            console.log(_list);
             const selected = _context.getters.selected(_list.list)
             if (selected) {
                 _context.commit('remove', { query: selected, list: _list.list })
@@ -149,7 +146,6 @@ export default {
 
         },
         editSelected(_context, _list) {
-            console.log(_list);
             const selected = _context.getters.selected(_list.list)
             if (selected) {
                 _context.commit('setQueryToEdit', selected)
@@ -167,7 +163,7 @@ export default {
             _context.commit('select', _payload)
         },
         clearQueryToEdit(_context) {
-                _context.commit('clearQueryToEdit')
+            _context.commit('clearQueryToEdit')
         },
         listResults(_context) {
             const list = _context.rootState.FilterQuerys.liveQuerys;
