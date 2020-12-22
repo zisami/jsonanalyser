@@ -50,6 +50,7 @@
                             v-model="queryToEdit.queryString"
                             :highlight="highlighter"
                             line-numbers
+                            v-on:input="onCodeChange"
                         ></prism-editor>
                     </div>
                     <!-- #################### RUN QUERY #################### -->
@@ -61,7 +62,7 @@
                         class="w-full overflow-y-auto max-h-20v min-h-128"
                     >
                         <v-jsoneditor
-                            v-model="outputData"
+                            v-model="outputEditor.outputData"
                             :options="outputEditor.options"
                             :plus="true"
                             class="flex-grow overflow-hidden"
@@ -103,7 +104,7 @@ import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism-tomorrow.css"; // import syntax highlighting styles
 
 export default {
-    name: "query-list-config", 
+    name: "query-list-config",
     props: ["config"],
     mounted() {},
     data() {
@@ -116,6 +117,7 @@ export default {
                     navigationBar: false,
                     name: "issueData",
                 },
+                outputData: {},
             },
         };
     },
@@ -127,7 +129,6 @@ export default {
             "inputData",
             "queryToEdit",
         ]),
-        ...mapGetters("JsonData", ["inputData", "outputData"]),
     },
     methods: {
         ...mapActions("FilterQuerys", [
@@ -145,6 +146,10 @@ export default {
 
         highlighter(code) {
             return highlight(code, languages.js); //returns html
+        },
+        onCodeChange(_code) {
+            console.log(_code);
+            this.outputEditor.outputData = this.result({ query: this.queryToEdit });
         },
     },
 
@@ -167,6 +172,7 @@ export default {
     font-size: 14px;
     line-height: 1.5;
     padding: 5px;
+    width: 100%;
 }
 
 /* optional class for removing the outline */

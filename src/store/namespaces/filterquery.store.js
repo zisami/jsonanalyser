@@ -30,14 +30,15 @@ export default {
             return selected.length > 0 ? selected[0] : '';
         },
         result: (_state, _getters, _rootState) => (_payload) => {
-            // console.log('_payload',_payload);
+
             if (_payload?.query?.id) {
-                // const list =  _state[_payload.list]
-                // console.log(_payload.query.id);
-                // console.log(list[_payload.query.id]);
-
-
-                const queryToEcecute = _state[_payload.list][_payload.query.id];
+                let queryToEcecute
+                if (_payload.list) {
+                    queryToEcecute = _state[_payload.list][_payload.query.id];
+                } else {
+                    queryToEcecute = _payload.query;
+                }
+                
                 //Ausfühbare Query mit Errorhandling erstellen
                 const execute = new Function('data', `try{${queryToEcecute.queryString}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
                 //Query ausführen
