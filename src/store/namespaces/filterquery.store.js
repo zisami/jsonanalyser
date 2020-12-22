@@ -100,7 +100,9 @@ export default {
         clearQueryToEdit(_state) {
             _state.queryToEdit = ''
         },
-
+        setQueryToEdit(_state, _query) {
+            _state.queryToEdit = _query
+        },
         remove(_state, _payload) {
             console.log(_payload);
             if (_payload?.query?.id) {
@@ -121,6 +123,7 @@ export default {
             console.log(_payload);
             _state[_payload.list][_payload.query.id] = { ..._state[_payload.list][_payload.query.id], 'selected': true }
         },
+
     },
 
     actions: {
@@ -142,6 +145,14 @@ export default {
             const selected = _context.getters.selected(_list.list)
             if (selected) {
                 _context.commit('remove', { query: selected, list: _list.list })
+            }
+
+        },
+        editSelected(_context, _list) {
+            console.log(_list);
+            const selected = _context.getters.selected(_list.list)
+            if (selected) {
+                _context.commit('setQueryToEdit', selected)
             }
 
         },

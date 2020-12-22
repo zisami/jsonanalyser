@@ -59,7 +59,7 @@
                 <div class="flex my-4">
                     <div
                         id="my-Query-Result-Editor-Place"
-                        class="w-full overflow-y-auto max-h-20v min-h-128"
+                        class="w-full overflow-hidden flex flex-col max-h-20v min-h-128"
                     >
                         <v-jsoneditor
                             v-model="outputEditor.outputData"
@@ -73,6 +73,7 @@
             <div class="flex-grow-0 flex flex-row items-end px-4">
                 <!-- #################### FORM BUTTONS #################### -->
                 <button
+                    v-on:click="saveEditedQuery()"
                     class="flex items-center flex-grow-0 mr-8 py-2 px-4 ml-auto capitalize tracking-wide bg-green-600 text-gray-800 font-medium rounded focus:outline-none"
                 >
                     <span class="mx-1">Query Speichern</span>
@@ -143,13 +144,20 @@ export default {
         ]),
 
         ...mapActions("JsonData", ["setInputData", "setOutputData"]),
-
+        
+        saveEditedQuery() {
+            this.queryToEdit.edit = false;
+            this.add({ query: this.queryToEdit });
+            this.clearQueryToEdit();
+        },
         highlighter(code) {
             return highlight(code, languages.js); //returns html
         },
         onCodeChange(_code) {
             console.log(_code);
-            this.outputEditor.outputData = this.result({ query: this.queryToEdit });
+            this.outputEditor.outputData = this.result({
+                query: this.queryToEdit,
+            });
         },
     },
 
@@ -164,7 +172,7 @@ export default {
 <style scoped lang='postcss'>
 .my-editor {
     /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
-    background: #2d2d2d;
+    //background: #2d2d2d;
     color: #ccc;
 
     /* you must provide font-family font-size line-height. Example: */

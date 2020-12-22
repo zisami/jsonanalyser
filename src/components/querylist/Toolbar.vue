@@ -14,7 +14,7 @@
             class="buttons-selected hidden"
             :class="{ 'display-buttons-selected': selected(config.listKey).id }"
         >
-            <button @click="editSelected()" class="btn">
+            <button @click="editSelected({ list: config.listKey })" class="btn">
                 <span class="material-icons icon"> settings </span>
             </button>
             <button
@@ -64,6 +64,7 @@ export default {
             "select",
             "setInputData",
             "listResults",
+            "editSelected"
         ]),
     },
 
