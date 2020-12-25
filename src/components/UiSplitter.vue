@@ -9,9 +9,9 @@
                 <pane min-size="0" max-size="100" v-bind:size="inputPaneSize.active"
                     class="flex flex-col flex-grow overflow-hidden">
                     <div class=" flex flex-col flex-grow overflow-hidden">
-                        <div
-                            class="bg-gray-900 opacity-30 flex flex-row justify-end select-none border-opacity-20 border-gray-100 border-b-2">
-                            <ToogleSplitPane paneName="input" />
+                        <div class="bg-gray-900 opacity-30 flex flex-row justify-between select-none border-opacity-20 border-gray-100 border-b-2">
+                            <div class="data-size">{{inputDataSize}} / {{inputDataCount}} Datapoints</div> 
+                            <ToogleSplitPane paneName="input" class="ml-auto"/>
                         </div>
                         <div id="inputEditorPlace" class="flex flex-col flex-grow overflow-y-hidden">
                             <v-jsoneditor v-model="inputData" :options="inputEditor.options" :plus="true"
@@ -23,8 +23,9 @@
                     v-bind:size="outputPaneSize.active">
                     <div class=" flex flex-col flex-grow overflow-hidden">
                         <div
-                            class="bg-gray-900 opacity-30 flex flex-row  select-none border-opacity-20 border-gray-100 border-b-2">
+                            class="bg-gray-900 opacity-30 flex flex-row justify-between select-none border-opacity-20 border-gray-100 border-b-2">
                             <ToogleSplitPane paneName="output" invertIcon="true" />
+                            <div class="data-size justify-self-end">{{outputDataSize}} / {{outputDataCount}} Datapoints</div>
                         </div>
                         <div id="outputEditorPlace" class="flex flex-col flex-grow  overflow-hidden">
                             <v-jsoneditor v-model="outputData" :options="outputEditor.options" :plus="true"
@@ -124,16 +125,19 @@ export default {
             "filterPaneSize",
             "editorsPaneSize",
         ]),
-        ...mapGetters("FilterQuerys", ["inputData", "outputData"]),
-        inputData: () => {
-            return window.inputData;
-        },
-        ...mapGetters("JsonData", ["inputData", "outputData"]),
+
+        ...mapGetters("JsonData", [
+            "inputData",
+            "outputData",
+            "inputDataSize",
+            "outputDataSize",
+            "inputDataCount",
+            "outputDataCount",
+        ]),
     },
     watch: {},
     created() {
         this.loadPlaceholderJson();
-        console.log(this.inputData);
     },
     methods: {
         ...mapActions("FilterQuerys", ["add", "setInputData", "listResults"]),
@@ -143,12 +147,9 @@ export default {
                 .then((response) => response.json())
                 .then((json) => {
                     this.setInputData(json);
-                    console.log(this.inputData);
                 });
         },
-        saveEditorsSize() {
-            console.log("?!!??");
-        },
+        saveEditorsSize() {},
         onError() {
             console.log("error");
         },

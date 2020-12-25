@@ -5,6 +5,8 @@ import { version as uuidVersion } from 'uuid';
 import { validate as uuidValidate } from 'uuid';
 import Vue from 'vue';
 import _ from 'lodash';
+import moment from 'moment'
+window.moment = moment;
 import memorySizeOf from '../../assets/js/memorysize';
 window.memorySizeOf = memorySizeOf;
 
@@ -23,7 +25,7 @@ export default {
 
     getters: {
         allQuerys: (_state) => { return _.map(_state.allQuerys, (q) => { return q }) },
-        getQueryList: (_state) => (_list) => {return _.map(_state[_list], (q) => { return q }) },
+        getQueryList: (_state) => (_list) => { return _.map(_state[_list], (q) => { return q }) },
         //selected: (_state) => { return _state.allQuerys.filter((query => { return query.selected })); },
         selected: (_state) => (_list) => {
             const selected = _.filter(_state[_list], 'selected')
@@ -84,6 +86,7 @@ export default {
                 queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
                 type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
                 edit: typeof _payload.query.edit !== 'undefined' ? _payload.query.edit : true,
+                time: moment()
             }
 
             if (newQuery.edit) {
@@ -171,7 +174,17 @@ export default {
             for (const query in list) {
                 if (Object.hasOwnProperty.call(list, query)) {
                     const element = list[query];
-                    listResults[element.resultKey] = _context.getters.result({ query: element, list: 'liveQuerys' })
+                    let counter = 0;
+                    let key = element.resultKey;
+                    console.log('key', key, Object.hasOwnProperty.call(listResults, key));
+                    while (Object.hasOwnProperty.call(listResults, key)) {
+                        console.log('??');
+                        key = element.resultKey;
+                        counter++;
+                        key = key + '-' + counter;
+                        console.log(key);
+                    }
+                    listResults[key] = _context.getters.result({ query: element, list: 'liveQuerys' })
                 }
             }
             _context.dispatch('JsonData/setOutputData', listResults, { root: true })
