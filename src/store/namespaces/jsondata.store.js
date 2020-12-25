@@ -19,8 +19,8 @@ export default {
     },
 
     mutations: {
-        setInputData(_state, _newJson) { _state.inputData = { ..._newJson } },
-        setOutputData(_state, _newJson) { _state.outputData = { ..._newJson } },
+        setInputData(_state, _newJson) { _state.inputData = _newJson  },
+        setOutputData(_state, _newJson) { _state.outputData = _newJson },
     },
 
     actions: {

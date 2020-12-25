@@ -12,7 +12,7 @@
                 <span class="material-icons" v-show="!open"> expand_more </span>
             </div>
         </div>
-        <ToolBar v-bind="$props" v-show="open" > </ToolBar>
+        <ToolBar v-bind="$props" v-show="open"> </ToolBar>
         <div
             class="list-container border-opacity-10 overflow-hidden h-full"
             v-show="open"
@@ -27,15 +27,15 @@
                     class="query-item flex px-2 border-b w-full border-gray-700"
                     :class="{
                         selected: selected(config.listKey).id === item.id,
+                        'text-yellow-400': item.type === 'query',
+                        'text-purple-400': item.type === 'value',
                     }"
                     v-on:click="select({ query: item, list: config.listKey })"
                     v-on:dblclick="editSelected({ list: config.listKey })"
                 >
+                    
                     <div class="key">{{ item.resultKey }}</div>
-                    <div class="">=</div>
-                    <div class="result">
-                        {{ result({ query: item, list: config.listKey }) }}
-                    </div>
+                    <div class="description" v-show="item.description">&nbsp;:&nbsp;{{item.description}}</div>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@ export default {
             "selected",
             "result",
             "inputData",
-        ])
+        ]),
     },
     methods: {
         toggleList() {
@@ -81,9 +81,8 @@ export default {
             "remove",
             "unselect",
             "select",
-            "editSelected"
+            "editSelected",
         ]),
-        
     },
 
     components: { ToolBar },
@@ -96,7 +95,7 @@ export default {
 .selected {
     @apply bg-white bg-opacity-10;
 }
-.query-item:last-child{
+.query-item:last-child {
     @apply mb-2;
 }
 </style>

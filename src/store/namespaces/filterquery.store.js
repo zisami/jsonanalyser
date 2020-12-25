@@ -82,6 +82,7 @@ export default {
             //Neue Query anlegen/vervollständigen
             let newQuery = {
                 id: typeof _payload.query.id !== 'undefined' && uuidValidateV4(_payload.query.id) ? _payload.query.id : UUID4(),
+                description: typeof _payload.query.description !== 'undefined' ? _payload.query.description : '' ,
                 resultKey: typeof _payload.query.resultKey !== 'undefined' ? _payload.query.resultKey : '\u{1F4BD}',
                 queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
                 type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',

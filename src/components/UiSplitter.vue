@@ -14,7 +14,7 @@
                             <ToogleSplitPane paneName="input" class="ml-auto"/>
                         </div>
                         <div id="inputEditorPlace" class="flex flex-col flex-grow overflow-y-hidden">
-                            <v-jsoneditor v-model="inputData" :options="inputEditor.options" :plus="true"
+                            <v-jsoneditor v-model="inputData"  :plus="true" optionType="input"
                                 @error="onError" class="flex-grow overflow-hidden" />
                         </div>
                     </div>
@@ -44,7 +44,7 @@ import { mapGetters, mapActions } from "vuex";
 
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
-import VJsoneditor from "v-jsoneditor";
+import VJsoneditor from "./VueJsoneditor";
 
 //Internal Components
 import ToogleSplitPane from "./ToogleSplitPane";
@@ -67,15 +67,7 @@ export default {
 
             lastJsonData: {},
             inputEditor: {
-                options: {
-                    mode: "view",
-                    sortObjectKeys: true,
-                    navigationBar: false,
-                    name: "Input",
-                    onError: function (err) {
-                        alert(err.toString());
-                    },
-                },
+               
             },
             outputEditor: {
                 options: {

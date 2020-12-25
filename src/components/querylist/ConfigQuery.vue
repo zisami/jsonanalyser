@@ -3,7 +3,7 @@
         v-show="queryToEdit"
         class="inset-0 absolute bg-indigo-700 bg-opacity-90 flex justify-center items-center z-10"
     >
-        <div class="bg-gray-800 rounded-xl">
+        <div class="bg-gray-800 rounded-xl w-full h-full">
             <div class="w-full p-4 flex-none rounded-t-xl font-bold">
                 Filter Query Bearbeiten
             </div>
@@ -16,6 +16,17 @@
                     />
                     <div class="text-xs text-gray-500 w-full mt-2">
                         Der Key unter dem das Query Ergebniss angezeigt wird.
+                    </div>
+                </div>
+                <div class="flex flex-wrap my-4 items-center">
+                    <input
+                        v-model="queryToEdit.description"
+                        type="text"
+                        class="bg-transparent text-gray-400 border-b border-gray-300"
+                    />
+                    <div class="text-xs text-gray-500 w-full mt-2">
+                        Eine optionale Beschreibung die in den Query Listen
+                        angezeigt wird.
                     </div>
                 </div>
                 <div class="flex flex-wrap my-4 items-center">
@@ -107,7 +118,9 @@ import "prismjs/themes/prism-tomorrow.css"; // import syntax highlighting styles
 export default {
     name: "query-list-config",
     props: ["config"],
-    mounted() {},
+    mounted() {
+        console.log('mounted');
+    },
     data() {
         return {
             test: " Hallo ",
@@ -131,6 +144,15 @@ export default {
             "queryToEdit",
         ]),
     },
+    watch:{
+        queryToEdit(){
+            if (this.queryToEdit) {
+                this.outputEditor.outputData = this.result({
+                query: this.queryToEdit,
+            });
+            }
+        }
+    },
     methods: {
         ...mapActions("FilterQuerys", [
             "add",
@@ -138,13 +160,12 @@ export default {
             "removeSelected",
             "unselect",
             "select",
-            "setInputData",
             "listResults",
             "clearQueryToEdit",
         ]),
 
         ...mapActions("JsonData", ["setInputData", "setOutputData"]),
-        
+
         saveEditedQuery() {
             this.queryToEdit.edit = false;
             this.add({ query: this.queryToEdit });
@@ -154,13 +175,18 @@ export default {
             return highlight(code, languages.js); //returns html
         },
         onCodeChange(_code) {
-            _code;//Compiler austrixen
+            _code; //Compiler austrixen
             this.outputEditor.outputData = this.result({
                 query: this.queryToEdit,
             });
         },
     },
-
+    ready: function () {
+        console.log("ready");
+        this.outputEditor.outputData = this.result({
+            query: this.queryToEdit,
+        });
+    },
     components: {
         "v-jsoneditor": VJsoneditor,
         PrismEditor,
