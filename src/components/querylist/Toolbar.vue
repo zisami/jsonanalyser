@@ -25,12 +25,28 @@
             </button>
         </div>
         <div class="buttons-list-actions ml-auto flex">
-            <button @click="listResults()" class="btn">
+            <button
+                @click="exportList('liveQuerys')"
+                class="btn"
+                title="run all querys in list"
+            >
                 <span class="material-icons"> playlist_play </span>
             </button>
-            <button @click="removeAll()" class="btn">
+            <button
+                @click="listResults()"
+                class="btn"
+                title="run all querys in list"
+            >
+                <span class="material-icons"> playlist_play </span>
+            </button>
+            <button
+                @dblclick="removeAll('liveQuerys')"
+                class="btn"
+                title="double click to clear list"
+            >
                 <span class="material-icons"> delete_sweep </span>
             </button>
+
         </div>
     </section>
 </template>
@@ -48,12 +64,7 @@ export default {
         return {};
     },
     computed: {
-        ...mapGetters("FilterQuerys", [
-            "allQuerys",
-            "selected",
-            "result",
-            "inputData",
-        ]),
+        ...mapGetters("FilterQuerys", ["allQuerys", "selected", "result"]),
     },
     methods: {
         ...mapActions("FilterQuerys", [
@@ -64,7 +75,9 @@ export default {
             "select",
             "setInputData",
             "listResults",
-            "editSelected"
+            "editSelected",
+            "removeAll",
+            "exportList",
         ]),
     },
 

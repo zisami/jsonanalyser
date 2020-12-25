@@ -33,9 +33,10 @@
                     v-on:click="select({ query: item, list: config.listKey })"
                     v-on:dblclick="editSelected({ list: config.listKey })"
                 >
-                    
                     <div class="key">{{ item.resultKey }}</div>
-                    <div class="description" v-show="item.description">&nbsp;:&nbsp;{{item.description}}</div>
+                    <div class="description" v-show="item.description">
+                        &nbsp;:&nbsp;{{ item.description }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -82,6 +83,7 @@ export default {
             "unselect",
             "select",
             "editSelected",
+            "removeAll",
         ]),
     },
 

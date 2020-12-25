@@ -26,7 +26,6 @@ export default {
     getters: {
         allQuerys: (_state) => { return _.map(_state.allQuerys, (q) => { return q }) },
         getQueryList: (_state) => (_list) => { return _.map(_state[_list], (q) => { return q }) },
-        //selected: (_state) => { return _state.allQuerys.filter((query => { return query.selected })); },
         selected: (_state) => (_list) => {
             const selected = _.filter(_state[_list], 'selected')
             return selected.length > 0 ? selected[0] : '';
@@ -125,6 +124,9 @@ export default {
         select(_state, _payload) {
             _state[_payload.list][_payload.query.id] = { ..._state[_payload.list][_payload.query.id], 'selected': true }
         },
+        removeAll(_state, _list){
+            _state[_list] = {};
+        }
 
     },
 
@@ -147,6 +149,7 @@ export default {
             if (selected) {
                 _context.commit('remove', { query: selected, list: _list.list })
             }
+            _context.dispatch('listResults');
 
         },
         editSelected(_context, _list) {
@@ -191,5 +194,20 @@ export default {
             _context.dispatch('JsonData/setOutputData', listResults, { root: true })
             //_context.rootState.JsonData.outputData = {...listResults};
         },
+        removeAll(_context, _list){
+            _context.commit('removeAll', _list);
+            _context.dispatch('listResults');
+        },
+        exportList(_context, _list) {
+            console.log(_context.rootGetters['FilterQuerys/getQueryList'](_list));
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(_context.rootGetters['FilterQuerys/getQueryList'](_list)), null, 2);
+            let downLoadElement = document.createElement('a');
+            downLoadElement.style.display = 'none';
+            downLoadElement.href = dataStr;
+            downLoadElement.download = `${this.name || 'Liste'
+                }.json`;
+            downLoadElement.click();
+        },
+
     }
 }
