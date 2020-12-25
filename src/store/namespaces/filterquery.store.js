@@ -81,7 +81,7 @@ export default {
             //Neue Query anlegen/vervollständigen
             let newQuery = {
                 id: typeof _payload.query.id !== 'undefined' && uuidValidateV4(_payload.query.id) ? _payload.query.id : UUID4(),
-                description: typeof _payload.query.description !== 'undefined' ? _payload.query.description : '' ,
+                description: typeof _payload.query.description !== 'undefined' ? _payload.query.description : '',
                 resultKey: typeof _payload.query.resultKey !== 'undefined' ? _payload.query.resultKey : '\u{1F4BD}',
                 queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
                 type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
@@ -124,7 +124,7 @@ export default {
         select(_state, _payload) {
             _state[_payload.list][_payload.query.id] = { ..._state[_payload.list][_payload.query.id], 'selected': true }
         },
-        removeAll(_state, _list){
+        removeAll(_state, _list) {
             _state[_list] = {};
         }
 
@@ -194,12 +194,11 @@ export default {
             _context.dispatch('JsonData/setOutputData', listResults, { root: true })
             //_context.rootState.JsonData.outputData = {...listResults};
         },
-        removeAll(_context, _list){
+        removeAll(_context, _list) {
             _context.commit('removeAll', _list);
             _context.dispatch('listResults');
         },
         exportList(_context, _list) {
-            console.log(_context.rootGetters['FilterQuerys/getQueryList'](_list));
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(_context.rootGetters['FilterQuerys/getQueryList'](_list)), null, 2);
             let downLoadElement = document.createElement('a');
             downLoadElement.style.display = 'none';
@@ -208,6 +207,14 @@ export default {
                 }.json`;
             downLoadElement.click();
         },
-
+        exportSelectedQuery(_context, _list) {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(_context.rootGetters['FilterQuerys/selected'](_list)), null, 2);
+            let downLoadElement = document.createElement('a');
+            downLoadElement.style.display = 'none';
+            downLoadElement.href = dataStr;
+            downLoadElement.download = `${this.name || 'Liste'
+                }.json`;
+            downLoadElement.click();
+        },
     }
 }

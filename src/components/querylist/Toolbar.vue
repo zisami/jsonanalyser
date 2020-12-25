@@ -17,6 +17,9 @@
             <button @click="editSelected({ list: config.listKey })" class="btn">
                 <span class="material-icons icon"> settings </span>
             </button>
+            <button @click="exportSelectedQuery(config.listKey)" class="btn">
+                <span class="material-icons icon"> get_app </span>
+            </button>
             <button
                 @click="removeSelected({ list: config.listKey })"
                 class="btn"
@@ -30,7 +33,7 @@
                 class="btn"
                 title="run all querys in list"
             >
-                <span class="material-icons"> playlist_play </span>
+                <span class="material-icons"> save_alt </span>
             </button>
             <button
                 @click="listResults()"
@@ -46,7 +49,6 @@
             >
                 <span class="material-icons"> delete_sweep </span>
             </button>
-
         </div>
     </section>
 </template>
@@ -78,6 +80,7 @@ export default {
             "editSelected",
             "removeAll",
             "exportList",
+            "exportSelectedQuery",
         ]),
     },
 
