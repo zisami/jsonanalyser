@@ -1,19 +1,6 @@
 import memorySizeOf from '../../assets/js/memorysize';
 function countDataPoints(_data) {
-    const data = JSON.stringify(_data)
-    let index = 0;
-    let count = 0;
-    while (data[index]) {
-        if (data[index] === ',') {
-            count++;
-        }
-        index++;
-    }
-    if (count > 0) {
-        //Das letzte
-        count++;
-    }
-    return count
+    return JSON.stringify(_data).match(/(,|\}|\])/g).length;
 }
 export default {
     namespaced: true,

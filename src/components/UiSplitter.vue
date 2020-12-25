@@ -9,8 +9,8 @@
                 <pane min-size="0" max-size="100" v-bind:size="inputPaneSize.active"
                     class="flex flex-col flex-grow overflow-hidden">
                     <div class=" flex flex-col flex-grow overflow-hidden">
-                        <div class="bg-gray-900 opacity-30 flex flex-row justify-between select-none border-opacity-20 border-gray-100 border-b-2">
-                            <div class="data-size">{{inputDataSize}} / {{inputDataCount}} Datapoints</div> 
+                        <div class="bg-gray-900 opacity-30 flex flex-row pl-2 content-center justify-between select-none border-opacity-20 border-gray-100 border-b-2">
+                            <div class="data-size flex flex-col justify-center text-sm ">{{inputDataSize}} / {{inputDataCount}} Datapoint{{inputDataCount > 1 ? 's' : ''}}</div> 
                             <ToogleSplitPane paneName="input" class="ml-auto"/>
                         </div>
                         <div id="inputEditorPlace" class="flex flex-col flex-grow overflow-y-hidden">
@@ -23,9 +23,9 @@
                     v-bind:size="outputPaneSize.active">
                     <div class=" flex flex-col flex-grow overflow-hidden">
                         <div
-                            class="bg-gray-900 opacity-30 flex flex-row justify-between select-none border-opacity-20 border-gray-100 border-b-2">
+                            class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
                             <ToogleSplitPane paneName="output" invertIcon="true" />
-                            <div class="data-size justify-self-end">{{outputDataSize}} / {{outputDataCount}} Datapoints</div>
+                            <div class="data-size flex flex-col justify-center text-sm justify-self-end">{{outputDataSize}} / {{outputDataCount}} Datapoint{{outputDataCount > 1 ? 's' : ''}}</div>
                         </div>
                         <div id="outputEditorPlace" class="flex flex-col flex-grow  overflow-hidden">
                             <v-jsoneditor v-model="outputData" :options="outputEditor.options" :plus="true"
@@ -71,7 +71,7 @@ export default {
                     mode: "view",
                     sortObjectKeys: true,
                     navigationBar: false,
-                    name: "issueData",
+                    name: "Input",
                     onError: function (err) {
                         alert(err.toString());
                     },
@@ -82,37 +82,9 @@ export default {
                     mode: "view",
                     sortObjectKeys: true,
                     navigationBar: false,
-                    name: "issueData",
+                    name: "Output",
                     onError: function (err) {
                         alert(err.toString());
-                    },
-                },
-                json: {
-                    string: "string",
-                    number: 123456,
-                    boolean: true,
-                    empty: "",
-                    array: ["a", "b", 1, true],
-                    object: {
-                        string: "string",
-                        number: 123456,
-                        boolean: false,
-                        empty: "",
-                        array: ["a", "b", 1, true],
-                    },
-                    object2: {
-                        string: "string",
-                        number: 123456,
-                        boolean: false,
-                        empty: "",
-                        array: ["a", "b", 1, true],
-                    },
-                    __wasanderes: {
-                        string: "string",
-                        number: 123456,
-                        boolean: false,
-                        empty: "",
-                        array: ["a", "b", 1, true],
                     },
                 },
             },
@@ -143,7 +115,7 @@ export default {
         ...mapActions("FilterQuerys", ["add", "setInputData", "listResults"]),
         ...mapActions("JsonData", ["setInputData", "setOutputData"]),
         loadPlaceholderJson() {
-            fetch("https://jsonplaceholder.typicode.com/todos/")
+            fetch("https://jsonplaceholder.typicode.com/users/")
                 .then((response) => response.json())
                 .then((json) => {
                     this.setInputData(json);
