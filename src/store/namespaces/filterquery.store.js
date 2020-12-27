@@ -199,21 +199,21 @@ export default {
             _context.dispatch('listResults');
         },
         exportList(_context, _list) {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(_context.rootGetters['FilterQuerys/getQueryList'](_list)), null, 2);
+            const expotData = {querys: _context.rootGetters['FilterQuerys/getQueryList'](_list)}
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(expotData), null, 2);
             let downLoadElement = document.createElement('a');
             downLoadElement.style.display = 'none';
             downLoadElement.href = dataStr;
-            downLoadElement.download = `${this.name || 'Liste'
-                }.json`;
+            downLoadElement.download = `${_list || 'Liste'}.json`;
             downLoadElement.click();
         },
         exportSelectedQuery(_context, _list) {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(_context.rootGetters['FilterQuerys/selected'](_list)), null, 2);
+            const elementToExport = {querys:[_context.rootGetters['FilterQuerys/selected'](_list)]};
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(elementToExport), null, 2);
             let downLoadElement = document.createElement('a');
             downLoadElement.style.display = 'none';
             downLoadElement.href = dataStr;
-            downLoadElement.download = `${this.name || 'Liste'
-                }.json`;
+            downLoadElement.download = `${elementToExport.resultKey || 'Query'}.json`;
             downLoadElement.click();
         },
     }

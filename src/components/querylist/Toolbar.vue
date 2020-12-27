@@ -65,7 +65,6 @@
                 <span class="material-icons"> delete_sweep </span>
             </button>
         </div>
-        {{config.listKey}}
     </section>
 </template>
 
@@ -99,7 +98,9 @@ export default {
             "exportSelectedQuery",
         ]),
         openImportList() {
-            const openImportList = document.getElementById('listImport' + this.config.listKey);
+            const openImportList = document.getElementById(
+                "listImport" + this.config.listKey
+            );
             if (openImportList) {
                 openImportList.click();
             }
@@ -116,14 +117,18 @@ export default {
                     fileReader.onload = (_ev) => {
                         const jsonFromFile = JSON.parse(_ev.target.result);
                         console.log(jsonFromFile);
-                        jsonFromFile.forEach((element) => {
-                            const queryToAdd = {
-                                query: element,
-                                list: this.config.listKey,
-                            }
-                            console.log(queryToAdd);
-                            this.add(queryToAdd);
-                        });
+                        if (
+                            Object.hasOwnProperty.call(jsonFromFile, "querys")
+                        ) {
+                            jsonFromFile.querys.forEach((element) => {
+                                const queryToAdd = {
+                                    query: element,
+                                    list: this.config.listKey,
+                                };
+                                console.log(queryToAdd);
+                                this.add(queryToAdd);
+                            });
+                        }
                     };
                     fileReader.readAsText(_event.target.files[i]);
                 }
