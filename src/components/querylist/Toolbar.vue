@@ -29,12 +29,27 @@
         </div>
         <div class="buttons-list-actions ml-auto flex">
             <button
-                @click="exportList('liveQuerys')"
+                @click="exportList(config.listKey)"
                 class="btn"
-                title="run all querys in list"
+                title="Query Liste exportieren"
             >
                 <span class="material-icons"> save_alt </span>
             </button>
+            <button
+                @click.prevent="openImportList()"
+                class="btn"
+                title="Query Liste importieren"
+            >
+                <span class="material-icons"> upgrade </span>
+            </button>
+            <input
+                @change="handleFiles"
+                type="file"
+                :id="'listImport' + config.listKey"
+                multiple
+                accept="application/JSON"
+                style="display: none"
+            />
             <button
                 @click="listResults()"
                 class="btn"
@@ -43,13 +58,14 @@
                 <span class="material-icons"> playlist_play </span>
             </button>
             <button
-                @dblclick="removeAll('liveQuerys')"
+                @dblclick="removeAll(config.listKey)"
                 class="btn"
                 title="double click to clear list"
             >
                 <span class="material-icons"> delete_sweep </span>
             </button>
         </div>
+        {{config.listKey}}
     </section>
 </template>
 
@@ -82,6 +98,37 @@ export default {
             "exportList",
             "exportSelectedQuery",
         ]),
+        openImportList() {
+            const openImportList = document.getElementById('listImport' + this.config.listKey);
+            if (openImportList) {
+                openImportList.click();
+            }
+        },
+        handleFiles(_event) {
+            console.log(_event);
+
+            if (!_event.target.files.length) {
+                return;
+            } else {
+                for (let i = 0; i < _event.target.files.length; i++) {
+                    console.log(_event.target.files[i]);
+                    const fileReader = new FileReader();
+                    fileReader.onload = (_ev) => {
+                        const jsonFromFile = JSON.parse(_ev.target.result);
+                        console.log(jsonFromFile);
+                        jsonFromFile.forEach((element) => {
+                            const queryToAdd = {
+                                query: element,
+                                list: this.config.listKey,
+                            }
+                            console.log(queryToAdd);
+                            this.add(queryToAdd);
+                        });
+                    };
+                    fileReader.readAsText(_event.target.files[i]);
+                }
+            }
+        },
     },
 
     components: {},
