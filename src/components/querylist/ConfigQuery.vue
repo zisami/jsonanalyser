@@ -104,7 +104,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
-import VJsoneditor from "v-jsoneditor";
+import VJsoneditor from "../VueJsoneditor";
 // import Prism Editor
 import { PrismEditor } from "vue-prism-editor";
 import "vue-prism-editor/dist/prismeditor.min.css"; // import the styles somewhere
