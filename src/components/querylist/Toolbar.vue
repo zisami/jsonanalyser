@@ -8,7 +8,7 @@
                 class="btn"
                 title="Neue Query anlegen"
             >
-                <span class="material-icons"> note_add </span>
+                <span class="material-icons hover:animate-wiggle"> note_add </span> 
             </button>
             <button
                 v-if="config.listKey === 'liveQuerys'"
@@ -16,7 +16,7 @@
                 class="btn"
                 title="Gespeicherte Query öffnen"
             >
-                <span class="material-icons"> folder_open </span>
+                <span class="material-icons hover:animate-wiggle"> folder_open </span>
             </button>
         </div>
         <div
@@ -36,16 +36,16 @@
                 class="btn"
                 title="ausgewählte Query speichern"
             >
-                <span class="material-icons"> save </span>
+                <span class="material-icons hover:animate-pulse"> save </span>
             </button>
             <button @click="exportSelectedQuery(config.listKey)" class="btn" title="ausgewählte Query exportieren">
-                <span class="material-icons icon"> get_app </span>
+                <span class="material-icons icon hover:animate-bounce"> upgrade </span>
             </button>
             <button
                 @click="removeSelected({ list: config.listKey })"
                 class="btn" title="ausgewählte Query aus dieser Liste löschen"
             >
-                <span class="material-icons"> delete </span>
+                <span class="material-icons hover:animate-shrink"> delete </span>
             </button>
         </div>
         <div class="buttons-list-actions ml-auto flex">
@@ -54,14 +54,14 @@
                 class="btn"
                 title="Query Liste exportieren"
             >
-                <span class="material-icons"> save_alt </span>
+                <span class="material-icons hover:animate-bounceUp"> upgrade </span>
             </button>
             <button
                 @click.prevent="openImportList()"
                 class="btn"
                 title="Query Liste importieren"
             >
-                <span class="material-icons"> upgrade </span>
+                <span class="material-icons hover:animate-bounce">  save_alt</span>
             </button>
             <input
                 @change="handleFiles"

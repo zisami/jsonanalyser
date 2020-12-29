@@ -87,10 +87,13 @@ module.exports = {
     },
     animation: {
       none: 'none',
-      spin: 'spin 1s linear infinite',
+      wiggle: 'wiggle 0.5s ease-in-out infinite',
+      shrink: 'shrink 1.5s ease-in-out infinite',
+      spin: 'spin 3.6s linear infinite',
       ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
       pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       bounce: 'bounce 1s infinite',
+      bounceUp: 'bounceUp 1s infinite',
     },
     backgroundColor: (theme) => theme('colors'),
     backgroundImage: {
@@ -405,14 +408,31 @@ module.exports = {
       '-full': '-100%',
     }),
     keyframes: {
+      wiggle: {
+        '0%, 100%': { transform: 'rotate(-6deg)' },
+        '50%': { transform: 'rotate(6deg)' },
+      },
       spin: {
         to: {
           transform: 'rotate(360deg)',
         },
+      }, shrink: {
+        '0%': {
+          transform: 'scale(1)',
+          opacity: '1',
+        },
+        '100%': {
+          transform: 'scale(0.1)',
+          opacity: '0',
+        },
       },
       ping: {
-        '75%, 100%': {
-          transform: 'scale(2)',
+        '0%': {
+          transform: 'scale(1)',
+          opacity: '1',
+        },
+        '100%': {
+          transform: 'scale(1.1)',
           opacity: '0',
         },
       },
@@ -429,6 +449,16 @@ module.exports = {
         '50%': {
           transform: 'none',
           animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
+        },
+      },
+      bounceUp: {
+        '0%, 100%': {
+          transform: 'none',
+          animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
+        },
+        '50%': {
+          transform: 'translateY(-25%)',
+          animationTimingFunction: 'cubic-bezier(0.8,0,1,1)',
         },
       },
     },
@@ -757,7 +787,7 @@ module.exports = {
     alignContent: ['responsive'],
     alignItems: ['responsive'],
     alignSelf: ['responsive'],
-    animation: ['responsive'],
+    animation: ['responsive', 'hover'],
     appearance: ['responsive'],
     backgroundAttachment: ['responsive'],
     backgroundClip: ['responsive'],
