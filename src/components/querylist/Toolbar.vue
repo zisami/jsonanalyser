@@ -6,12 +6,15 @@
             <button
                 @click="add({ query: {}, list: config.listKey })"
                 class="btn"
+                title="Neue Query anlegen"
             >
                 <span class="material-icons"> note_add </span>
             </button>
             <button
+                v-if="config.listKey === 'liveQuerys'"
                 @click="toggleSavedQuerys()"
                 class="btn"
+                title="Gespeicherte Query öffnen"
             >
                 <span class="material-icons"> folder_open </span>
             </button>
@@ -20,15 +23,27 @@
             class="buttons-selected hidden"
             :class="{ 'display-buttons-selected': selected(config.listKey).id }"
         >
-            <button @click="editSelected({ list: config.listKey })" class="btn">
-                <span class="material-icons icon"> settings </span>
+            <button
+                @click="editSelected({ list: config.listKey })"
+                class="btn"
+                title="Konfiguriere ausgewählte Query"
+            >
+                <span class="material-icons icon hover:animate-spin"> settings </span>
             </button>
-            <button @click="exportSelectedQuery(config.listKey)" class="btn">
+            <button
+                v-if="config.listKey === 'liveQuerys'"
+                @click="add({ query: selected(config.listKey), list: 'allQuerys' })"
+                class="btn"
+                title="ausgewählte Query speichern"
+            >
+                <span class="material-icons"> save </span>
+            </button>
+            <button @click="exportSelectedQuery(config.listKey)" class="btn" title="ausgewählte Query exportieren">
                 <span class="material-icons icon"> get_app </span>
             </button>
             <button
                 @click="removeSelected({ list: config.listKey })"
-                class="btn"
+                class="btn" title="ausgewählte Query aus dieser Liste löschen"
             >
                 <span class="material-icons"> delete </span>
             </button>

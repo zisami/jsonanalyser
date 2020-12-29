@@ -1,7 +1,12 @@
 <template>
     <section class="query-list flex flex-col px-2 overflow-hidden mb-2">
         <div class="title">
-            {{ config.listTitle }} {{ config.listKey}} {{ getQueryList(config.listKey).length ? '(' + getQueryList(config.listKey).length + ')' : ''}}
+            {{ config.listTitle }} {{ config.listKey }}
+            {{
+                getQueryList(config.listKey).length
+                    ? "(" + getQueryList(config.listKey).length + ")"
+                    : ""
+            }}
         </div>
         <ToolBar v-bind="$props" v-show="open"> </ToolBar>
         <div
@@ -71,7 +76,7 @@ export default {
         handleDblClick(_list) {
             console.log(_list);
             if (_list === "liveQuerys") {
-                this.editSelected();
+                this.editSelected({ list: this.config.listKey });
             } else if (_list === "allQuerys") {
                 this.add({ query: this.selected(_list), list: "liveQuerys" });
             }
