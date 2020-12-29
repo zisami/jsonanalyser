@@ -1,7 +1,7 @@
 <template>
     <splitpanes class="default-theme flex-grow " horizontal :push-other-panes="false" style="height: 400px">
         <pane v-bind:size="filterPaneSize.active" class="flex flex-col">
-            <query-list v-bind:config="configAllQuerys"></query-list>
+            
             <query-list v-bind:config="configLiveQuerys"></query-list>
         </pane>
         <pane min-size="25" max-size="90" size:="75" class="flex-grow" v-bind:size="editorsPaneSize.active">
@@ -54,11 +54,7 @@ export default {
     name: "UiSplitter",
     data: function () {
         return {
-            configAllQuerys: {
-                listTitle: "Alle meine Filter Querys",
-                listKey: "allQuerys",
-                open: false,
-            },
+            
             configLiveQuerys: {
                 listTitle: "Live Filter Querys",
                 listKey: "liveQuerys",

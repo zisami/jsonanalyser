@@ -1,7 +1,8 @@
+
 <template>
     <div
         v-show="queryToEdit"
-        class="inset-0 absolute bg-indigo-700 bg-opacity-90 flex justify-center items-center z-10"
+        class="inset-0 absolute bg-gray-700 bg-opacity-90 flex justify-center items-center z-20"
     >
         <div class="bg-gray-800 rounded-xl w-full h-full">
             <div class="w-full p-4 flex-none rounded-t-xl font-bold">
@@ -119,7 +120,7 @@ export default {
     name: "query-list-config",
     props: ["config"],
     mounted() {
-        console.log('mounted');
+        console.log("mounted");
     },
     data() {
         return {
@@ -144,14 +145,13 @@ export default {
             "queryToEdit",
         ]),
     },
-    watch:{
-        queryToEdit(){
+    watch: {
+        //Wird eine Query zum editieren makiert den Ergebniss Editor updaten
+        queryToEdit() {
             if (this.queryToEdit) {
-                this.outputEditor.outputData = this.result({
-                query: this.queryToEdit,
-            });
+                this.updateResult()
             }
-        }
+        },
     },
     methods: {
         ...mapActions("FilterQuerys", [
@@ -165,27 +165,35 @@ export default {
         ]),
 
         ...mapActions("JsonData", ["setInputData", "setOutputData"]),
-
+        /**
+         * Speichert die editierte Query
+         */
         saveEditedQuery() {
             this.queryToEdit.edit = false;
-            this.add({ query: this.queryToEdit });
+            this.add({ query: this.queryToEdit, list: this.queryToEdit.listTosave });
             this.clearQueryToEdit();
         },
-        highlighter(code) {
-            return highlight(code, languages.js); //returns html
+        /**
+         * Codehighliter von Prism Editor
+         */
+        highlighter(_code) {
+            return highlight(_code, languages.js); //returns html
         },
-        onCodeChange(_code) {
-            _code; //Compiler austrixen
+        /**
+         * Updated den Ergebnnis Editor
+         */
+        updateResult(){
             this.outputEditor.outputData = this.result({
                 query: this.queryToEdit,
             });
         },
-    },
-    ready: function () {
-        console.log("ready");
-        this.outputEditor.outputData = this.result({
-            query: this.queryToEdit,
-        });
+        /** 
+         * Bei Code änderung in Prism Editor den Code ausführen und in Ergebniseditor
+         * @param {String} _code //Code aus dem Editor, nicht verwendeet
+         */
+        onCodeChange() {
+            this.updateResult()
+        },
     },
     components: {
         "v-jsoneditor": VJsoneditor,
@@ -197,10 +205,7 @@ export default {
 
 <style scoped lang='postcss'>
 .my-editor {
-    /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
-    //background: #2d2d2d;
     color: #ccc;
-
     /* you must provide font-family font-size line-height. Example: */
     font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
     font-size: 14px;

@@ -21,6 +21,7 @@ export default {
         allQuerys: {},
         liveQuerys: {},
         queryToEdit: "",
+        showSavedQuerys: false,
     },
 
     getters: {
@@ -62,7 +63,8 @@ export default {
             } else {
                 return _state.queryToEdit;
             }
-        }
+        },
+        showSavedQuerys: (_state) => { return _state.showSavedQuerys },
     },
 
     mutations: {
@@ -74,6 +76,7 @@ export default {
          * @param {object} _payload //optonales Query Objek
          */
         add(_state, _payload) {
+            console.log(_payload);
             if (!_payload.list) {
                 //Live Querys als Default Liste
                 _payload.list = "liveQuerys"
@@ -86,6 +89,7 @@ export default {
                 queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
                 type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
                 edit: typeof _payload.query.edit !== 'undefined' ? _payload.query.edit : true,
+                listTosave: _payload.list,
                 time: moment()
             }
 
@@ -126,8 +130,10 @@ export default {
         },
         removeAll(_state, _list) {
             _state[_list] = {};
+        },
+        toggleSavedQuerys(_state) {
+            _state.showSavedQuerys = !_state.showSavedQuerys;
         }
-
     },
 
     actions: {
@@ -197,9 +203,12 @@ export default {
         removeAll(_context, _list) {
             _context.commit('removeAll', _list);
             _context.dispatch('listResults');
+        }, 
+        toggleSavedQuerys(_context) {
+            _context.commit('toggleSavedQuerys');
         },
         exportList(_context, _list) {
-            const expotData = {querys: _context.rootGetters['FilterQuerys/getQueryList'](_list)}
+            const expotData = { querys: _context.rootGetters['FilterQuerys/getQueryList'](_list) }
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(expotData), null, 2);
             let downLoadElement = document.createElement('a');
             downLoadElement.style.display = 'none';
@@ -208,7 +217,7 @@ export default {
             downLoadElement.click();
         },
         exportSelectedQuery(_context, _list) {
-            const elementToExport = {querys:[_context.rootGetters['FilterQuerys/selected'](_list)]};
+            const elementToExport = { querys: [_context.rootGetters['FilterQuerys/selected'](_list)] };
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(elementToExport), null, 2);
             let downLoadElement = document.createElement('a');
             downLoadElement.style.display = 'none';

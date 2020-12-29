@@ -31,7 +31,7 @@
                         'text-purple-400': item.type === 'value',
                     }"
                     v-on:click="select({ query: item, list: config.listKey })"
-                    v-on:dblclick="editSelected({ list: config.listKey })"
+                    v-on:dblclick="handleDblClick( config.listKey)"
                 >
                     <div class="key">{{ item.resultKey }}</div>
                     <div class="description" v-show="item.description">
@@ -75,6 +75,14 @@ export default {
             const isOutside = !_event.target.closest(".query-item");
             if (isOutside) {
                 this.unselect({ list: this.config.listKey });
+            }
+        },
+        handleDblClick(_list) {
+            console.log(_list);
+            if (_list === "liveQuerys") {
+                this.editSelected();
+            } else if (_list === "allQuerys") {
+                this.add({ query: this.selected(_list), list: "liveQuerys" });
             }
         },
         ...mapActions("FilterQuerys", [

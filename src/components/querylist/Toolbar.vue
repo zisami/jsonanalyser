@@ -9,6 +9,12 @@
             >
                 <span class="material-icons"> note_add </span>
             </button>
+            <button
+                @click="toggleSavedQuerys()"
+                class="btn"
+            >
+                <span class="material-icons"> folder_open </span>
+            </button>
         </div>
         <div
             class="buttons-selected hidden"
@@ -96,6 +102,7 @@ export default {
             "removeAll",
             "exportList",
             "exportSelectedQuery",
+            "toggleSavedQuerys",
         ]),
         openImportList() {
             const openImportList = document.getElementById(
