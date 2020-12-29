@@ -76,7 +76,6 @@ export default {
          * @param {object} _payload //optonales Query Objek
          */
         add(_state, _payload) {
-            console.log(_payload);
             if (!_payload.list) {
                 //Live Querys als Default Liste
                 _payload.list = "liveQuerys"
@@ -133,6 +132,13 @@ export default {
         },
         toggleSavedQuerys(_state) {
             _state.showSavedQuerys = !_state.showSavedQuerys;
+        },
+        loadSavedQuerys(_state) {
+            if (localStorage.getItem('allQuerys')) {
+                
+                _state.allQuerys = JSON.parse(localStorage.getItem('allQuerys'));
+                console.log(_state.allQuerys);
+            }
         }
     },
 
@@ -186,13 +192,10 @@ export default {
                     const element = list[query];
                     let counter = 0;
                     let key = element.resultKey;
-                    console.log('key', key, Object.hasOwnProperty.call(listResults, key));
                     while (Object.hasOwnProperty.call(listResults, key)) {
-                        console.log('??');
                         key = element.resultKey;
                         counter++;
                         key = key + '-' + counter;
-                        console.log(key);
                     }
                     listResults[key] = _context.getters.result({ query: element, list: 'liveQuerys' })
                 }
@@ -203,7 +206,7 @@ export default {
         removeAll(_context, _list) {
             _context.commit('removeAll', _list);
             _context.dispatch('listResults');
-        }, 
+        },
         toggleSavedQuerys(_context) {
             _context.commit('toggleSavedQuerys');
         },

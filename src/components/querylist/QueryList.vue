@@ -1,16 +1,7 @@
 <template>
     <section class="query-list flex flex-col px-2 overflow-hidden mb-2">
-        <div
-            class="flex select-none bg-gray-900 bg-opacity-30 content-center flex-row border-opacity-20 border-gray-100 border-b-2 px-2 py-1 cursor-pointer"
-            v-on:click="toggleList()"
-        >
-            <div class="title">
-                {{ config.listTitle }}
-            </div>
-            <div class="opener-icon ml-auto">
-                <span class="material-icons" v-show="open"> expand_less </span>
-                <span class="material-icons" v-show="!open"> expand_more </span>
-            </div>
+        <div class="title">
+            {{ config.listTitle }} {{ config.listKey}} {{ getQueryList(config.listKey).length ? '(' + getQueryList(config.listKey).length + ')' : ''}}
         </div>
         <ToolBar v-bind="$props" v-show="open"> </ToolBar>
         <div
@@ -31,7 +22,7 @@
                         'text-purple-400': item.type === 'value',
                     }"
                     v-on:click="select({ query: item, list: config.listKey })"
-                    v-on:dblclick="handleDblClick( config.listKey)"
+                    v-on:dblclick="handleDblClick(config.listKey)"
                 >
                     <div class="key">{{ item.resultKey }}</div>
                     <div class="description" v-show="item.description">

@@ -77,14 +77,9 @@ export default {
             }
         },
         onClick(node, event) {
-            //console.log(event.type);
-
             if (event.type === "click") {
-                console.log("???");
                 if (Date.now() - this.lastClick < 250) {
-                    console.log("Duble click", { node });
                     let path = prettyPrintPath(node.path);
-                    console.log("prettyPrintPath", prettyPrintPath(node.path));
                     let resultName = `data${
                         typeof path === "number" ? "." : ""
                     }${path}`;
@@ -99,8 +94,7 @@ export default {
                         type: "value",
                         edit: false,
                     };
-                    console.log({ newQuery });
-                    console.log(this);
+
                     this.add({ query: newQuery });
                 }
                 this.lastClick = Date.now();
