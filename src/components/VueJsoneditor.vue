@@ -202,7 +202,7 @@ export default {
     display: none;
     position: absolute;
     top: 7px;
-    right: 110px;
+    left: 110px;
     color: #fff;
     width: 24px;
     height: 24px;

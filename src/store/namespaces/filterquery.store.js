@@ -135,9 +135,7 @@ export default {
         },
         loadSavedQuerys(_state) {
             if (localStorage.getItem('allQuerys')) {
-                
                 _state.allQuerys = JSON.parse(localStorage.getItem('allQuerys'));
-                console.log(_state.allQuerys);
             }
         }
     },

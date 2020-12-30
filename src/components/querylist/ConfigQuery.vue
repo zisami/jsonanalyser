@@ -4,7 +4,7 @@
         v-show="queryToEdit"
         class="inset-0 absolute bg-gray-700 bg-opacity-90 flex justify-center items-center z-20"
     >
-        <div class="bg-gray-800 rounded-xl w-full h-full">
+        <div class="bg-gray-800 flex flex-col justify-between w-full h-full">
             <div class="w-full p-4 flex-none rounded-t-xl font-bold">
                 Filter Query Bearbeiten
             </div>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex-grow-0 flex flex-row items-end px-4">
+            <div class="flex-grow-0 flex flex-row items-end p-4">
                 <!-- #################### FORM BUTTONS #################### -->
                 <button
                     v-on:click="saveEditedQuery()"
@@ -97,7 +97,7 @@
                     <span class="mx-1">Abbrechen</span>
                 </button>
             </div>
-            <div class="h-8"></div>
+
         </div>
     </div>
 </template>

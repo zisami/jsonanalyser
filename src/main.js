@@ -27,14 +27,17 @@ new Vue({
   router,
   store,
   beforeCreate() {
-    console.log('APP.beforeCreate ()');
     this.$store.commit('FilterQuerys/loadSavedQuerys', null, { root: true });
+    this.$store.commit('loadUI');
   },
   mounted() {
-    console.log('APP.mounted ()');
-    
     this.$store.watch((_state) => { return _state.FilterQuerys }, (_new) => {
       persistAllQuerys(_new)
+    }, {
+      deep: true
+    });
+    this.$store.watch((_state) => { return _state.SplitPanes }, (_new) => {
+      persistUI(_new)
     }, {
       deep: true
     })
@@ -46,6 +49,9 @@ new Vue({
 function persistAllQuerys(_FilterQuerys) {
   const valuesToSave = { ..._FilterQuerys.allQuerys } //__proto__ entfernen
   localStorage.setItem('allQuerys', JSON.stringify(valuesToSave, null, 2));
-
-  console.log(localStorage.getItem('allQuerys'));
+}
+function persistUI(_ui) {
+  console.clear
+  const valuesToSave = { ..._ui.splitPanes } //__proto__ entfernen
+  localStorage.setItem('UI', JSON.stringify(valuesToSave, null, 2));
 }
