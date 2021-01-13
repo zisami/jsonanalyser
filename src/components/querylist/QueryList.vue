@@ -1,7 +1,7 @@
 <template>
     <section class="query-list flex flex-col px-2 overflow-hidden mb-2">
         <div class="title">
-            {{ config.listTitle }} {{ config.listKey }}
+            {{ config.listTitle }} 
             {{
                 getQueryList(config.listKey).length
                     ? "(" + getQueryList(config.listKey).length + ")"

@@ -47,3 +47,4 @@ export default {
 
 <style scoped lang="postcss">
 </style>
+ 
