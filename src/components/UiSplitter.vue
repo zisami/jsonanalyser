@@ -87,7 +87,7 @@ export default {
                     }
                 }
             },
-            inputDataField:{}
+            inputDataField: {}
         };
     },
     computed: {
@@ -110,7 +110,15 @@ export default {
     watch: {
         inputDataField(value) {
             console.log(value);
-            this.setInputData(JSON.parse(value));
+            if (value) {
+                try {
+                    JSON.parse(value);
+                } catch (error) {
+                    return false;
+                }
+
+                this.setInputData(JSON.parse(value));
+            }
         }
     },
     created() {

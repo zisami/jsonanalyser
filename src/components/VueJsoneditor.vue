@@ -80,11 +80,11 @@ export default {
             if (event.type === "click") {
                 if (Date.now() - this.lastClick < 250) {
                     let path = prettyPrintPath(node.path);
-                    let resultName = `data${
-                        typeof path === "number" ? "." : ""
-                    }${path}`;
+                    console.log("node.path", node.path);
+                    console.log("prettyPrintPath", path, typeof path);
+                    let resultName = `data${path[0] !== "[" ? "." : ""}${path}`;
                     let query = `return data${
-                        typeof path === "number" ? "." : ""
+                        path[0] !== "[" ? "." : ""
                     }${path}`;
 
                     this.lastClick = Date.now();
@@ -92,18 +92,21 @@ export default {
                         resultKey: resultName,
                         queryString: query,
                         type: "value",
-                        edit: false,
+                        edit: false
                     };
 
                     this.add({ query: newQuery });
                 }
                 this.lastClick = Date.now();
             }
-            function prettyPrintPath(path) {
+            function prettyPrintPath(pathArray) {
                 let str = "";
-                for (let i = 0; i < path.length; i++) {
-                    const element = path[i];
-                    if (typeof element === "number") {
+                for (let i = 0; i < pathArray.length; i++) {
+                    const element = pathArray[i];
+                    if (
+                        typeof element === "number" ||
+                        !isNaN(parseInt(element))
+                    ) {
                         str += "[" + element + "]";
                     } else {
                         if (str.length > 0) str += ".";
