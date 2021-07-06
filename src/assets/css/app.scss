@@ -63,6 +63,8 @@ div.jsoneditor {
             @apply bg-white bg-opacity-5 border border-white border-opacity-10;
             input[type="text"] {
                 @apply bg-transparent border-0;
+                color: rgba($color: #FFF, $alpha: 0.5);
+                padding: 2px;
             }
         }
         .jsoneditor-search button {

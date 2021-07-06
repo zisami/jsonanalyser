@@ -2,7 +2,7 @@
 <section class="flex flex-col flex-grow ">
     <div class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
             <ToogleSplitPane paneName="filter" invertIcon="true" v-bind:paneWidth="filterPaneSize.active" class="  border-blue-500 border-b-2 transform rotate-90 origin-center"/>
-            {{filterPaneSize.active}}
+            Für die lieben Accenture Kollegen die keine Extention-Rechte erwischt haben. Kopf hoch es kann sich nur mehr um Jahr handln. &#128512;
             <button class="btn icon text-gray-50 select-none " v-on:click="resetUI()">
             <span
                 class="material-icons block"
@@ -12,7 +12,7 @@
         </div>
     <splitpanes class="default-theme flex-grow " horizontal :push-other-panes="false" style="height: 400px" v-on:resized="saveFilterSize($event)">
         <pane v-bind:size="filterPaneSize.active" class="flex flex-col bg-pink-400">
-            <input type="text" v-model="inputDataField" >
+            <textarea class="input-data-field" name="textarea" rows="3" cols="50" v-model="inputDataField"></textarea>
             <query-list v-bind:config="configLiveQuerys"></query-list>
         </pane>
         <pane min-size="25" max-size="90" size:="75" class="flex-grow" v-bind:size="editorsPaneSize.active">
@@ -22,7 +22,7 @@
                     <div class=" flex flex-col flex-grow overflow-hidden">
                         <div class="bg-gray-900 opacity-30 flex flex-row pl-2 content-center justify-between select-none border-opacity-20 border-gray-100 border-b-2">
                             <div class="data-size flex flex-col justify-center text-sm ">{{inputDataSize}} / {{inputDataCount}} Datapoint{{inputDataCount > 1 ? 's' : ''}}</div> 
-                            <ToogleSplitPane paneName="input" v-bind:paneWidth="inputPaneSize.active" class="ml-auto"/>
+                            <ToogleSplitPane paneName="input" v-bind:paneWidth="inputPaneSize.active" class="ml-auto" invertIcon="true" />
                         </div>
                         <div id="inputEditorPlace" class="flex flex-col flex-grow overflow-y-hidden">
                             <v-jsoneditor v-model="inputData"  :plus="true" optionType="input"
@@ -35,7 +35,7 @@
                     <div class=" flex flex-col flex-grow overflow-hidden">
                         <div
                             class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
-                            <ToogleSplitPane paneName="output" v-bind:paneWidth="outputPaneSize.active" invertIcon="true" />
+                            <ToogleSplitPane paneName="output" v-bind:paneWidth="outputPaneSize.active" />
                             <div class="data-size flex flex-col justify-center text-sm justify-self-end">{{outputDataSize}} / {{outputDataCount}} Datapoint{{outputDataCount > 1 ? 's' : ''}}</div>
                         </div>
                         <div id="outputEditorPlace" class="flex flex-col flex-grow  overflow-hidden">
@@ -118,7 +118,11 @@ export default {
                 }
 
                 this.setInputData(JSON.parse(value));
+            } else {
+                this.setInputData({Daten: 'ja bitte'});
+
             }
+            return JSON.parse(value)
         }
     },
     created() {
@@ -161,4 +165,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="postcss">
+.input-data-field{
+    //background-color: #fff;
+    @apply bg-black bg-opacity-10 border-gray-900 border-opacity-20;
+}
 </style>
