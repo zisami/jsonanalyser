@@ -1,9 +1,9 @@
 <template>
 <section class="flex flex-col flex-grow ">
-    <div class="greetings-4-kollegs">Für die lieben Accenture und RLB Kollegen die keine Extention-Rechte erwischt haben. <br> 
+    <div class="greetings-4-kollegs">Für die lieben Accenture und RLB Kollegen die keine Extention-Rechte erwischt haben. 
     Kopf hoch es kann sich nur mehr um Jahre handln. &#128512; <br> 
-    Beschwerden an <b><a href="mailto:who-cares@i-dont.know"> who-cares@i-dont.know </a></b><br>
-    Verbesserungen/Vorschläge/Mitarbeit bitte an <b><a href="mailto:sascha.zika@accenture.com?subject=Feedbak%20from%20loving-payne-ec21b9.netlify.app">mich</a> </b></div>
+    Beschwerden an <b><a href="mailto:who-cares@i-dont.know"> who-cares@i-dont.know </a></b>,  
+    Verbesserungen/Vorschläge/Mitarbeit bitte an <b><a href="mailto:sascha.zika@accenture.com?subject=Feedbak%20from%20loving-payne-ec21b9.netlify.app">mich</a>. </b> LG Sascha</div>
     <div class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
             <ToogleSplitPane paneName="filter" invertIcon="true" v-bind:paneWidth="filterPaneSize.active" class="  border-blue-500 border-b-2 transform rotate-90 origin-center"/>
             <button class="btn icon text-gray-50 select-none " v-on:click="resetUI()">
@@ -15,7 +15,7 @@
         </div>
     <splitpanes class="default-theme flex-grow " horizontal :push-other-panes="false" style="height: 400px" v-on:resized="saveFilterSize($event)">
         <pane v-bind:size="filterPaneSize.active" class="flex flex-col bg-pink-400">
-            <textarea class="input-data-field" name="textarea" rows="3" cols="50" v-model="inputDataField"></textarea>
+            <textarea class="input-data-field" name="textarea" rows="3" cols="50" v-model="inputDataField" placeholder="Schmeiß deine Antrags-Daten hier rein."></textarea>
             <query-list v-bind:config="configLiveQuerys"></query-list>
         </pane>
         <pane min-size="25" max-size="90" size:="75" class="flex-grow" v-bind:size="editorsPaneSize.active">
@@ -123,10 +123,11 @@ export default {
                 }
 
                 this.setInputData(JSON.parse(value));
+                return JSON.parse(value)
             } else {
                 this.setInputData({ Daten: "ja bitte" });
             }
-            return JSON.parse(value);
+           // return JSON.parse(value);
         }
     },
     created() {
@@ -146,6 +147,7 @@ export default {
                 .then(response => response.json())
                 .then(json => {
                     this.setInputData(json);
+                    this.inputDataField = JSON.stringify(json) ;
                 });
         },
         saveFilterSize(_event) {
@@ -174,7 +176,7 @@ export default {
     @apply bg-black bg-opacity-10 border-gray-900 border-opacity-20;
 }
 .greetings-4-kollegs{
-    padding: 2rem;
+    padding: 0.75rem;
     text-align: center;
     a {
         font-weight: bold;
