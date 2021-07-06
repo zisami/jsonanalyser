@@ -143,12 +143,9 @@ export default {
             "resetUI"
         ]),
         loadPlaceholderJson() {
-            fetch("https://jsonplaceholder.typicode.com/users/")
-                .then(response => response.json())
-                .then(json => {
-                    this.setInputData(json);
-                    this.inputDataField = JSON.stringify(json) ;
-                });
+            this.setInputData();
+            this.inputDataField = '' ;
+           
         },
         saveFilterSize(_event) {
             console.log(_event);

@@ -68,7 +68,7 @@ export default {
                 this.editor = new JSONEditor(container, options);
                 this.options.onChange = cacheChange;
             }
-            this.editor.set(this.value || {});
+            this.editor.update(this.value || {});
         },
         destroyView() {
             if (this.editor) {
@@ -121,7 +121,7 @@ export default {
         value: {
             handler(value) {
                 if (this.editor && value && !this.internalChange) {
-                    this.editor.set(value);
+                    this.editor.update(value);
                 }
             },
             deep: true,
