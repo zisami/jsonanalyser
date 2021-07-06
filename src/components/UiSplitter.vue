@@ -1,8 +1,11 @@
 <template>
 <section class="flex flex-col flex-grow ">
+    <div class="greetings-4-kollegs">Für die lieben Accenture und RLB Kollegen die keine Extention-Rechte erwischt haben. <br> 
+    Kopf hoch es kann sich nur mehr um Jahre handln. &#128512; <br> 
+    Beschwerden an <b><a href="mailto:who-cares@i-dont.know"> who-cares@i-dont.know </a></b><br>
+    Verbesserungen/Vorschläge/Mitarbeit bitte an <b><a href="mailto:sascha.zika@accenture.com?subject=Feedbak%20from%20loving-payne-ec21b9.netlify.app">mich</a> </b></div>
     <div class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
             <ToogleSplitPane paneName="filter" invertIcon="true" v-bind:paneWidth="filterPaneSize.active" class="  border-blue-500 border-b-2 transform rotate-90 origin-center"/>
-            Für die lieben Accenture Kollegen die keine Extention-Rechte erwischt haben. Kopf hoch es kann sich nur mehr um Jahr handln. &#128512;
             <button class="btn icon text-gray-50 select-none " v-on:click="resetUI()">
             <span
                 class="material-icons block"
@@ -87,7 +90,8 @@ export default {
                     }
                 }
             },
-            inputDataField: {}
+            inputDataField:{}
+            
         };
     },
     computed: {
@@ -105,7 +109,8 @@ export default {
             "outputDataSize",
             "inputDataCount",
             "outputDataCount"
-        ])
+        ]),
+
     },
     watch: {
         inputDataField(value) {
@@ -119,10 +124,9 @@ export default {
 
                 this.setInputData(JSON.parse(value));
             } else {
-                this.setInputData({Daten: 'ja bitte'});
-
+                this.setInputData({ Daten: "ja bitte" });
             }
-            return JSON.parse(value)
+            return JSON.parse(value);
         }
     },
     created() {
@@ -165,8 +169,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="postcss">
-.input-data-field{
+.input-data-field {
     //background-color: #fff;
     @apply bg-black bg-opacity-10 border-gray-900 border-opacity-20;
+}
+.greetings-4-kollegs{
+    padding: 2rem;
+    text-align: center;
+    a {
+        font-weight: bold;
+    }
 }
 </style>
