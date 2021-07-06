@@ -12,6 +12,7 @@
         </div>
     <splitpanes class="default-theme flex-grow " horizontal :push-other-panes="false" style="height: 400px" v-on:resized="saveFilterSize($event)">
         <pane v-bind:size="filterPaneSize.active" class="flex flex-col bg-pink-400">
+            <input type="text" v-model="inputDataField" >
             <query-list v-bind:config="configLiveQuerys"></query-list>
         </pane>
         <pane min-size="25" max-size="90" size:="75" class="flex-grow" v-bind:size="editorsPaneSize.active">
@@ -65,12 +66,12 @@ import QueryList from "./querylist/QueryList";
 
 export default {
     name: "UiSplitter",
-    data: function () {
+    data: function() {
         return {
             configLiveQuerys: {
                 listTitle: "Live Filter Querys",
                 listKey: "liveQuerys",
-                open: true,
+                open: true
             },
 
             lastJsonData: {},
@@ -81,11 +82,12 @@ export default {
                     sortObjectKeys: true,
                     navigationBar: false,
                     name: "Output",
-                    onError: function (err) {
+                    onError: function(err) {
                         alert(err.toString());
-                    },
-                },
+                    }
+                }
             },
+            inputDataField:{}
         };
     },
     computed: {
@@ -93,7 +95,7 @@ export default {
             "inputPaneSize",
             "outputPaneSize",
             "filterPaneSize",
-            "editorsPaneSize",
+            "editorsPaneSize"
         ]),
 
         ...mapGetters("JsonData", [
@@ -102,10 +104,15 @@ export default {
             "inputDataSize",
             "outputDataSize",
             "inputDataCount",
-            "outputDataCount",
-        ]),
+            "outputDataCount"
+        ])
     },
-    watch: {},
+    watch: {
+        inputDataField(value) {
+            console.log(value);
+            this.setInputData(JSON.parse(value));
+        }
+    },
     created() {
         this.loadPlaceholderJson();
     },
@@ -116,12 +123,12 @@ export default {
             "onResizedFilter",
             "onResizedInput",
             "toggleFilterPane",
-            'resetUI'
+            "resetUI"
         ]),
         loadPlaceholderJson() {
             fetch("https://jsonplaceholder.typicode.com/users/")
-                .then((response) => response.json())
-                .then((json) => {
+                .then(response => response.json())
+                .then(json => {
                     this.setInputData(json);
                 });
         },
@@ -129,7 +136,7 @@ export default {
             console.log(_event);
             this.onResizedFilter({
                 paneName: "filter",
-                nowSize: _event[0].size,
+                nowSize: _event[0].size
             });
         },
         saveEditorsSize(_event) {
@@ -138,9 +145,9 @@ export default {
         },
         onError() {
             console.log("error");
-        },
+        }
     },
-    components: { Splitpanes, Pane, ToogleSplitPane, VJsoneditor, QueryList },
+    components: { Splitpanes, Pane, ToogleSplitPane, VJsoneditor, QueryList }
 };
 </script>
 
