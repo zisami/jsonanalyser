@@ -15,7 +15,7 @@
         </div>
     <splitpanes class="default-theme flex-grow " horizontal :push-other-panes="false" style="height: 400px" v-on:resized="saveFilterSize($event)">
         <pane v-bind:size="filterPaneSize.active" class="flex flex-col bg-pink-400">
-            <textarea class="input-data-field" name="textarea" rows="3" cols="50" v-model="inputDataField" placeholder="Schmeiß deine Antrags-Daten hier rein."></textarea>
+            <textarea @focus="$event.target.select()" class="input-data-field" name="textarea" rows="3" cols="50" v-model="inputDataField" placeholder="Schmeiß deine Antrags-Daten hier rein."></textarea>
             <query-list v-bind:config="configLiveQuerys"></query-list>
         </pane>
         <pane min-size="25" max-size="90" size:="75" class="flex-grow" v-bind:size="editorsPaneSize.active">
