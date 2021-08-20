@@ -1,9 +1,6 @@
 <template>
 <section class="flex flex-col flex-grow ">
-    <div class="greetings-4-kollegs">Für die lieben Accenture und RLB Kollegen die keine Extention-Rechte erwischt haben. 
-    Kopf hoch es kann sich nur mehr um Jahre handln. &#128512; <br> 
-    Beschwerden an <b><a href="mailto:who-cares@i-dont.know"> who-cares@i-dont.know </a></b>,  
-    Verbesserungen/Vorschläge/Mitarbeit bitte an <b><a href="mailto:sascha.zika@accenture.com?subject=Feedbak%20from%20loving-payne-ec21b9.netlify.app">mich</a>. </b> LG Sascha</div>
+
     <div class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
             <ToogleSplitPane paneName="filter" invertIcon="true" v-bind:paneWidth="filterPaneSize.active" class="  border-blue-500 border-b-2 transform rotate-90 origin-center"/>
             <button class="btn icon text-gray-50 select-none " v-on:click="resetUI()">
@@ -68,115 +65,115 @@ import ToogleSplitPane from "./ToogleSplitPane";
 import QueryList from "./querylist/QueryList";
 
 export default {
-    name: "UiSplitter",
-    data: function() {
-        return {
-            configLiveQuerys: {
-                listTitle: "Live Filter Querys",
-                listKey: "liveQuerys",
-                open: true
-            },
+  name: "UiSplitter",
+  data: function () {
+    return {
+      configLiveQuerys: {
+        listTitle: "Live Filter Querys",
+        listKey: "liveQuerys",
+        open: true,
+      },
 
-            lastJsonData: {},
-            inputEditor: {},
-            outputEditor: {
-                options: {
-                    mode: "view",
-                    sortObjectKeys: true,
-                    navigationBar: false,
-                    name: "Output",
-                    onError: function(err) {
-                        alert(err.toString());
-                    }
-                }
-            },
-            inputDataField:{}
-            
-        };
-    },
-    computed: {
-        ...mapGetters([
-            "inputPaneSize",
-            "outputPaneSize",
-            "filterPaneSize",
-            "editorsPaneSize"
-        ]),
+      lastJsonData: {},
+      inputEditor: {},
+      outputEditor: {
+        options: {
+          mode: "view",
+          sortObjectKeys: true,
+          navigationBar: false,
+          name: "Output",
+          onError: function (err) {
+            alert(err.toString());
+          },
+        },
+      },
+      inputDataField: {},
+    };
+  },
+  computed: {
+    ...mapGetters([
+      "inputPaneSize",
+      "outputPaneSize",
+      "filterPaneSize",
+      "editorsPaneSize",
+    ]),
 
-        ...mapGetters("JsonData", [
-            "inputData",
-            "outputData",
-            "inputDataSize",
-            "outputDataSize",
-            "inputDataCount",
-            "outputDataCount"
-        ]),
-
-    },
-    watch: {
-        inputDataField(value) {
-            console.log(value);
-            if (value) {
-                try {
-                    JSON.parse(value);
-                } catch (error) {
-                    return false;
-                }
-
-                this.setInputData(JSON.parse(value));
-                return JSON.parse(value)
-            } else {
-                this.setInputData({ Daten: "ja bitte" });
-            }
-           // return JSON.parse(value);
+    ...mapGetters("JsonData", [
+      "inputData",
+      "outputData",
+      "inputDataSize",
+      "outputDataSize",
+      "inputDataCount",
+      "outputDataCount",
+    ]),
+  },
+  watch: {
+    inputDataField(value) {
+      console.log(value);
+      let valueToShow = {};
+      if (value) {
+        try {
+         valueToShow = JSON.parse(value);
+        } catch (error) {
+            console.log(error);
+            valueToShow.error = error.message;
+          //return false;
         }
+
+        this.setInputData(valueToShow);
+        return JSON.parse(value);
+      } else {
+        this.setInputData({ Daten: "ja bitte" });
+      }
+      // return JSON.parse(value);
     },
-    created() {
-        this.loadPlaceholderJson();
+  },
+  created() {
+    this.loadPlaceholderJson();
+  },
+  methods: {
+    ...mapActions("FilterQuerys", ["add", "setInputData", "listResults"]),
+    ...mapActions("JsonData", ["setInputData", "setOutputData"]),
+    ...mapActions([
+      "onResizedFilter",
+      "onResizedInput",
+      "toggleFilterPane",
+      "resetUI",
+    ]),
+    loadPlaceholderJson() {
+      this.setInputData();
+      this.inputDataField = "";
     },
-    methods: {
-        ...mapActions("FilterQuerys", ["add", "setInputData", "listResults"]),
-        ...mapActions("JsonData", ["setInputData", "setOutputData"]),
-        ...mapActions([
-            "onResizedFilter",
-            "onResizedInput",
-            "toggleFilterPane",
-            "resetUI"
-        ]),
-        loadPlaceholderJson() {
-            this.setInputData();
-            this.inputDataField = '' ;
-           
-        },
-        saveFilterSize(_event) {
-            console.log(_event);
-            this.onResizedFilter({
-                paneName: "filter",
-                nowSize: _event[0].size
-            });
-        },
-        saveEditorsSize(_event) {
-            console.log(_event);
-            this.onResizedInput({ paneName: "input", nowSize: _event[0].size });
-        },
-        onError() {
-            console.log("error");
-        }
+    saveFilterSize(_event) {
+      console.log(_event);
+      this.onResizedFilter({
+        paneName: "filter",
+        nowSize: _event[0].size,
+      });
     },
-    components: { Splitpanes, Pane, ToogleSplitPane, VJsoneditor, QueryList }
+    saveEditorsSize(_event) {
+      console.log(_event);
+      this.onResizedInput({ paneName: "input", nowSize: _event[0].size });
+    },
+    onError() {
+      console.log("error");
+    },
+  },
+  components: { Splitpanes, Pane, ToogleSplitPane, VJsoneditor, QueryList },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="postcss">
 .input-data-field {
-    //background-color: #fff;
-    @apply bg-black bg-opacity-10 border-gray-900 border-opacity-20;
+  //background-color: #fff;
+  @apply bg-black bg-opacity-10 border-gray-900 border-opacity-20;
 }
-.greetings-4-kollegs{
-    padding: 0.75rem;
-    text-align: center;
-    a {
-        font-weight: bold;
-    }
+.greetings-4-kollegs {
+  padding: 0.75rem;
+  text-align: center;
+  a {
+    font-weight: bold;
+  }
 }
 </style>
