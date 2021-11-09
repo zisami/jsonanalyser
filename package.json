@@ -14,7 +14,7 @@
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "normalize.css": "^8.0.1",
-    "prismjs": "^1.22.0",
+    "prismjs": "^1.25.0",
     "splitpanes": "^2.3.6",
     "uuid": "^8.3.2",
     "vue": "^2.6.11",
