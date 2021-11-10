@@ -1,3 +1,2 @@
 theme: jekyll-theme-modernist
-- name: Deploy Github Pages
-  uses: ptienchuan/deploy-github-pages-action@1.0.0
+
