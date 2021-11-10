@@ -1,55 +1,122 @@
 <template>
-<section class="flex flex-col flex-grow ">
-
+  <section class="flex flex-col flex-grow ">
     <div class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
-            <ToogleSplitPane paneName="filter" invertIcon="true" v-bind:paneWidth="filterPaneSize.active" class="  border-blue-500 border-b-2 transform rotate-90 origin-center"/>
-            <button class="btn icon text-gray-50 select-none " v-on:click="resetUI()">
-            <span
-                class="material-icons block"
-                >undo</span>
-
-        </button>
-        </div>
-    <splitpanes class="default-theme flex-grow " horizontal :push-other-panes="false" style="height: 400px" v-on:resized="saveFilterSize($event)">
-        <pane v-bind:size="filterPaneSize.active" class="flex flex-col bg-pink-400">
-            <textarea @focus="$event.target.select()" class="input-data-field" name="textarea" rows="3" cols="50" v-model="inputDataField" placeholder="Schmeiß deine Antrags-Daten hier rein."></textarea>
-            <query-list v-bind:config="configLiveQuerys"></query-list>
-        </pane>
-        <pane min-size="25" max-size="90" size:="75" class="flex-grow" v-bind:size="editorsPaneSize.active">
-            <splitpanes :push-other-panes="false" v-on:resized="saveEditorsSize($event)">
-                <pane min-size="0" max-size="100" v-bind:size="inputPaneSize.active"
-                    class="flex flex-col flex-grow overflow-hidden">
-                    <div class=" flex flex-col flex-grow overflow-hidden">
-                        <div class="bg-gray-900 opacity-30 flex flex-row pl-2 content-center justify-between select-none border-opacity-20 border-gray-100 border-b-2">
-                            <div class="data-size flex flex-col justify-center text-sm ">{{inputDataSize}} / {{inputDataCount}} Datapoint{{inputDataCount > 1 ? 's' : ''}}</div> 
-                            <ToogleSplitPane paneName="input" v-bind:paneWidth="inputPaneSize.active" class="ml-auto" invertIcon="true" />
-                        </div>
-                        <div id="inputEditorPlace" class="flex flex-col flex-grow overflow-y-hidden">
-                            <v-jsoneditor v-model="inputData"  :plus="true" optionType="input"
-                                @error="onError" class="flex-grow overflow-hidden" />
-                        </div>
-                    </div>
-                </pane>
-                <pane min-size="0" max-size="100" class="flex flex-col flex-grow overflow-hidden"
-                    v-bind:size="outputPaneSize.active">
-                    <div class=" flex flex-col flex-grow overflow-hidden">
-                        <div
-                            class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
-                            <ToogleSplitPane paneName="output" v-bind:paneWidth="outputPaneSize.active" />
-                            <div class="data-size flex flex-col justify-center text-sm justify-self-end">{{outputDataSize}} / {{outputDataCount}} Datapoint{{outputDataCount > 1 ? 's' : ''}}</div>
-                        </div>
-                        <div id="outputEditorPlace" class="flex flex-col flex-grow  overflow-hidden">
-                            <v-jsoneditor v-model="outputData" :options="outputEditor.options" :plus="true"
-                                @error="onError" class="flex-grow overflow-hidden" />
-                        </div>
-                    </div>
-                </pane>
-            </splitpanes>
-        </pane>
+      <ToogleSplitPane
+        pane-name="filter"
+        invert-icon="true"
+        :pane-width="filterPaneSize.active"
+        class="  border-blue-500 border-b-2 transform rotate-90 origin-center"
+      />
+      <button
+        class="btn icon text-gray-50 select-none "
+        @click="resetUI()"
+      >
+        <span
+          class="material-icons block"
+        >undo</span>
+      </button>
+    </div>
+    <splitpanes
+      class="default-theme flex-grow "
+      horizontal
+      :push-other-panes="false"
+      style="height: 400px"
+      @resized="saveFilterSize($event)"
+    >
+      <pane
+        :size="filterPaneSize.active"
+        class="flex flex-col bg-pink-400"
+      >
+        <textarea
+          class="input-data-field"
+          name="textarea"
+          v-model="inputDataField"
+          rows="3"
+          cols="50"
+          placeholder="Schmeiß deine Antrags-Daten hier rein."
+          @focus="$event.target.select()"
+        />
+        <query-list :config="configLiveQuerys" />
+      </pane>
+      <pane
+        min-size="25"
+        max-size="90"
+        size:="75"
+        class="flex-grow"
+        :size="editorsPaneSize.active"
+      >
+        <splitpanes
+          :push-other-panes="false"
+          @resized="saveEditorsSize($event)"
+        >
+          <pane
+            min-size="0"
+            max-size="100"
+            :size="inputPaneSize.active"
+            class="flex flex-col flex-grow overflow-hidden"
+          >
+            <div class=" flex flex-col flex-grow overflow-hidden">
+              <div class="bg-gray-900 opacity-30 flex flex-row pl-2 content-center justify-between select-none border-opacity-20 border-gray-100 border-b-2">
+                <div class="data-size flex flex-col justify-center text-sm ">
+                  {{ inputDataSize }} / {{ inputDataCount }} Datapoint{{ inputDataCount > 1 ? 's' : '' }}
+                </div> 
+                <ToogleSplitPane
+                  pane-name="input"
+                  :pane-width="inputPaneSize.active"
+                  class="ml-auto"
+                  invert-icon="true"
+                />
+              </div>
+              <div
+                id="inputEditorPlace"
+                class="flex flex-col flex-grow overflow-y-hidden"
+              >
+                <v-jsoneditor
+                  v-model="inputData"
+                  :plus="true"
+                  option-type="input"
+                  class="flex-grow overflow-hidden"
+                  @error="onError"
+                />
+              </div>
+            </div>
+          </pane>
+          <pane
+            min-size="0"
+            max-size="100"
+            class="flex flex-col flex-grow overflow-hidden"
+            :size="outputPaneSize.active"
+          >
+            <div class=" flex flex-col flex-grow overflow-hidden">
+              <div
+                class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2"
+              >
+                <ToogleSplitPane
+                  pane-name="output"
+                  :pane-width="outputPaneSize.active"
+                />
+                <div class="data-size flex flex-col justify-center text-sm justify-self-end">
+                  {{ outputDataSize }} / {{ outputDataCount }} Datapoint{{ outputDataCount > 1 ? 's' : '' }}
+                </div>
+              </div>
+              <div
+                id="outputEditorPlace"
+                class="flex flex-col flex-grow  overflow-hidden"
+              >
+                <v-jsoneditor
+                  v-model="outputData"
+                  :options="outputEditor.options"
+                  :plus="true"
+                  class="flex-grow overflow-hidden"
+                  @error="onError"
+                />
+              </div>
+            </div>
+          </pane>
+        </splitpanes>
+      </pane>
     </splitpanes>
-</section>
-    
-
+  </section>
 </template>
 
 <script>

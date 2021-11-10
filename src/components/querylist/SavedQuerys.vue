@@ -1,29 +1,32 @@
 
 <template>
-    <div
-        v-show="showSavedQuerys"
-        class="inset-0 absolute bg-pink-700 bg-opacity-90 flex justify-center items-center z-10"
-    >
-        <div class="bg-gray-800 w-full h-full flex flex-col justify-between">
-            <query-list v-bind:config="configAllQuerys" class=" flex-grow"></query-list>
-            <div class="flex-grow-0 flex flex-row items-end px-4">
-                <!-- #################### FORM BUTTONS #################### -->
-                <button
-                    v-on:click="toggleSavedQuerys()"
-                    class="flex items-center flex-grow-0 mr-8 py-2 px-4 ml-auto capitalize tracking-wide bg-green-600 text-gray-800 font-medium rounded focus:outline-none"
-                >
-                    <span class="mx-1">Fertig</span>
-                </button>
-                <button
-                    v-on:click="toggleSavedQuerys()"
-                    class="flex items-center flex-grow-0 py-2 px-4 capitalize tracking-wide bg-gray-600 text-white font-medium rounded focus:outline-none"
-                >
-                    <span class="mx-1">Abbrechen</span>
-                </button>
-            </div>
-            <div class="h-8"></div>
-        </div>
+  <div
+    v-show="showSavedQuerys"
+    class="inset-0 absolute bg-pink-700 bg-opacity-90 flex justify-center items-center z-10"
+  >
+    <div class="bg-gray-800 w-full h-full flex flex-col justify-between">
+      <query-list
+        :config="configAllQuerys"
+        class=" flex-grow"
+      />
+      <div class="flex-grow-0 flex flex-row items-end px-4">
+        <!-- #################### FORM BUTTONS #################### -->
+        <button
+          class="flex items-center flex-grow-0 mr-8 py-2 px-4 ml-auto capitalize tracking-wide bg-green-600 text-gray-800 font-medium rounded focus:outline-none"
+          @click="toggleSavedQuerys()"
+        >
+          <span class="mx-1">Fertig</span>
+        </button>
+        <button
+          class="flex items-center flex-grow-0 py-2 px-4 capitalize tracking-wide bg-gray-600 text-white font-medium rounded focus:outline-none"
+          @click="toggleSavedQuerys()"
+        >
+          <span class="mx-1">Abbrechen</span>
+        </button>
+      </div>
+      <div class="h-8" />
     </div>
+  </div>
 </template>
 
 <script>
@@ -32,11 +35,8 @@ import { mapActions } from "vuex";
 import QueryList from "./QueryList";
 
 export default {
-    name: "saved-query-list",
+    name: "SavedQueryList",
     props: ["config"],
-    mounted() {
-        console.log("mounted");
-    },
     data() {
         return {
             configAllQuerys: {
@@ -45,6 +45,9 @@ export default {
                 open: true,
             },
         };
+    },
+    mounted() {
+        console.log("mounted");
     },
     computed: {
         ...mapGetters("FilterQuerys", [

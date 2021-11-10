@@ -1,10 +1,10 @@
 <template>
-    <div class="home">
-        <ui-splitter />
-        <config-query />
-        <saved-querys v-bind:config="configAllQuerys"/>
-        <input-selection />
-    </div>
+  <div class="home">
+    <ui-splitter />
+    <config-query />
+    <saved-querys :config="configAllQuerys" />
+    <input-selection />
+  </div>
 </template>
 
 <script>
@@ -16,6 +16,13 @@ import InputSelection from '../components/inputsource/InputSelection.vue';
 
 //import ConfigQuery from "../components/querylist/configQuery.vue";
 export default {
+    name: "Home",
+    components: {
+        "ui-splitter": UiSplitter,
+        "config-query": ConfigQuery,
+        "saved-querys": SavedQuerys,
+        "input-selection" : InputSelection
+    },
     data() {
         return {
             configAllQuerys: {
@@ -24,13 +31,6 @@ export default {
                 open: false,
             },
         };
-    },
-    name: "Home",
-    components: {
-        "ui-splitter": UiSplitter,
-        "config-query": ConfigQuery,
-        "saved-querys": SavedQuerys,
-        "input-selection" : InputSelection
     },
 };
 </script>

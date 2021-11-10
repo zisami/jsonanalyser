@@ -1,19 +1,20 @@
 <template>
-    <div>
-        <button
-            class="btn icon text-gray-50 select-none "
-        >
-            <span
-                class="material-icons block"
-                v-on:click="toggle"
-                v-show="!isOpen"
-                >arrow_left</span
-            >
-            <span class="material-icons" v-on:click="toggle" v-show="isOpen"
-                >arrow_right</span
-            >
-        </button>
-    </div>
+  <div>
+    <button
+      class="btn icon text-gray-50 select-none "
+    >
+      <span
+        v-show="!isOpen"
+        class="material-icons block"
+        @click="toggle"
+      >arrow_left</span>
+      <span
+        v-show="isOpen"
+        class="material-icons"
+        @click="toggle"
+      >arrow_right</span>
+    </button>
+  </div>
 </template>
 
 <script lang="js">
@@ -21,12 +22,12 @@ import { mapGetters, mapActions } from "vuex";
   export default  {
     name: 'ToogleSplitPane',
     props: ['paneName','paneWidth', 'invertIcon'],
-    mounted () {
- 
-    },
     data () {
       return {
       }
+    },
+    mounted () {
+ 
     },
     methods: {
       ...mapActions([

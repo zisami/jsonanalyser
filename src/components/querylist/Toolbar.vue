@@ -1,92 +1,97 @@
 <template>
-    <section
-        class="query-list-tool-bar border-opacity-20 border-gray-100 border-b flex py-1 px-2 select-none"
+  <section
+    class="query-list-tool-bar border-opacity-20 border-gray-100 border-b flex py-1 px-2 select-none"
+  >
+    <div class="buttons-allways flex content-center mr-4">
+      <button
+        class="btn"
+        title="Neue Query anlegen"
+        @click="add({ query: {}, list: config.listKey })"
+      >
+        <span class="material-icons hover:animate-wiggle"> note_add </span> 
+      </button>
+      <button
+        v-if="config.listKey === 'liveQuerys'"
+        class="btn"
+        title="Gespeicherte Query öffnen"
+        @click="toggleSavedQuerys()"
+      >
+        <span class="material-icons hover:animate-wiggle"> folder_open </span>
+      </button>
+    </div>
+    <div
+      class="buttons-selected hidden"
+      :class="{ 'display-buttons-selected': selected(config.listKey).id }"
     >
-        <div class="buttons-allways flex content-center mr-4">
-            <button
-                @click="add({ query: {}, list: config.listKey })"
-                class="btn"
-                title="Neue Query anlegen"
-            >
-                <span class="material-icons hover:animate-wiggle"> note_add </span> 
-            </button>
-            <button
-                v-if="config.listKey === 'liveQuerys'"
-                @click="toggleSavedQuerys()"
-                class="btn"
-                title="Gespeicherte Query öffnen"
-            >
-                <span class="material-icons hover:animate-wiggle"> folder_open </span>
-            </button>
-        </div>
-        <div
-            class="buttons-selected hidden"
-            :class="{ 'display-buttons-selected': selected(config.listKey).id }"
-        >
-            <button
-                @click="editSelected({ list: config.listKey })"
-                class="btn"
-                title="Konfiguriere ausgewählte Query"
-            >
-                <span class="material-icons icon hover:animate-spin"> settings </span>
-            </button>
-            <button
-                v-if="config.listKey === 'liveQuerys'"
-                @click="add({ query: selected(config.listKey), list: 'allQuerys' })"
-                class="btn"
-                title="ausgewählte Query speichern"
-            >
-                <span class="material-icons hover:animate-pulse"> save </span>
-            </button>
-            <button @click="exportSelectedQuery(config.listKey)" class="btn" title="ausgewählte Query exportieren">
-                <span class="material-icons icon hover:animate-bounce"> upgrade </span>
-            </button>
-            <button
-                @click="removeSelected({ list: config.listKey })"
-                class="btn" title="ausgewählte Query aus dieser Liste löschen"
-            >
-                <span class="material-icons hover:animate-shrink"> delete </span>
-            </button>
-        </div>
-        <div class="buttons-list-actions ml-auto flex">
-            <button
-                @click="exportList(config.listKey)"
-                class="btn"
-                title="Query Liste exportieren"
-            >
-                <span class="material-icons hover:animate-bounceUp"> upgrade </span>
-            </button>
-            <button
-                @click.prevent="openImportList()"
-                class="btn"
-                title="Query Liste importieren"
-            >
-                <span class="material-icons hover:animate-bounce">  save_alt</span>
-            </button>
-            <input
-                @change="handleFiles"
-                type="file"
-                :id="'listImport' + config.listKey"
-                multiple
-                accept="application/JSON"
-                style="display: none"
-            />
-            <button
-                @click="listResults()"
-                class="btn"
-                title="run all querys in list"
-            >
-                <span class="material-icons"> playlist_play </span>
-            </button>
-            <button
-                @dblclick="removeAll(config.listKey)"
-                class="btn"
-                title="double click to clear list"
-            >
-                <span class="material-icons"> delete_sweep </span>
-            </button>
-        </div>
-    </section>
+      <button
+        class="btn"
+        title="Konfiguriere ausgewählte Query"
+        @click="editSelected({ list: config.listKey })"
+      >
+        <span class="material-icons icon hover:animate-spin"> settings </span>
+      </button>
+      <button
+        v-if="config.listKey === 'liveQuerys'"
+        class="btn"
+        title="ausgewählte Query speichern"
+        @click="add({ query: selected(config.listKey), list: 'allQuerys' })"
+      >
+        <span class="material-icons hover:animate-pulse"> save </span>
+      </button>
+      <button
+        class="btn"
+        title="ausgewählte Query exportieren"
+        @click="exportSelectedQuery(config.listKey)"
+      >
+        <span class="material-icons icon hover:animate-bounce"> upgrade </span>
+      </button>
+      <button
+        class="btn"
+        title="ausgewählte Query aus dieser Liste löschen"
+        @click="removeSelected({ list: config.listKey })"
+      >
+        <span class="material-icons hover:animate-shrink"> delete </span>
+      </button>
+    </div>
+    <div class="buttons-list-actions ml-auto flex">
+      <button
+        class="btn"
+        title="Query Liste exportieren"
+        @click="exportList(config.listKey)"
+      >
+        <span class="material-icons hover:animate-bounceUp"> upgrade </span>
+      </button>
+      <button
+        class="btn"
+        title="Query Liste importieren"
+        @click.prevent="openImportList()"
+      >
+        <span class="material-icons hover:animate-bounce">  save_alt</span>
+      </button>
+      <input
+        :id="'listImport' + config.listKey"
+        type="file"
+        multiple
+        accept="application/JSON"
+        style="display: none"
+        @change="handleFiles"
+      >
+      <button
+        class="btn"
+        title="run all querys in list"
+        @click="listResults()"
+      >
+        <span class="material-icons"> playlist_play </span>
+      </button>
+      <button
+        class="btn"
+        title="double click to clear list"
+        @dblclick="removeAll(config.listKey)"
+      >
+        <span class="material-icons"> delete_sweep </span>
+      </button>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -95,12 +100,12 @@ import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 
 export default {
-    name: "query-list-tool-bar",
+    name: "QueryListToolBar",
     props: ["config"],
-    mounted() {},
     data() {
         return {};
     },
+    mounted() {},
     computed: {
         ...mapGetters("FilterQuerys", ["allQuerys", "selected", "result"]),
     },

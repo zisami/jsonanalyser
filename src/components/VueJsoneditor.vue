@@ -1,8 +1,14 @@
 <template lang="html">
-    <div class="jsoneditor-container" :class="{'max-box':max,'min-box':!max}" :style="getHeight">
-        <div ref="jsoneditor" class="jsoneditor-box"></div>
-        
-    </div>
+  <div
+    class="jsoneditor-container"
+    :class="{'max-box':max,'min-box':!max}"
+    :style="getHeight"
+  >
+    <div
+      ref="jsoneditor"
+      class="jsoneditor-box"
+    />
+  </div>
 </template>
 
 <script>
@@ -11,15 +17,7 @@ import "jsoneditor/dist/jsoneditor.min.css";
 import { mapActions } from "vuex";
 //import store from "../store";
 export default {
-    name: "v-jsoneditor",
-    data() {
-        return {
-            editor: null,
-            style: {},
-            max: false,
-            internalChange: false,
-        };
-    },
+    name: "VJsoneditor",
     props: {
         value: [Object, Array, Number, String, Boolean],
         height: {
@@ -33,6 +31,14 @@ export default {
             type: String,
             default: "output",
         },
+    },
+    data() {
+        return {
+            editor: null,
+            style: {},
+            max: false,
+            internalChange: false,
+        };
     },
     methods: {
         ...mapActions("FilterQuerys", ["add", "setInputData", "listResults"]),
@@ -117,27 +123,6 @@ export default {
             }
         },
     },
-    watch: {
-        value: {
-            handler(value) {
-                if (this.editor && value && !this.internalChange) {
-                    this.editor.update(value);
-                }
-            },
-            deep: true,
-        },
-        max() {
-            this.$nextTick(() => {
-                this.initView();
-            });
-        },
-    },
-    mounted() {
-        this.initView();
-    },
-    beforeDestroy() {
-        this.destroyView();
-    },
     computed: {
         options() {
             if (this.optionType === "output") {
@@ -172,6 +157,27 @@ export default {
             }
             return {};
         },
+    },
+    watch: {
+        value: {
+            handler(value) {
+                if (this.editor && value && !this.internalChange) {
+                    this.editor.update(value);
+                }
+            },
+            deep: true,
+        },
+        max() {
+            this.$nextTick(() => {
+                this.initView();
+            });
+        },
+    },
+    mounted() {
+        this.initView();
+    },
+    beforeDestroy() {
+        this.destroyView();
     },
 };
 </script>

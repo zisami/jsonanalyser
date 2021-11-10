@@ -1,42 +1,50 @@
 <template>
-    <section class="query-list flex flex-col px-2 overflow-hidden mb-2">
-        <div class="title">
-            {{ config.listTitle }} 
-            {{
-                getQueryList(config.listKey).length
-                    ? "(" + getQueryList(config.listKey).length + ")"
-                    : ""
-            }}
-        </div>
-        <ToolBar v-bind="$props" v-show="open"> </ToolBar>
+  <section class="query-list flex flex-col px-2 overflow-hidden mb-2">
+    <div class="title">
+      {{ config.listTitle }} 
+      {{
+        getQueryList(config.listKey).length
+          ? "(" + getQueryList(config.listKey).length + ")"
+          : ""
+      }}
+    </div>
+    <ToolBar
+      v-show="open"
+      v-bind="$props"
+    />
+    <div
+      v-show="open"
+      class="list-container border-opacity-10 overflow-hidden h-full"
+    >
+      <div
+        class="flex flex-col flex-grow overflow-y-scroll select-none h-full"
+        @click="clickOutside($event)"
+      >
         <div
-            class="list-container border-opacity-10 overflow-hidden h-full"
-            v-show="open"
+          v-for="(item, index) in getQueryList(config.listKey)"
+          :key="index"
+          class="query-item flex px-2 border-b w-full border-gray-700"
+          :class="{
+            selected: selected(config.listKey).id === item.id,
+            'text-yellow-400': item.type === 'query',
+            'text-purple-400': item.type === 'value',
+          }"
+          @click="select({ query: item, list: config.listKey })"
+          @dblclick="handleDblClick(config.listKey)"
         >
-            <div
-                class="flex flex-col flex-grow overflow-y-scroll select-none h-full"
-                v-on:click="clickOutside($event)"
-            >
-                <div
-                    v-for="(item, index) in getQueryList(config.listKey)"
-                    v-bind:key="index"
-                    class="query-item flex px-2 border-b w-full border-gray-700"
-                    :class="{
-                        selected: selected(config.listKey).id === item.id,
-                        'text-yellow-400': item.type === 'query',
-                        'text-purple-400': item.type === 'value',
-                    }"
-                    v-on:click="select({ query: item, list: config.listKey })"
-                    v-on:dblclick="handleDblClick(config.listKey)"
-                >
-                    <div class="key">{{ item.resultKey }}</div>
-                    <div class="description" v-show="item.description">
-                        &nbsp;:&nbsp;{{ item.description }}
-                    </div>
-                </div>
-            </div>
+          <div class="key">
+            {{ item.resultKey }}
+          </div>
+          <div
+            v-show="item.description"
+            class="description"
+          >
+            &nbsp;:&nbsp;{{ item.description }}
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -45,12 +53,12 @@ import { mapActions } from "vuex";
 import ToolBar from "./Toolbar";
 
 export default {
-    name: "query-list",
+    name: "QueryList",
     props: ["config"],
-    mounted() {},
     data() {
         return {};
     },
+    mounted() {},
     computed: {
         open() {
             return this.config.open;
