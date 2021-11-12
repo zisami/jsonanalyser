@@ -14,6 +14,7 @@ import VueClipboard from 'vue-clipboard2'
 import './assets/css/tailwind.css'
 import './assets/css/splitpanes.css'
 import './assets/css/app.scss'
+import './registerServiceWorker'
 
 
 
