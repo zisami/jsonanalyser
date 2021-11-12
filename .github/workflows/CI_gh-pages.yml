@@ -31,7 +31,7 @@ jobs:
     - run: npm run test:unit
 
     - name: Pushes to gh-pages branche
-        id: jsonanalser
+        id: jsonanalyser
         uses:  zisami/jsonanalyser@main
         with:
           source-directory: 'dist'
