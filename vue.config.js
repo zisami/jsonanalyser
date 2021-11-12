@@ -3,8 +3,13 @@ const path = require("path");
 module.exports = {
   publicPath: "",
   pwa: {
-    name: "JSONanalyser",
+    name: 'JSON Analyser',
+    themeColor: '#ffcc00ff',
+    msTileColor: '#ffcc00ff',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
   },
+ 
   pluginOptions: {
     compression: {
       gzip: {
@@ -26,3 +31,4 @@ module.exports = {
     },
   },
 };
+ 
