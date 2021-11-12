@@ -144,6 +144,8 @@ export default {
         add(_context, _payload) {
             if (!_payload) {
                 _payload = { query: {}, list: 'liveQuerys' };
+            } else if (_payload.query?.resultKey === '') {
+                _payload.query.resultKey = 'result';
             }
             _context.commit('add', _payload)
             _context.dispatch('listResults')
