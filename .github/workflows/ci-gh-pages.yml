@@ -1,4 +1,4 @@
-name: Generate a build and push to another branch
+name: CD to Github Pages branch
 
 on:
   push:
