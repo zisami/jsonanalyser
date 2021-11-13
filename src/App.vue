@@ -10,7 +10,9 @@
 <script>
 export default {
   metaInfo: {
-    // if no subcomponents specify a metaInfo.title, this title will be used
+     bodyAttrs: {
+      lang: 'de'
+    },
     title: "JSON Analyser",
     meta: [
       {
