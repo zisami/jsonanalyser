@@ -1,8 +1,8 @@
 name: Generate a build and push to another branch
 
 on:
-  push:
-    branches: [ main ]
+  #push:
+    #branches: [ main ]
   pull_request:
     branches: [ main ]
 
