@@ -8,7 +8,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import VueClipboard from 'vue-clipboard2'
+import VueMeta from 'vue-meta'
 
 //Style Imports
 import './assets/css/tailwind.css'
@@ -47,7 +47,7 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-Vue.use(VueClipboard)
+Vue.use(VueMeta)
 
 function persistAllQuerys(_FilterQuerys) {
   const valuesToSave = { ..._FilterQuerys.allQuerys } //__proto__ entfernen
