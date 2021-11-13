@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav" class="hidden">
+    <div id="nav">
       <router-link to="/" name="home"> Home </router-link> |
       <router-link to="/about" name="about"> About </router-link>
     </div>
@@ -9,6 +9,23 @@
 </template>
 <script>
 export default {
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: "JSON Analyser",
+    meta: [
+      {
+        name: "description",
+        content: "Load, explore, analyse and understand your JSON.",
+      },
+      {
+        property: "og:title",
+        content: "JSON Analyser - own your data",
+      },
+      { property: "og:site_name", content: "JSON Analyser" },
+      { property: "og:type", content: "website" },
+      { name: "robots", content: "index,follow" },
+    ],
+  },
   data() {
     return {};
   },

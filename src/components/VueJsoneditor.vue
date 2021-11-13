@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import JSONEditor from "jsoneditor/dist/jsoneditor.min.js";
+import JSONEditor from "jsoneditor/dist/jsoneditor-minimalist.min.js";
 import "jsoneditor/dist/jsoneditor.min.css";
 import { mapActions } from "vuex";
 //import store from "../store";
