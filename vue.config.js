@@ -4,8 +4,8 @@ module.exports = {
   publicPath: "",
   pwa: {
     name: 'JSON Analyser',
-    themeColor: '#ffcc00ff',
-    msTileColor: '#ffcc00ff',
+    themeColor: '#ffcc00',
+    msTileColor: '#ffcc00',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
   },
