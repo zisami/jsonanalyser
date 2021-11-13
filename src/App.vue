@@ -11,8 +11,10 @@
 <script>
 export default {
   metaInfo: {
+
      htmlAttrs: {
       lang: 'en'
+
     },
     title: "JSON Analyser",
     meta: [
