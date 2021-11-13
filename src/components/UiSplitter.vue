@@ -1,6 +1,6 @@
 <template>
   <section class="flex flex-col flex-grow ">
-    <div class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
+    <div class="bg-gray-800 opacity-75 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
       <ToogleSplitPane
         pane-name="filter"
         invert-icon="true"
@@ -56,7 +56,7 @@
             class="flex flex-col flex-grow overflow-hidden"
           >
             <div class=" flex flex-col flex-grow overflow-hidden">
-              <div class="bg-gray-900 opacity-30 flex flex-row pl-2 content-center justify-between select-none border-opacity-20 border-gray-100 border-b-2">
+              <div class="bg-gray-800 opacity-75 flex flex-row pl-2 content-center justify-between select-none border-opacity-20 border-gray-100 border-b-2">
                 <div class="data-size flex flex-col justify-center text-sm ">
                   {{ inputDataSize }} / {{ inputDataCount }} Datapoint{{ inputDataCount > 1 ? 's' : '' }}
                 </div> 
@@ -89,7 +89,7 @@
           >
             <div class=" flex flex-col flex-grow overflow-hidden">
               <div
-                class="bg-gray-900 opacity-30 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2"
+                class="bg-gray-800 opacity-75 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2"
               >
                 <ToogleSplitPane
                   pane-name="output"
