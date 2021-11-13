@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav" class="hidden">
       <router-link to="/" name="home"> Home </router-link> |
       <router-link to="/about" name="about"> About </router-link>
     </div>
@@ -22,7 +22,7 @@ export default {
       },
       {
         property: "og:title",
-        content: "JSON Analyser - own your data",
+        content: "JSON Analyser - know your data",
       },
       { property: "og:site_name", content: "JSON Analyser" },
       { property: "og:type", content: "website" },
