@@ -175,7 +175,7 @@ export default {
     ]),
   },
   watch: {
-    inputDataField(value) {
+    inputDataField(value) { 
       console.log(value);
       let valueToShow = {};
       const cleanerRegex = /\n|\r|\n\r/ig;
