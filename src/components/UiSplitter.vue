@@ -178,9 +178,11 @@ export default {
     inputDataField(value) {
       console.log(value);
       let valueToShow = {};
+      const cleanerRegex = /\n|\r|\n\r/ig;
+      const cleanedValue = value.replaceAll(cleanerRegex, '');
       if (value) {
         try {
-         valueToShow = JSON.parse(value);
+         valueToShow = JSON.parse(cleanedValue);
         } catch (error) {
             console.log(error);
             valueToShow.error = error.message;
