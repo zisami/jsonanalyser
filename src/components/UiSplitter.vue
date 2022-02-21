@@ -178,8 +178,8 @@ export default {
     inputDataField(value) { 
       console.log(value);
       let valueToShow = {};
-      const cleanerRegex = /\n|\r|\n\r/ig;
-      const cleanedValue = value.replaceAll(cleanerRegex, '');
+      const cleaningRegex = /\n|\r|\n\r/ig;
+      const cleanedValue = value.replaceAll(cleaningRegex, '');
       if (value) {
         try {
          valueToShow = JSON.parse(cleanedValue);
