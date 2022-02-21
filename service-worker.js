@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.423f7b2750a411fde86a8f8bdd4b8b1f.js"
+  "precache-manifest.0fab226d85baeefb8a0e95c68b8f631f.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "jsonanalyser"});
