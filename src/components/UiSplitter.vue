@@ -27,15 +27,8 @@
         :size="filterPaneSize.active"
         class="flex flex-col bg-pink-400"
       >
-        <textarea
-          class="input-data-field"
-          name="textarea"
-          v-model="inputDataField"
-          rows="3"
-          cols="50"
-          placeholder="Schmeiß deine Antrags-Daten hier rein."
-          @focus="$event.target.select()"
-        />
+      <TextInput />
+
         <query-list :config="configLiveQuerys" />
       </pane>
       <pane
@@ -130,6 +123,7 @@ import VJsoneditor from "./VueJsoneditor";
 //Internal Components
 import ToogleSplitPane from "./ToogleSplitPane";
 import QueryList from "./querylist/QueryList";
+import TextInput from "./inputsource/textInput";
 
 export default {
   name: "UiSplitter",
@@ -154,7 +148,6 @@ export default {
           },
         },
       },
-      inputDataField: {},
     };
   },
   computed: {
@@ -174,32 +167,8 @@ export default {
       "outputDataCount",
     ]),
   },
-  watch: {
-    inputDataField(value) { 
-      console.log(value);
-      let valueToShow = {};
-      const cleaningRegex = /\n|\r|\n\r/ig;
-      const cleanedValue = value.replaceAll(cleaningRegex, '');
-      if (value) {
-        try {
-         valueToShow = JSON.parse(cleanedValue);
-        } catch (error) {
-            console.log(error);
-            valueToShow.error = error.message;
-          //return false;
-        }
-
-        this.setInputData(valueToShow);
-        return JSON.parse(value);
-      } else {
-        this.setInputData({ Daten: "ja bitte" });
-      }
-      // return JSON.parse(value);
-    },
-  },
-  created() {
-    this.loadPlaceholderJson();
-  },
+  watch: {},
+  created() {},
   methods: {
     ...mapActions("FilterQuerys", ["add", "setInputData", "listResults"]),
     ...mapActions("JsonData", ["setInputData", "setOutputData"]),
@@ -209,10 +178,7 @@ export default {
       "toggleFilterPane",
       "resetUI",
     ]),
-    loadPlaceholderJson() {
-      this.setInputData();
-      this.inputDataField = "";
-    },
+
     saveFilterSize(_event) {
       console.log(_event);
       this.onResizedFilter({
@@ -228,7 +194,14 @@ export default {
       console.log("error");
     },
   },
-  components: { Splitpanes, Pane, ToogleSplitPane, VJsoneditor, QueryList },
+  components: {
+    Splitpanes,
+    Pane,
+    ToogleSplitPane,
+    VJsoneditor,
+    QueryList,
+    TextInput,
+  },
 };
 </script>
 

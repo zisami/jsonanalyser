@@ -1,4 +1,5 @@
 import memorySizeOf from '../../assets/js/memorysize';
+import _ from 'lodash';
 function countDataPoints(_data) {
     return JSON.stringify(_data).match(/(,|\}|\])/g).length;
 }
@@ -14,7 +15,7 @@ export default {
         outputData: (_state) => { return _state.outputData },
         inputDataSize: (_state) => { return memorySizeOf(_state.inputData) },
         outputDataSize: (_state) => { return memorySizeOf(_state.outputData) },
-        inputDataCount: (_state)  => { return countDataPoints(_state.inputData)},
+        inputDataCount: (_state)  => { return _.size(_state.inputData)},
         outputDataCount: (_state) => { return countDataPoints(_state.outputData) },
     },
 
