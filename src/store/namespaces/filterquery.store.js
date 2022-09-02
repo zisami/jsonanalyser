@@ -25,26 +25,26 @@ export default {
     },
 
     getters: {
-        allQuerys: (_state) => { return _.map(_state.allQuerys, (q) => { return q }) },
-        getQueryList: (_state) => (_list) => { return _.map(_state[_list], (q) => { return q }) },
-        selected: (_state) => (_list) => {
-            const selected = _.filter(_state[_list], 'selected')
+        allQuerys: (state) => { return _.map(state.allQuerys, (q) => { return q }) },
+        getQueryList: (state) => (list) => { return _.map(state[list], (q) => { return q }) },
+        selected: (state) => (list) => {
+            const selected = _.filter(state[list], 'selected')
             return selected.length > 0 ? selected[0] : '';
         },
-        result: (_state, _getters, _rootState) => (_payload) => {
+        result: (state, getters, rootState) => (payload) => {
 
-            if (_payload?.query?.id) {
+            if (payload?.query?.id) {
                 let queryToEcecute
-                if (_payload.list) {
-                    queryToEcecute = _state[_payload.list][_payload.query.id];
+                if (payload.list) {
+                    queryToEcecute = state[payload.list][payload.query.id];
                 } else {
-                    queryToEcecute = _payload.query;
+                    queryToEcecute = payload.query;
                 }
 
                 //Ausfühbare Query mit Errorhandling erstellen
                 const execute = new Function('data', `try{${queryToEcecute.queryString}}catch(e){return {error: {message: e.message,fileName: e.fileName,lineNumber: e.lineNumber}}}`)
                 //Query ausführen
-                let result = execute(_rootState.JsonData.inputData)
+                let result = execute(rootState.JsonData.inputData)
                 if (typeof result !== 'undefined') {
 
                     if (result['error']) {
@@ -57,14 +57,14 @@ export default {
                 return result;
             }
         },
-        queryToEdit: (_state) => {
-            if (!_state.queryToEdit) {
+        queryToEdit: (state) => {
+            if (!state.queryToEdit) {
                 return false;
             } else {
-                return _state.queryToEdit;
+                return state.queryToEdit;
             }
         },
-        showSavedQuerys: (_state) => { return _state.showSavedQuerys },
+        showSavedQuerys: (state) => { return state.showSavedQuerys },
     },
 
     mutations: {
@@ -72,120 +72,129 @@ export default {
          * Erstellt ein neues Default Query Objekt, 
          * befüllt es mit optional übergebenen Werten
          * fügt es der Queryliste Hinzu
-         * @param {Object} _state 
-         * @param {object} _payload //optonales Query Objek
+         * @param {Object} state 
+         * @param {object} payload //optonales Query Objek
          */
-        add(_state, _payload) {
-            if (!_payload.list) {
+        add(state, payload) {
+            if (!payload.list) {
                 //Live Querys als Default Liste
-                _payload.list = "liveQuerys"
+                payload.list = "liveQuerys"
             }
             //Neue Query anlegen/vervollständigen
             let newQuery = {
-                id: typeof _payload.query.id !== 'undefined' && uuidValidateV4(_payload.query.id) ? _payload.query.id : UUID4(),
-                description: typeof _payload.query.description !== 'undefined' ? _payload.query.description : '',
-                resultKey: typeof _payload.query.resultKey !== 'undefined' ? _payload.query.resultKey : '\u{1F4BD}',
-                queryString: typeof _payload.query.queryString !== 'undefined' ? _payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
-                type: typeof _payload.query.type !== 'undefined' ? _payload.query.type : 'query',
-                edit: typeof _payload.query.edit !== 'undefined' ? _payload.query.edit : true,
-                listTosave: _payload.list,
+                id: typeof payload.query.id !== 'undefined' && uuidValidateV4(payload.query.id) ? payload.query.id : UUID4(),
+                description: typeof payload.query.description !== 'undefined' ? payload.query.description : '',
+                resultKey: typeof payload.query.resultKey !== 'undefined' ? payload.query.resultKey : '\u{1F4BD}',
+                queryString: typeof payload.query.queryString !== 'undefined' ? payload.query.queryString : `let result = memorySizeOf(data)\nreturn result;`,
+                type: typeof payload.query.type !== 'undefined' ? payload.query.type : 'query',
+                edit: typeof payload.query.edit !== 'undefined' ? payload.query.edit : true,
+                listTosave: payload.list,
                 time: moment()
             }
 
             if (newQuery.edit) {
                 //Entweder bearbeiten
-                _state.queryToEdit = newQuery
+                state.queryToEdit = newQuery
             } else {
                 //oder in Liste speichern.
-                _state[_payload.list] = { ..._state[_payload.list], [newQuery.id]: newQuery };
+                state[payload.list] = { ...state[payload.list], [newQuery.id]: newQuery };
             }
 
 
         },
 
-        clearQueryToEdit(_state) {
-            _state.queryToEdit = ''
+        clearQueryToEdit(state) {
+            state.queryToEdit = ''
         },
-        setQueryToEdit(_state, _query) {
-            _state.queryToEdit = _query
+        setQueryToEdit(state, query) {
+            state.queryToEdit = query
         },
-        remove(_state, _payload) {
-            if (_payload?.query?.id) {
-                Vue.delete(_state[_payload.list], _payload.query.id)
+        remove(state, payload) {
+            if (payload?.query?.id) {
+                Vue.delete(state[payload.list], payload.query.id)
             }
         },
 
         /**
          * Deselektiert alle Elemente
          */
-        unselect(_state, _payload) {
-            for (const item in _state[_payload.list]) {
-                _state[_payload.list][item].selected = false;
+        unselect(state, payload) {
+            for (const item in state[payload.list]) {
+                state[payload.list][item].selected = false;
             }
         },
 
-        select(_state, _payload) {
-            _state[_payload.list][_payload.query.id] = { ..._state[_payload.list][_payload.query.id], 'selected': true }
+        select(state, payload) {
+            state[payload.list][payload.query.id] = { ...state[payload.list][payload.query.id], 'selected': true }
         },
-        removeAll(_state, _list) {
-            _state[_list] = {};
+        removeAll(state, list) {
+            state[list] = {};
         },
-        toggleSavedQuerys(_state) {
-            _state.showSavedQuerys = !_state.showSavedQuerys;
+        toggleSavedQuerys(state) {
+            state.showSavedQuerys = !state.showSavedQuerys;
         },
-        loadSavedQuerys(_state) {
-            if (localStorage.getItem('allQuerys')) {
-                _state.allQuerys = JSON.parse(localStorage.getItem('allQuerys'));
+        loadSavedQuerys(state) {
+            if (!runningInIframe()) {
+                if (localStorage.getItem('allQuerys')) {
+                    state.allQuerys = JSON.parse(localStorage.getItem('allQuerys'));
+                }
+            }
+            function runningInIframe(){
+                try {
+                    return window.self !== window.top;
+                } catch (e) {
+                    return true;
+                }
             }
         }
     },
 
     actions: {
-        add(_context, _payload) {
-            if (!_payload) {
-                _payload = { query: {}, list: 'liveQuerys' };
-            } else if (_payload.query?.resultKey === '') {
-                _payload.query.resultKey = 'result';
+        add(context, payload) {
+            if (!payload) {
+                payload = { query: {}, list: 'liveQuerys' };
+            } else if (payload.query?.resultKey === '') {
+                payload.query.resultKey = 'result';
             }
-            _context.commit('add', _payload)
-            _context.dispatch('listResults')
+            context.commit('add', payload)
+            context.dispatch('listResults')
         },
-        remove(_context, _payload) {
-            if (!_payload) {
-                _payload = {};
+        remove(context, payload) {
+            if (!payload) {
+                payload = {};
             }
-            _context.commit('remove', _payload)
+            context.commit('remove', payload)
         },
-        removeSelected(_context, _list) {
-            const selected = _context.getters.selected(_list.list)
+        removeSelected(context, list) {
+            const selected = context.getters.selected(list.list)
             if (selected) {
-                _context.commit('remove', { query: selected, list: _list.list })
+                context.commit('remove', { query: selected, list: list.list })
             }
-            _context.dispatch('listResults');
+            context.dispatch('listResults');
 
         },
-        editSelected(_context, _list) {
-            const selected = _context.getters.selected(_list.list)
+        editSelected(context, list) {
+            const selected = context.getters.selected(list.list)
             if (selected) {
-                _context.commit('setQueryToEdit', selected)
+                context.commit('setQueryToEdit', selected)
             }
 
         },
-        unselect(_context, _payload) {
-            _context.commit('unselect', _payload)
+        unselect(context, payload) {
+            context.commit('unselect', payload)
         },
-        select(_context, _payload) {
-            if (!_payload) {
-                _payload = {};
+        select(context, payload) {
+            if (!payload) {
+                payload = {};
             }
-            _context.commit('unselect', _payload)
-            _context.commit('select', _payload)
+            context.commit('unselect', payload)
+            context.commit('select', payload)
         },
-        clearQueryToEdit(_context) {
-            _context.commit('clearQueryToEdit')
+        clearQueryToEdit(context) {
+            context.commit('clearQueryToEdit')
         },
-        listResults(_context) {
-            const list = _context.rootState.FilterQuerys.liveQuerys;
+        listResults(context) {
+            const list = context.rootState.FilterQuerys.liveQuerys;
             const listResults = {};
             for (const query in list) {
                 if (Object.hasOwnProperty.call(list, query)) {
@@ -197,30 +206,30 @@ export default {
                         counter++;
                         key = key + '-' + counter;
                     }
-                    listResults[key] = _context.getters.result({ query: element, list: 'liveQuerys' })
+                    listResults[key] = context.getters.result({ query: element, list: 'liveQuerys' })
                 }
             }
-            _context.dispatch('JsonData/setOutputData', listResults, { root: true })
-            //_context.rootState.JsonData.outputData = {...listResults};
+            context.dispatch('JsonData/setOutputData', listResults, { root: true })
+            //context.rootState.JsonData.outputData = {...listResults};
         },
-        removeAll(_context, _list) {
-            _context.commit('removeAll', _list);
-            _context.dispatch('listResults');
+        removeAll(context, list) {
+            context.commit('removeAll', list);
+            context.dispatch('listResults');
         },
-        toggleSavedQuerys(_context) {
-            _context.commit('toggleSavedQuerys');
+        toggleSavedQuerys(context) {
+            context.commit('toggleSavedQuerys');
         },
-        exportList(_context, _list) {
-            const expotData = { querys: _context.rootGetters['FilterQuerys/getQueryList'](_list) }
+        exportList(context, list) {
+            const expotData = { querys: context.rootGetters['FilterQuerys/getQueryList'](list) }
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(expotData), null, 2);
             let downLoadElement = document.createElement('a');
             downLoadElement.style.display = 'none';
             downLoadElement.href = dataStr;
-            downLoadElement.download = `${_list || 'Liste'}.json`;
+            downLoadElement.download = `${list || 'Liste'}.json`;
             downLoadElement.click();
         },
-        exportSelectedQuery(_context, _list) {
-            const elementToExport = { querys: [_context.rootGetters['FilterQuerys/selected'](_list)] };
+        exportSelectedQuery(context, list) {
+            const elementToExport = { querys: [context.rootGetters['FilterQuerys/selected'](list)] };
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(elementToExport), null, 2);
             let downLoadElement = document.createElement('a');
             downLoadElement.style.display = 'none';

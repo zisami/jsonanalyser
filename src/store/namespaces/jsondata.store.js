@@ -1,6 +1,6 @@
 import memorySizeOf from '../../assets/js/memorysize';
-function countDataPoints(_data) {
-    return JSON.stringify(_data).match(/(,|\}|\])/g).length;
+function countDataPoints(data) {
+    return JSON.stringify(data).match(/(,|\}|\])/g).length;
 }
 export default {
     namespaced: true,
@@ -10,28 +10,30 @@ export default {
     },
 
     getters: {
-        inputData: (_state) => { return _state.inputData },
-        outputData: (_state) => { return _state.outputData },
-        inputDataSize: (_state) => { return memorySizeOf(_state.inputData) },
-        outputDataSize: (_state) => { return memorySizeOf(_state.outputData) },
-        inputDataCount: (_state)  => { return countDataPoints(_state.inputData)},
-        outputDataCount: (_state) => { return countDataPoints(_state.outputData) },
+        inputData: (state) => { return state.inputData },
+        outputData: (state) => { return state.outputData },
+        inputDataSize: (state) => { return memorySizeOf(state.inputData) },
+        outputDataSize: (state) => { return memorySizeOf(state.outputData) },
+        inputDataCount: (state)  => { return countDataPoints(state.inputData)},
+        outputDataCount: (state) => { return countDataPoints(state.outputData) },
     },
 
     mutations: {
-        setInputData(_state, _newJson) { _state.inputData = _newJson  },
-        setOutputData(_state, _newJson) { _state.outputData = _newJson },
+        setInputData(state, newJson) { state.inputData = newJson  },
+        setOutputData(state, newJson) { state.outputData = newJson },
     },
 
     actions: {
-        setInputData(_context, _payload) {
-            if (_payload) {
-                _context.commit('setInputData', _payload)
+        setInputData(context, payload) {
+            if (payload) {
+                context.commit('setInputData', payload)
+            }else{
+                context.commit('setInputData', {Tipp: "You can paste data from your clipboard by pressing Ctrl+V"})
             }
         },
-        setOutputData(_context, _payload) {
-            if (_payload) {
-                _context.commit('setOutputData', _payload)
+        setOutputData(context, payload) {
+            if (payload) {
+                context.commit('setOutputData', payload)
             }
         }
     },

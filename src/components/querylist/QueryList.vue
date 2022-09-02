@@ -13,7 +13,7 @@
       v-bind="$props"
     />
     <div
-      v-show="open"
+      v-show="true"
       class="list-container border-opacity-10 overflow-hidden h-full"
     >
       <div
@@ -58,7 +58,9 @@ export default {
     data() {
         return {};
     },
-    mounted() {},
+    mounted() {
+      //console.log(config);
+    },
     computed: {
         open() {
             return this.config.open;
@@ -68,7 +70,6 @@ export default {
             "getQueryList",
             "selected",
             "result",
-            "inputData",
         ]),
     },
     methods: {

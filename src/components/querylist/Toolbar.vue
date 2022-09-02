@@ -8,7 +8,7 @@
         title="Neue Query anlegen"
         @click="add({ query: {}, list: config.listKey })"
       >
-        <span class="material-icons hover:animate-wiggle"> note_add </span> 
+        <span class="material-icons "> note_add </span> 
       </button>
       <button
         v-if="config.listKey === 'liveQuerys'"
@@ -16,7 +16,7 @@
         title="Gespeicherte Query öffnen"
         @click="toggleSavedQuerys()"
       >
-        <span class="material-icons hover:animate-wiggle"> folder_open </span>
+        <span class="material-icons"> folder_open </span>
       </button>
     </div>
     <div
@@ -28,7 +28,7 @@
         title="Konfiguriere ausgewählte Query"
         @click="editSelected({ list: config.listKey })"
       >
-        <span class="material-icons icon hover:animate-spin"> settings </span>
+        <span class="material-icons icon "> settings </span>
       </button>
       <button
         v-if="config.listKey === 'liveQuerys'"
@@ -36,21 +36,21 @@
         title="ausgewählte Query speichern"
         @click="add({ query: selected(config.listKey), list: 'allQuerys' })"
       >
-        <span class="material-icons hover:animate-pulse"> save </span>
+        <span class="material-icons"> save </span>
       </button>
       <button
         class="btn"
         title="ausgewählte Query exportieren"
         @click="exportSelectedQuery(config.listKey)"
       >
-        <span class="material-icons icon hover:animate-bounce"> upgrade </span>
+        <span class="material-icons icon"> upgrade </span>
       </button>
       <button
         class="btn"
         title="ausgewählte Query aus dieser Liste löschen"
         @click="removeSelected({ list: config.listKey })"
       >
-        <span class="material-icons hover:animate-shrink"> delete </span>
+        <span class="material-icons "> delete </span>
       </button>
     </div>
     <div class="buttons-list-actions ml-auto flex">
@@ -59,14 +59,14 @@
         title="Query Liste exportieren"
         @click="exportList(config.listKey)"
       >
-        <span class="material-icons hover:animate-bounceUp"> upgrade </span>
+        <span class="material-icons "> upgrade </span>
       </button>
       <button
         class="btn"
         title="Query Liste importieren"
         @click.prevent="openImportList()"
       >
-        <span class="material-icons hover:animate-bounce">  save_alt</span>
+        <span class="material-icons ">  save_alt</span>
       </button>
       <input
         :id="'listImport' + config.listKey"

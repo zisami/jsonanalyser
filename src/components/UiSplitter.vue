@@ -1,21 +1,6 @@
 <template>
-  <section class="flex flex-col flex-grow ">
-    <div class="bg-gray-800 opacity-75 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
-      <ToogleSplitPane
-        pane-name="filter"
-        invert-icon="true"
-        :pane-width="filterPaneSize.active"
-        class="  border-blue-500 border-b-2 transform rotate-90 origin-center"
-      />
-      <button
-        class="btn icon text-gray-50 select-none "
-        @click="resetUI()"
-      >
-        <span
-          class="material-icons block"
-        >undo</span>
-      </button>
-    </div>
+<section class="flex flex-col flex-grow ">
+
     <splitpanes
       class="default-theme flex-grow "
       horizontal
@@ -23,25 +8,10 @@
       style="height: 400px"
       @resized="saveFilterSize($event)"
     >
-      <pane
-        :size="filterPaneSize.active"
-        class="flex flex-col bg-pink-400"
-      >
-        <textarea
-          class="input-data-field"
-          name="textarea"
-          v-model="inputDataField"
-          rows="3"
-          cols="50"
-          placeholder="Schmeiß deine Antrags-Daten hier rein."
-          @focus="$event.target.select()"
-        />
-        <query-list :config="configLiveQuerys" />
-      </pane>
-      <pane
-        min-size="25"
-        max-size="90"
-        size:="75"
+    <!-- Editors -->
+   <pane
+        
+        size:="100"
         class="flex-grow"
         :size="editorsPaneSize.active"
       >
@@ -50,8 +20,7 @@
           @resized="saveEditorsSize($event)"
         >
           <pane
-            min-size="0"
-            max-size="100"
+            
             :size="inputPaneSize.active"
             class="flex flex-col flex-grow overflow-hidden"
           >
@@ -82,8 +51,7 @@
             </div>
           </pane>
           <pane
-            min-size="0"
-            max-size="100"
+          
             class="flex flex-col flex-grow overflow-hidden"
             :size="outputPaneSize.active"
           >
@@ -115,7 +83,38 @@
           </pane>
         </splitpanes>
       </pane>
+      <!-- Filter -->
+    
+      <pane
+      style="min-height: 36px"
+        :size="filterPaneSize.active"
+        class="flex flex-col bg-pink-400"
+      >
+      <div class="bg-gray-800 opacity-75 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
+      <ToogleSplitPane
+        pane-name="filter"
+        invert-icon=false
+        :pane-width="filterPaneSize.active"
+        class="  border-blue-500 border-b-2 transform rotate-90 origin-center"
+      />
+      {{numOfQuerys}}
+      <button
+        class="btn icon text-gray-50 select-none "
+        @click="resetUI()"
+      >
+        <span
+          class="material-icons block"
+        >undo</span>
+      </button>
+    </div>
+        <query-list 
+        :config="configLiveQuerys" 
+        />
+      </pane>
+       
     </splitpanes>
+    <iframeCommunication v-show="runningInIframe"/>
+    <clipboardData v-show="runningInIframe"/>
   </section>
 </template>
 
@@ -126,6 +125,8 @@ import { mapGetters, mapActions } from "vuex";
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 import VJsoneditor from "./VueJsoneditor";
+import iframeCommunication from "./inputsource/iframeCommunication";
+import clipboardData from "./inputsource/clipboardData";
 
 //Internal Components
 import ToogleSplitPane from "./ToogleSplitPane";
@@ -136,11 +137,10 @@ export default {
   data: function () {
     return {
       configLiveQuerys: {
-        listTitle: "Live Filter Querys",
+        listTitle: "Filter Querys",
         listKey: "liveQuerys",
         open: true,
       },
-
       lastJsonData: {},
       inputEditor: {},
       outputEditor: {
@@ -154,7 +154,6 @@ export default {
           },
         },
       },
-      inputDataField: {},
     };
   },
   computed: {
@@ -173,28 +172,22 @@ export default {
       "inputDataCount",
       "outputDataCount",
     ]),
+    ...mapGetters("FilterQuerys", [
+      "allQuerys",
+      "getQueryList",
+      "selected",
+      "result",
+    ]),
+    numOfQuerys() {
+      return this.getQueryList(this.configLiveQuerys.listKey).length;
+    },
   },
   watch: {
-    inputDataField(value) { 
-      console.log(value);
-      let valueToShow = {};
-      const cleaningRegex = /\n|\r|\n\r/ig;
-      const cleanedValue = value.replaceAll(cleaningRegex, '');
-      if (value) {
-        try {
-         valueToShow = JSON.parse(cleanedValue);
-        } catch (error) {
-            console.log(error);
-            valueToShow.error = error.message;
-          //return false;
-        }
-
-        this.setInputData(valueToShow);
-        return JSON.parse(value);
-      } else {
-        this.setInputData({ Daten: "ja bitte" });
+    numOfQuerys(num) {
+      console.log("openOutputOnFirstQuery", num, this.outputPaneSize.active );
+      if (num === 1 && this.outputPaneSize.active === 0) {
+        this.openOutputPane();
       }
-      // return JSON.parse(value);
     },
   },
   created() {
@@ -205,30 +198,42 @@ export default {
     ...mapActions("JsonData", ["setInputData", "setOutputData"]),
     ...mapActions([
       "onResizedFilter",
+      "toggleDataLoaderPane",
       "onResizedInput",
       "toggleFilterPane",
       "resetUI",
+      "openOutputPane",
     ]),
     loadPlaceholderJson() {
       this.setInputData();
-      this.inputDataField = "";
     },
     saveFilterSize(_event) {
-      console.log(_event);
+      console.log("saveFilterSize", _event);
       this.onResizedFilter({
         paneName: "filter",
-        nowSize: _event[0].size,
+        nowSize: _event[1].size,
       });
     },
     saveEditorsSize(_event) {
-      console.log(_event);
+      console.log("saveEditorsSize", _event);
       this.onResizedInput({ paneName: "input", nowSize: _event[0].size });
     },
     onError() {
       console.log("error");
     },
+    runningInIframe() {
+      return window.top !== window.self;
+    },
   },
-  components: { Splitpanes, Pane, ToogleSplitPane, VJsoneditor, QueryList },
+  components: {
+    Splitpanes,
+    Pane,
+    ToogleSplitPane,
+    VJsoneditor,
+    QueryList,
+    iframeCommunication,
+    clipboardData,
+  },
 };
 </script>
 

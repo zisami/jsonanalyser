@@ -1,18 +1,12 @@
 <template>
   <div>
-    <button
-      class="btn icon text-gray-50 select-none "
-    >
-      <span
-        v-show="!isOpen"
-        class="material-icons block"
-        @click="toggle"
-      >arrow_left</span>
-      <span
-        v-show="isOpen"
-        class="material-icons"
-        @click="toggle"
-      >arrow_right</span>
+    <button class="btn icon text-gray-50 select-none">
+      <span v-show="!isOpen" class="material-icons block" @click="toggle"
+        >arrow_left</span
+      >
+      <span v-show="isOpen" class="material-icons" @click="toggle"
+        >arrow_right</span
+      >
     </button>
   </div>
 </template>
@@ -38,13 +32,12 @@ import { mapGetters, mapActions } from "vuex";
         ]),
       toggle(){
         //EventBus.$emit('tooglePain' , this.$props.paneName);
-        console.log({ paneName: this.$props.paneName, nowSize: this.$props.paneWidth });
-        if (this.$props.paneName === 'filter') {
+        console.log('Props: ',{ paneName: this.$props.paneName, nowSize: this.$props.paneWidth });
+       if (this.$props.paneName === 'filter') {
           this.toggleFilterPane({ paneName: this.$props.paneName, nowSize: this.$props.paneWidth });
-        } else {
+        }else  {
           this.toggleEditorPane({ paneName: this.$props.paneName, nowSize: this.$props.paneWidth });
         }
-        
         this.isOpen = !this.isOpen;
       }
     },
