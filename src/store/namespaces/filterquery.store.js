@@ -134,17 +134,28 @@ export default {
             state.showSavedQuerys = !state.showSavedQuerys;
         },
         loadSavedQuerys(state) {
-            if (!runningInIframe()) {
+            console.log( ' runningInSandbox()',runningInSandbox());
+            if (!runningInSandbox()) {
                 if (localStorage.getItem('allQuerys')) {
                     state.allQuerys = JSON.parse(localStorage.getItem('allQuerys'));
                 }
             }
+            /*
             function runningInIframe(){
                 try {
                     return window.self !== window.top;
                 } catch (e) {
                     return true;
                 }
+            }
+            */
+            function runningInSandbox(){
+                try {
+                    localStorage.getItem('sandbox')
+                } catch (error) {
+                    return error.message.indexOf('sandbox') >= 0;
+                }
+                return false;
             }
         }
     },
@@ -211,6 +222,7 @@ export default {
             }
             context.dispatch('JsonData/setOutputData', listResults, { root: true })
             //context.rootState.JsonData.outputData = {...listResults};
+            console.log('end listResults', listResults);
         },
         removeAll(context, list) {
             context.commit('removeAll', list);

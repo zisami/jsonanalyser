@@ -12,6 +12,7 @@ export default {
   },
 
   methods: {
+     ...mapActions("FilterQuerys", ["listResults"]),
     ...mapActions("JsonData", ["setInputData", "setOutputData"]),
 
     receiveMessage(event) {
@@ -23,6 +24,7 @@ export default {
           case "showData":
             if (message.payload) {
               this.setInputData(message.payload);
+              this.listResults()
             }
             break;
 

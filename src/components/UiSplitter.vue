@@ -114,7 +114,7 @@
        
     </splitpanes>
     <iframeCommunication v-show="runningInIframe"/>
-    <clipboardData v-show="runningInIframe"/>
+    <clipboardData v-show="false"/>
   </section>
 </template>
 

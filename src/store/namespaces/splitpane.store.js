@@ -33,16 +33,16 @@ export default {
     },
     getters: {
         inputPaneSize: (_state) => {
-            return _state.splitPanes.input.size;
+            return _state?.splitPanes?.input?.size;
         },
         outputPaneSize: (_state) => {
-            return _state.splitPanes.output.size;
+            return _state?.splitPanes?.output?.size;
         },
         filterPaneSize: (_state) => {
-            return _state.splitPanes.filter.size;
+            return _state?.splitPanes?.filter?.size;
         },
         editorsPaneSize: (_state) => {
-            return _state.splitPanes.editors.size;
+            return _state?.splitPanes?.editors?.size;
         },
     },
     mutations: {
@@ -56,8 +56,16 @@ export default {
             console.log(_paneName, '\tActive:', size.active, '\tLast:', size.last, '\tOrig:', size.orig);
         },
         loadUI(_state) {
-            if (localStorage.getItem('UI')) {
+            if (!runningInSandbox()) {
                 _state.splitPanes = JSON.parse(localStorage.getItem('UI'));
+            }
+            function runningInSandbox(){
+                try {
+                    localStorage.getItem('sandbox')
+                } catch (error) {
+                    return error.message.indexOf('sandbox') >= 0;
+                }
+                return false;
             }
         },
     },

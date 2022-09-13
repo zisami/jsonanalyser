@@ -20,7 +20,7 @@ export default {
 
     mutations: {
         setInputData(state, newJson) { state.inputData = newJson  },
-        setOutputData(state, newJson) { state.outputData = newJson },
+        setOutputData(state, newJson) { state.outputData = newJson; console.log('newJson', newJson); },
     },
 
     actions: {
