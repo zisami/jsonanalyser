@@ -14,7 +14,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jsoneditor": "^9.5.7",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "node-notifier": ">=8.0.1",
     "normalize.css": "^8.0.1",
     "prismjs": "^1.25.0",
