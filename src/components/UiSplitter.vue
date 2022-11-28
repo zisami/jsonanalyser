@@ -98,10 +98,10 @@
         :pane-width="filterPaneSize.active"
         class="transform -rotate-90 origin-center"
       />
-      {{numOfQuerys}}
+      {{numOfQuerys}} 
       <button
         class="btn icon text-gray-50 select-none "
-        @click="resetUI()"
+        @click="resetUI()" 
       >
         <span
           class="material-icons block"

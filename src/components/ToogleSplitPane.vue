@@ -47,7 +47,7 @@ import { mapGetters, mapActions } from "vuex";
             "outputPaneSize",
             "filterPaneSize",
             "editorsPaneSize",
-        ]),
+        ]), 
     isOpen: {
       get() {
         const width = this.$props.paneWidth;
