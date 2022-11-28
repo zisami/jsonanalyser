@@ -93,14 +93,15 @@
       <div class="bg-gray-800 opacity-75 flex flex-row justify-between pr-2 select-none border-opacity-20 border-gray-100 border-b-2">
       <ToogleSplitPane
         pane-name="filter"
-        invert-icon=false
+          invert-icon="false"
+
         :pane-width="filterPaneSize.active"
-        class="  border-blue-500 border-b-2 transform rotate-90 origin-center"
+        class="transform -rotate-90 origin-center"
       />
-      {{numOfQuerys}}
+      {{numOfQuerys}} 
       <button
         class="btn icon text-gray-50 select-none "
-        @click="resetUI()"
+        @click="resetUI()" 
       >
         <span
           class="material-icons block"
@@ -184,7 +185,7 @@ export default {
   },
   watch: {
     numOfQuerys(num) {
-      console.log("openOutputOnFirstQuery", num, this.outputPaneSize.active );
+      console.log("openOutputOnFirstQuery", num, this.outputPaneSize.active);
       if (num === 1 && this.outputPaneSize.active === 0) {
         this.openOutputPane();
       }

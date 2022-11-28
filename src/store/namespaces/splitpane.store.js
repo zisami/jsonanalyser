@@ -57,11 +57,14 @@ export default {
         },
         loadUI(_state) {
             if (!runningInSandbox()) {
-                _state.splitPanes = JSON.parse(localStorage.getItem('UI'));
+                const storedUiState = localStorage.getItem('UI');
+                if (storedUiState) {
+                    _state.splitPanes = JSON.parse(localStorage.getItem('UI'));
+                }
             }
-            function runningInSandbox(){
+            function runningInSandbox() {
                 try {
-                    localStorage.getItem('sandbox')
+                    localStorage.getItem('sandbox');
                 } catch (error) {
                     return error.message.indexOf('sandbox') >= 0;
                 }
