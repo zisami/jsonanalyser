@@ -47,12 +47,15 @@ import { mapGetters, mapActions } from "vuex";
             "outputPaneSize",
             "filterPaneSize",
             "editorsPaneSize",
-        ]),
+        ]), 
     isOpen: {
       get() {
         const width = this.$props.paneWidth;
         let result = width > 0 ? true : false
+        console.log('invertIcon',this.$props.invertIcon);
         result = this.$props.invertIcon ? !result : result
+        console.log('result', result);
+        console.log();
         return result;
       },
 
